@@ -11,12 +11,10 @@ import {
   LandingPage, 
   LoginPage, 
   SignupPage,
-  //app
-  DocumentsListPage,
   //admin
   AdminHomePage
 } from '../../ui/pages';
-import DocumentDetailPage from '../../ui/pages/app/DocumentDetail';
+;
 import AdminUsersPage from '../../ui/pages/admin/admin-users';
 import AdminUsersSinglePage from '../../ui/pages/admin/admin-user-single';
 import AdminAccountPage from '../../ui/pages/admin/admin-account';
@@ -41,16 +39,14 @@ const AppRoutes = () => {
         <IndexRoute name='index' component={ LandingPage } />
         <Route path="/login" component={ LoginPage } />
         <Route path="/signup" component={ SignupPage } />
-        <Route path="/documents" component={ DocumentsListPage } />
-        <Route path="/documents/:_id" component={ DocumentDetailPage } />
-        
       </Route>
 
       {/*ADMIN AREA*/}
       <Route path="/admin" component={ AdminLayout }>
         <IndexRoute name="index" component={ AdminHomePage } />
-        <Route path="/admin/users" component={ AdminUsersPage }  />
-        <Route path="/admin/users/:_id" component={ AdminUsersSinglePage }  />
+        <Route path="users" breadcrumbName='Users' component={ AdminUsersPage }>
+          <Route path=":_id" breadcrumbName='User Detail' component={ AdminUsersSinglePage }  />
+        </Route>
         <Route path="/admin/account" component={ AdminAccountPage }  />
       </Route>
 

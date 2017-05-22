@@ -1,11 +1,13 @@
 import React from 'react';
 import { browserHistory } from 'react-router';
 //
-import { graphql, withApollo } from 'react-apollo';
-import gql from 'graphql-tag';
+
 //modules
 import { handleLogout, ApolloRoles } from '../../../modules/helpers';
 import { LoadingScreen } from '../../components/common';
+// APOLLO
+import { GET_USER_DATA } from '/imports/ui/apollo/queries';
+import { graphql, withApollo } from 'react-apollo';
 //antd
 import Breadcrumb from 'antd/lib/breadcrumb';
 import Layout from 'antd/lib/layout';
@@ -40,29 +42,31 @@ class AdminLayout extends React.Component {
   updateDimensions() {
       this.setState({width: window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth });
   }
-  componentDidMount() {
-    window.addEventListener("resize", this.updateDimensions);
-  }
   componentWillUnmount() {
       window.removeEventListener("resize", this.updateDimensions);
   }
-  /*componentWillMount(){
-    if (!this.props.data || !this.props.data.user || !ApolloRoles.userIsInRole('admin', this.props.data.user)) {
+  componentWillReceiveProps({ data }){
+    if (!data.loading && (!data.user || !data.user.roles || !data.user.roles.includes('admin'))) {
       return browserHistory.push('/');
     }
   }
-  componentWillReceiveProps(nextProps){
-    if (!nextProps.data || !nextProps.data.user || !ApolloRoles.userIsInRole('admin', nextProps.data.user)) {
+  componentDidMount() {
+    const { loading, user } = this.props.data;
+
+    window.addEventListener("resize", this.updateDimensions);
+
+    if (!loading && (!user && !user.roles && !user.roles.includes('admin'))) {
       return browserHistory.push('/');
     }
-  }*/
+    
+  }
   toggle(){
     this.setState({
       collapsed: !this.state.collapsed,
     });
   }
   handleClick(e) {
-    if (e.key === 'logout') { return handleLogout(this.props); }
+    if (e.key === 'logout') { return handleLogout(this.props.client, this); }
     browserHistory.push(e.key);
     this.setState({ current: e.key });
     return;  
@@ -83,14 +87,6 @@ class AdminLayout extends React.Component {
   }
 }
 
-const GET_USER_DATA = gql`
-  query getCurrentUser {
-    user {
-      emails { address, verified },
-      roles,
-      _id
-    }
-  }
-`;
+
 
 export default withApollo(graphql(GET_USER_DATA)(AdminLayout))

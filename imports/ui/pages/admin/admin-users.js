@@ -1,9 +1,17 @@
+// TOP LEVEL IMPORTS
 import React from 'react';
-import { graphql } from 'react-apollo';
 import { Link } from 'react-router';
-import gql from 'graphql-tag';
+
+// ANTD
 import Table from 'antd/lib/table';
 import Button from 'antd/lib/button';
+import gql from 'graphql-tag';
+// APOLLO
+import { GET_USERS } from '/imports/ui/apollo/queries';
+import { graphql } from 'react-apollo';
+
+
+
 
 const columns = [
 	{
@@ -39,27 +47,19 @@ class AdminUsersTable extends React.Component {
 
 class AdminUsersPage extends React.Component {
 	render(){
-		const { loading, users } = this.props.data;
+		const { data, children } = this.props;
+		const { loading, users } = data;
 
 		if (loading) { return <div>Loading...</div>; }
 
 		return (
 			<div>
-				<AdminUsersTable users={users} />
+				{children ? children : <AdminUsersTable users={users} />}
 			</div>
 		);
 	}
 }
 
-const GET_USERS = gql`
-  query getUsers {
-    users {
-      emails { address, verified },
-      roles,
-      _id
-    }
-  }
-`;
 
 
 export default graphql(GET_USERS)(AdminUsersPage);

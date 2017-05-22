@@ -1,6 +1,6 @@
 import { Mongo } from 'meteor/mongo';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
-import baseModel from '../base-model';
+import { baseModel } from '../base-model';
 
 //declare collection name and export it
 export const Documents = new Mongo.Collection('Documents');
