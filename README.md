@@ -32,12 +32,12 @@ GraphiQL is enabled at [/graphiql](http://localhost:3000/graphiql).
     │   └── main.js             # Imports all required files from imports/startup/client folder
     ├── imports                 # A client/server folder
     │   ├── api                 #
-    │   |  └── Shop             # Folder is named as the singuler collection name
+    │   |  └── Document             # Folder is named as the singuler collection name
     │   |       └── model.js    # Holds a simple-schema declaration (similar to mongoose ORM or seuqlize)
     │   |       └── schema.js   # Holds the graphql schema (which includes the schema and the mutations)
     │   |  └── schema.js        # Compiles all the different schemas and resolvers together to be exported to server
     │   |  └── base-model.js    # Holds a basic simple-schema that is attached to (almost) all models (e.g. createdAt, ownerId, lastUpdated, etc.)
-    │   |  └── api-helpers.js   # Holds some basic helpers functions used by different resolvers (e.g. resolvers found in Shop/schema.js or Mall/schema.js)
+    │   |  └── api-helpers.js   # Holds some basic helpers functions used by different resolvers (e.g. resolvers found in Document/schema.js or User/schema.js)
     │   |  └── error-enums.js   # Will hold some constant values that are often used ("not an admin", "not authorized", "only owner of document can edit this", etc.)
     |   └── startup             # folder that exports all code to either server or client on startup
     │      └── client           # folder is eported to the client. Holds react-router routing, etc.
