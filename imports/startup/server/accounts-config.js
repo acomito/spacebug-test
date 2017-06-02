@@ -1,10 +1,10 @@
-/*import { Meteor } from 'meteor/meteor'
+import { Meteor } from 'meteor/meteor'
 import { Accounts } from 'meteor/accounts-base'
 
 Accounts.urls.resetPassword = (token) => {
   return Meteor.absoluteUrl(`recover-password/${token}`);
 };
-
+/*
 Accounts.urls.verifyEmail = (token) => {
   return Meteor.absoluteUrl(`email-verification/${token}`);
 };

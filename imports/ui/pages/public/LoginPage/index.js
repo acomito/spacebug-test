@@ -1,3 +1,4 @@
+
 import React from 'react';
 //antd
 import Form from 'antd/lib/form';
@@ -16,6 +17,7 @@ import LoginForm from './LoginForm';
 //common
 import { AlreadyLoggedIn } from '../../../components/common'
 
+
 class LoginPage extends React.Component {
 	getContent = () => {
 		const { data } = this.props;
@@ -28,12 +30,14 @@ class LoginPage extends React.Component {
 
 	}
 	render(){
+		//#3dbed4
+		//004274
 		return (
-			<Row type='flex' justify='center' align='middle' style={{height: '55vh'}}>
+			<div className='public-background-gradient'>
 				{this.getContent()}
-			</Row>
+			</div>
 		);
 	}
 }
 
-export { LoginPage };
+export default LoginPage;

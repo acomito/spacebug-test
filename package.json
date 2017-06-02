@@ -1,12 +1,12 @@
 {
-  "name": "meteor-starter-kit",
+  "name": "JunkBook",
   "private": true,
   "scripts": {
-    "start": "meteor --settings settings-development.json ",
+    "start": "MONGO_URL=mongodb://arcomito:arcomito@ds161041.mlab.com:61041/buy-sell meteor --settings settings-development.json ",
     "lint": "eslint --quiet --ext .js,.jsx .",
     "prettier": "prettier --write \"client/**/*.js\" \"imports/**/*.js\" \"server/**/*.js\" --single-quote=true --trailing-comma=es5 --print-width=100",
     "test": "npm run lint",
-    "staging": "DEPLOY_HOSTNAME=galaxy.meteor.com meteor deploy https://spacebug-dev.meteorapp.com --settings settings-development.json"
+    "staging": "DEPLOY_HOSTNAME=galaxy.meteor.com meteor deploy https://buysellloan.meteorapp.com --settings settings-development.json"
   },
   "postcss": {
     "plugins": {
@@ -27,6 +27,7 @@
     "antd": "^2.9.3",
     "apollo-client": "^1.0.0-rc.3",
     "apollo-errors": "^1.4.0",
+    "apollo-resolvers": "^1.0.2",
     "autoprefixer": "^6.7.7",
     "babel-runtime": "^6.23.0",
     "bcrypt": "^0.8.7",

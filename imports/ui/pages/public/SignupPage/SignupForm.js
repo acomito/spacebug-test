@@ -31,43 +31,19 @@ class FormComponent extends React.Component {
 	    e.preventDefault();
 	    let _this = this;
       _this.setState({ loading: true, errors: [] });
-	    _this.props.form.validateFields((err, { firstName, lastName, email, password, cell }) => {
+	    _this.props.form.validateFields((err, { email, password }) => {
         if (err) { return _this.setState({ loading: false }) }
-        let profile = { 
-          cell, 
-          //name: { first: firstName, last: lastName } 
-        }
-        handleSignup(email, password, profile, ApolloClient, _this)
+        handleSignup(email, password, {}, ApolloClient, _this)
 	    });
 
 	  }
 	render() {
     const { getFieldDecorator } = this.props.form;
     return (
-      <div className="form-card" >
-        <Card>
+      <div style={{width: 500, margin: 'auto', textAlign: 'center'}} >
+      <Card style={{height: 370, width: 500, border: 0}}>
+        <h1 style={{textAlign: 'center', marginBottom: 20, color: '#000'}}>Signup</h1>
         <Form onSubmit={this.handleSubmit}>
-            <FormItem hasFeedback>
-              {getFieldDecorator('firstName', {
-                rules: [{ required: true, message: 'Input your First Name!' }],
-              })(
-                <Input prefix={<Icon type="user" />} placeholder="First Name..." />
-              )}
-            </FormItem>
-            <FormItem hasFeedback>
-              {getFieldDecorator('lastName', {
-                rules: [{ required: true, message: 'Input your Last Name!' }],
-              })(
-                <Input prefix={<Icon type="user" />} placeholder="Last Name..." />
-              )}
-            </FormItem>
-            <FormItem hasFeedback>
-              {getFieldDecorator('cell', {
-                rules: [{ required: true, message: 'Input your cell!' }],
-              })(
-                <Input prefix={<Icon type="user" />} placeholder="cell..." />
-              )}
-            </FormItem>
             <FormItem hasFeedback>
               {getFieldDecorator('email', {
                 rules: [{ required: true, message: 'Input your Email!' }],

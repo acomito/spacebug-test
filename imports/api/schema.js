@@ -1,6 +1,7 @@
 import { Random } from 'meteor/random';
 import { UserResolvers, UserSchema } from './User';
 import { DocumentResolvers, DocumentSchema } from './Document';
+import { InviteResolvers, InviteSchema } from './Invite';
 import { merge } from 'lodash';
 
 

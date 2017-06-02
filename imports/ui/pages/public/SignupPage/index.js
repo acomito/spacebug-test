@@ -31,9 +31,9 @@ class SignupPage extends React.Component {
 	render(){
 		const { data } = this.props.data
 		return (
-			<Row type='flex' justify='center' align='middle' style={{height: '75vh'}}>
+			<div className='public-background-gradient'>
 				{this.getContent()}
-			</Row>
+			</div>
 		);
 	}
 }

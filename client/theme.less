@@ -1,8 +1,31 @@
 @import '{}/node_modules/antd/dist/antd.less';
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro');
 
+/*
+@font-face {
+    font-family: 'SourceSansPro_Black';
+    src: url('/fonts/SourceSansPro-Black.ttf') format('ttf');
+}
+@font-face {
+    font-family: 'SourceSansPro_Bold';
+    src: url('/fonts/SourceSansPro-bold.ttf') format('ttf');
+}
+@font-face {
+    font-family: 'SourceSansPro_Regular';
+    src: url('/fonts/SourceSansPro-Regular.ttf') format('ttf');
+}
+@font-face {
+    font-family: 'SourceSansPro_Semibold';
+    src: url('/fonts/SourceSansPro-Semibold.ttf') format('ttf');
+}
+@font-face {
+    font-family: 'SourceSansPro_Light';
+    src: url('/fonts/SourceSansPro-Light.ttf') format('ttf');
+}
+*/
 
-
-
+// STYLES ON BASICS / PRIMITIVE TAGS 
+// ========================================================
 
 html, body {
   //background: #FAFAFA !important;
@@ -10,12 +33,14 @@ html, body {
   padding: 0;
   height: 100%;
   width: 100%;
+  font-family: 'Source Sans Pro', sans-serif;
   //overflow-y: scroll; /* has to be scroll, not auto */
   -webkit-overflow-scrolling: touch;
 }
 
 body {
     overflow-x: hidden;
+    font-family: 'Source Sans Pro', sans-serif;
 }
 
 
@@ -25,6 +50,7 @@ body {
 
 
 h1, h2, h3, h4, h5, h6 {
+  font-family: 'Source Sans Pro', sans-serif;
   -webkit-font-smoothing: antialiased;
   -webkit-margin-after: 0px;
   -webkit-margin-before: 10px;
@@ -33,23 +59,39 @@ h1, h2, h3, h4, h5, h6 {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
+p, span {
+  font-family: 'Source Sans Pro', sans-serif;
+}
+
+
+/* Change the white to any color ;) */
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 30px white inset;
+}
+
+a {
+  text-decoration: none;
+  font-family: 'Source Sans Pro', sans-serif;
+}
 
 
 
+br {
+  @media (max-width: 769px) {
+        display: none;
+  }
+}
 
-//#1a5984
-//#ee6169 accent
-//#286993
-//#b1c6d7
-//#f9f8f8
 
+// ANTD THEMEING COLORS
+// ========================================================
 
 // Prefix
 @ant-prefix             : ant;
 
 // Color
-//@primary-color          : #108ee9;
-@primary-color          : #5cb860; //#d70b52;
+@dark-color : #163851; //#d70b52;
+@primary-color          : #3dbed4; //#5cb860; //#d70b52;
 @success-color          : #87d068;
 @error-color            : #f50;
 @highlight-color        : #f50;
@@ -69,7 +111,7 @@ h1, h2, h3, h4, h5, h6 {
 // ------ Base & Require ------
 @body-background        : #fff;
 @component-background   : #fff;
-@font-family            : BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+@font-family            : BlinkMacSystemFont, "SourceSansPro_Regular", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
 @code-family            : Consolas, Menlo, Courier, monospace;
 @text-color             : #666;
 @heading-color          : #404040;
@@ -216,8 +258,8 @@ h1, h2, h3, h4, h5, h6 {
 // Input
 // ---
 @input-height-base           : 28px;
-@input-height-lg             : 32px;
-@input-height-sm             : 22px;
+@input-height-lg             : 42px;
+@input-height-sm             : 42px;
 @input-padding-horizontal    : 7px;
 @input-padding-vertical-base : 4px;
 @input-padding-vertical-sm   : 1px;
@@ -263,464 +305,111 @@ h1, h2, h3, h4, h5, h6 {
 
 
 
+// LINKs and 'a' anchor tags
+// ===================================
+a {
+  color: fade(@primary-color, 75%) !important;
+  &:hover {
+    color: fade(@primary-color, 50%) !important;
+  }
+}
+
+.info-item-label {
+  font-size: 14px;
+  color: #a2a2a2;
+}
+
+.info-item-value {
+  font-size: 14px;
+  color: #000;
+}
+
+.text-button {
+  color: @primary-color;
+  margin-top: 12px;
+  cursor: pointer;
+  font-size: 14px;
+  &:hover {
+    color: fade(@primary-color, 50%) !important;
+  }
+}
+
+.discussion-form-container {
+  textarea {
+    border: transparent !important;
+  }
+
+}
+
+
+.ant-form-item-label label {
+    color: #888;
+    font-size: 14px;
+}
+
+// CUSTOM BUTTON STYLES
+// ===================================
+.fpm-admin-button {
+  margin: 15px;
+}
+
+// BREADCRUMBS
+// ===================================
+.fpm-breadcrumb-link {
+  color: #888 !important;
+}
+
+.fpm-action-link {
+  color: fade(@primary-color, 75%) !important;
+  margin-left: 4px;
+  cursor: pointer;
+  &:hover {
+    color: fade(@primary-color, 50%) !important;
+  }
+}
+
+.fpm-action-link-sm {
+  .fpm-action-link;
+  font-size: 11px;
+}
+
+.fpm-action-link-med {
+  .fpm-action-link;
+  font-size: 13px;
+}
+
+.fpm-action-link-lg {
+  .fpm-action-link;
+  font-size: 15px;
+}
+
+
+
+// SIDER / NAV / LAYOUT
+// ===================================
 
 .nav-text {
   transition: all .3s;
 }
 
-.side-tag {
-  margin-top: 10px;
-  cursor: pointer;
-  display: inline;
-  border: 2px solid transparent;
-}
-
-.imageCol {
-  width: 25px;
-}
-
-.deleteBtnCol {
-  width: 45px;
+.ant-layout {
+  background: #f9f9f9 !important;
 }
 
 
+.ant-layout-sider {
+  background-color: @dark-color  !important;
+  background: @dark-color  !important;
+}
+.ant-menu-dark {
+  background: @dark-color !important;
+}
 
-.result-card {
-  cursor: pointer !important;
-  margin-top: 15px;
-  .ant-card-body {
-    padding: 0px !important;
-  }
-  .funding-card {
-    background: @finance-color;
-  }
-  .support-card {
-    background: @support-color;
-  }
-  .ecosytem-card {
-    background: @ecosytem-color;
-  }
-  .incentives-card {
-    background: @incentives-color;
-  }
-  .events-card {
-    background: @events-color;
-  }
-  .competitions-card {
-    background: @competitions-color;
-  }
-  .procurement-card {
-    background: @procurement-color;
+.ant-layout-sider-collapsed {
+  .sidebar-logo {
+    display: none;
   }
 }
-
-.onboarding-btn {
-  width: 100% !important;
-}
-// Progress
-// --
-//@process-default-color: @primary-color;
-
-.light-accent-text {
-  color: lighten(@accent-color, 5%);
-}
-
-button {
-  font-family: @font-family !important;
-}
-
-.form-card {
-  width: 400px;
-  max-width: 95%;
-  //margin: auto;
-  //margin-top: 20px;
-  padding: 20px;
-}
-
-.row-one {
-  height: 450px; 
-  padding: 30;
-  background: #efefef; 
-  text-align: center;
-  @media (max-width: 600px) {
-    height: 850px;
-  }
-
-}
-
-.jumbotron-header {
-  color: #fff;
-  font-size: 35px;
-  @media (max-width: 600px) {
-   font-size: 19px;
-  }
-}
-
-
-.footer-styles {
-    color: #888;
-    padding: 30px 5%; 
-    height: 150px;
-    background-color: #fff; //#fafafa',
-    border-top: 2px solid #efefef;
-    text-align: center;
-    @media (max-width: 600px) {
-     height: 275px;
-    }
-}
-
-.ant-layout-footer {
-  padding: 0px;
-}
-
-.row-card {
-  height: 300px;
-  background: #fff;
-  @media (max-width: 600px) {
-   height: 200px;
-  }
-}
-
-.how-it-works {
-  background: #fff; 
-  text-align: center;
-  height: 580px;
-  padding-left: 5%;
-  padding-right: 5%;
-  @media (max-width: 600px) {
-    height: 830px;
-    padding-left: 2%;
-    padding-right: 2%;
-  }
-}
-
-.still-hesitant {
-  background: #fff; 
-  text-align: center;
-  height: 450px;
-  padding-left: 5%;
-  padding-right: 5%;
-  @media (max-width: 600px) {
-    height: 830px;
-    padding-left: 2%;
-    padding-right: 2%;
-  }
-}
-
-.landing-header {
-  margin: 0px !important;
-  font-size: 52px;
-  color: #fff;
-  line-height: 1;
-  font-family: 'ProximaNovaSoft_Bold';
-}
-
-input.ant-input.ant-select-search__field {
-    width: 400px !important;
-    height: 45px !important;
-    border: none !important;
-}
-.landing-search {
-  width: 400px;
-  height: 45px;
-  border: 1px solid transparent;
-  ::-webkit-input-placeholder { /* WebKit, Blink, Edge */
-    font-family:    'ProximaNovaSoft_Regular';
-  }
-  :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-     font-family:    'ProximaNovaSoft_Regular';
-     opacity:  1;
-  }
-  ::-moz-placeholder { /* Mozilla Firefox 19+ */
-     font-family:    'ProximaNovaSoft_Regular';
-     opacity:  1;
-  }
-  :-ms-input-placeholder { /* Internet Explorer 10-11 */
-     font-family:    'ProximaNovaSoft_Regular';
-  }
-}
-
-.submit-btn {
-  width: 100%;
-  @media (max-width: 600px) {
-   margin-top: 20px;
-  }
-}
-
-.jumbotron {
-  height: 400px;
-  text-align: center;
-  @media (max-width: 600px) {
-   height: 300px;
-  }
-}
-
-.preference-input {
-  @media (max-width: 600px) {
-   margin-bottom: 15px;
-  }
-}
-
-.gender-input {
-  @media (max-width: 600px) {
-   margin-bottom: 15px;
-  }
-}
-
-
-br {
-  @media (max-width: 769px) {
-        display: none;
-  }
-}
-
-// LANDING PAGE
-// ================================
-.landing-page {
-
-  
-
-  .header {
-    color: #fff;
-    @media (max-width: 600px) {
-      font-size: 17px;
-    }
-  }
-
-  .sub-header {
-    color: #fff;
-      @media (max-width: 600px) {
-        font-size: 17px;
-      }
-    }
-}
-
-#privacy-page {
-
-  h2 {
-    margin-bottom: 12px;
-    margin-top: 15px;
-  }
-
-  p {
-    margin-bottom: 7px;
-    font-size: 14px;
-  }
-
-}
-#terms-page {
-
-  h2 {
-    margin-bottom: 12px;
-    margin-top: 15px;
-  }
-
-  p {
-    margin-bottom: 7px;
-    font-size: 14px;
-  }
-
-}
-
-.ant-layout-header {
-    background: #fff !important;
-    padding: 0 50px;
-    height: 64px;
-    line-height: 64px;
-}
-
-.submit-button {
-  width: 100%;
-}
-
-.jumbotron-background-image {
-  //background-image: url('/jumbotron-frog.jpg');
-   background: linear-gradient(rgba(40, 105, 147, 0.72), rgba(40, 105, 147, 0.72)),
-                rgba(40, 105, 147, 0.72) url('/jumbotron-frog.jpg') no-repeat center;
-  background-repeat:no-repeat;
-  background-position: center center;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-}
-
-
-.like-btn {
-  width: 40px;
-  height: 40px;
-  margin-right: 10px; 
-  border: 1px solid green;
-  color: green;
-  transition: color .3s !important;
-  &:hover {
-    color: lighten(green, 10%);
-    border: 1px solid lighten(green, 10%);
-  }
-}
-
-.dislike-btn {
-  width: 40px;
-  height: 40px;
-  margin-right: 10px; 
-  border: 1px solid red;
-  color: red;
-  transition: color .3s !important;
-  &:hover {
-    color: lighten(red, 10%);
-    border: 1px solid lighten(red, 10%);
-  }
-}
-
-
-
-
-
-#react-root {
-	min-height: 100vh;
-}
-
-// CUSTOM STYLES
-// ===================== 
-
-/*h1, h2, h3, h4, h5, h6 {
-	font-family: 'Open Sans' !important;
-	-webkit-font-smoothing: antialiased;
-	-webkit-margin-after: 0px;
-	-webkit-margin-before: 10px;
-	-webkit-margin-end: 0px;
-	-webkit-margin-start: 0px;
-	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-}*/
-
-.primary-background {
-	background: @primary-color;
-}
-
-.ant-btn-primary {
-    color: #fff;
-    background-color: @primary-color!important;
-    border-color: @primary-color !important;
-}
-
-/*p {
-	font-family: "Open Sans" !important;
-	-webkit-font-smoothing: antialiased;
-	-webkit-margin-after: 10px;
-	-webkit-margin-before: 5px;
-	-webkit-margin-end: 0px;
-	-webkit-margin-start: 0px;
-	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-}*/
-
-
-.ant-menu-item {
-	font-weight: 500;
-	-webkit-font-smoothing: antialiased;
-	font-size: 14px;
-}
-
-
-
-/*.landing-menu {
-	.ant-menu-item {
-		color: #f1beba;
-	}
-
-	li.ant-menu-item-selected {
-		color: #fff;
-		border-bottom: 2px solid #fff;
-	}	
-}*/
-
-.ant-timeline-item-head-custom {
-	background: #fafafa !important;	
-}
-
-.ant-timeline-item-head {
-	background: #fafafa !important;	
-}
-
-
-ul.ant-menu-horizontal {
-	border-bottom: none;
-}
-
-.profile-about {
-  height: 400px;
-  @media (max-width: 600px) {
-    min-height: 400px;
-  }
-}
-
-.profile-toprow {
- height: 200px;
-  @media (max-width: 600px) {
-    height: 375px;
-  }
-}
-
-#search-box {
-	height: 45px !important;	
-	border-radius: 5px !important;
-	border-bottom-right-radius: 0px !important;
-	border-top-right-radius: 0px !important;
-	border: none !important;
-	padding-right: 35px !important;
-	&:focus {
-		outline: 0
-	}
-
-}
-
-
-
-.ant-input:focus {
-    border-color: none  !important;	
-    outline: 0  !important;	
-    box-shadow: none  !important;	
-}
-
-/*.rc-progress-circle-path {
-	stroke: @primary-color !important;
-}*/
-
-
-
-#app-navigation {
-	.ant-menu-horizontal > .ant-menu-item:hover, .ant-menu-horizontal > .ant-menu-submenu:hover {
-	    border-bottom: 2px solid transparent !important;
-	    color: @primary-color !important;
-	}
-}
-
-.ant-menu-horizontal > .ant-menu-item-selected {
-	border-bottom: 2px solid transparent !important;
-	color: @primary-color !important;
-}
-
-
-
-
-a {
-  text-decoration: none;
-}
-
-#react-root {
-  minHeight: 100vh;
-}
-
-html, body {
-  //background: #FAFAFA !important;
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  width: 100%;
-}
-
-body {
-    overflow-x: hidden;
-}
-
 
 .ant-layout-sider-collapsed {
   .loggedin-logo {
@@ -749,13 +438,6 @@ body {
   color: #108ee9 !important;
 }
 
-.logo {
-  min-height: 32px !important;
-  background: #333 !important;
-  border-radius: 6px !important;
-  margin: 16px !important;
-}
-
 .ant-layout-sider-collapsed .anticon {
   font-size: 16px !important;
 }
@@ -768,18 +450,50 @@ body {
     background-color: @primary-color !important;
 }
 
-.big-button {
-  width: 150px;
-  border-radius: 4px;
-  padding: 10px 15px;
-  display: block;
-  text-align: center;
-  background: @primary-color;
-  margin: auto;
-  text-transform: uppercase;;
+
+
+
+
+// MODAL STYLES
+// ===================================
+.ant-modal-close-x {
   color: #fff;
-  border:none;
 }
+
+.ant-modal-header {
+  background: @primary-color;
+  .ant-modal-title {
+    color: #fff;
+    text-align: center;
+  }
+}
+
+
+// TABLES
+// ===================================
+.custom-table {
+  :global .ant-table-thead > tr > th {
+    background: #fff;
+    border-bottom: solid 1px @border-color-base;
+  }
+}
+
+
+
+.ant-pagination-item a {
+    text-decoration: none;
+    color: #666666 !important;
+    -webkit-transition: none;
+    transition: none;
+    margin: 0 6px;
+}
+
+.ant-pagination-item-active a, .ant-pagination-item-active:hover a {
+    color: #fff !important;
+}
+
+// AVATAR AND IMAGE UPLOADER
+// ===================================
 
 .avatar-uploader,
 .avatar-uploader-trigger,
@@ -802,118 +516,43 @@ body {
 }
 
 
+// OTHER 
+// ============================
 
-.landing-logo {
-  width: auto;
-  height: 45px;
-  margin: 16px 24px 16px 0;
-  float: left;
-  cursor: pointer;
-  @media (max-width: 600px) {
-    height: 20px;
-    margin: 0px;
-  }
+.public-background-gradient {
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  background: rgba(0,66,116,1);
+  background: -moz-linear-gradient(45deg, rgba(0,66,116,1) 0%, rgba(0,152,182,1) 50%, rgba(0,193,215,1) 98%, rgba(0,193,215,1) 100%);
+  background: -webkit-gradient(left bottom, right top, color-stop(0%, rgba(0,66,116,1)), color-stop(50%, rgba(0,152,182,1)), color-stop(98%, rgba(0,193,215,1)), color-stop(100%, rgba(0,193,215,1)));
+  background: -webkit-linear-gradient(45deg, rgba(0,66,116,1) 0%, rgba(0,152,182,1) 50%, rgba(0,193,215,1) 98%, rgba(0,193,215,1) 100%);
+  background: -o-linear-gradient(45deg, rgba(0,66,116,1) 0%, rgba(0,152,182,1) 50%, rgba(0,193,215,1) 98%, rgba(0,193,215,1) 100%);
+  background: -ms-linear-gradient(45deg, rgba(0,66,116,1) 0%, rgba(0,152,182,1) 50%, rgba(0,193,215,1) 98%, rgba(0,193,215,1) 100%);
+  background: linear-gradient(45deg, rgba(0,66,116,1) 0%, rgba(0,152,182,1) 50%, rgba(0,193,215,1) 98%, rgba(0,193,215,1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#004274', endColorstr='#00c1d7', GradientType=1 );
 }
 
-.nav-text {
-  transition: all .3s;
-}
-
-/*.ant-layout {
-    overflow-x: hidden !important;
-}*/
-
-#public-layout {
-  .ant-layout {
-    background: linear-gradient(
-      rgba(27, 33, 37, 0.71), 
-      rgba(27, 33, 37, 0.71)),
-      rgba(27, 33, 37, 0.71) url('/nasa.jpg') no-repeat center;
-    background-repeat:no-repeat;
-    background-position: center center;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    }
-  .ant-layout-header {
-    background: transparent !important;
-    padding: 0 150px  !important;
-    @media (max-width: 600px) {
-      padding: 10px !important;
-    }
-  }
 
 
-  ul.ant-menu-horizontal {
-    float: right !important;
+.ant-btn-primary {
     color: #fff;
-  }
-
-  .ant-menu-horizontal > .ant-menu-item:hover, .ant-menu-horizontal > .ant-menu-submenu:hover, .ant-menu-horizontal > .ant-menu-item-active, .ant-menu-horizontal > .ant-menu-submenu-active, .ant-menu-horizontal > .ant-menu-item-open, .ant-menu-horizontal > .ant-menu-submenu-open, .ant-menu-horizontal > .ant-menu-item-selected, .ant-menu-horizontal > .ant-menu-submenu-selected {
-    border-bottom: 0px solid transparent !important;
-    color: @primary-color !important;
-  }
-
+    background-color: @primary-color!important;
+    border-color: @primary-color !important;
 }
 
-a {
-  color: fade(@primary-color, 75%) !important;
-  &:hover {
-    color: fade(@primary-color, 50%) !important;
-  }
+.ant-menu-item {
+  font-weight: 500;
+  -webkit-font-smoothing: antialiased;
+  font-size: 14px;
 }
 
-.newsletter-btn {
-  color: #fff !important;
-  background: #75ba50 !important;
-  border-radius: 3px;
-  &:hover {
-    background: fade(#75ba50, 92%) !important;
-    color: #fff !important;
-  }
+.link-button {
+  margin: 0px;
+  border: 2px solid #3dbed4;
+  color: #3dbed4;
+  background: transparent;
+  height: 40px;
 }
 
-
-
-
-@keyframes bounceOut {
-  20% {
-    transform: scale3d(.9, .9, .9);
-  }
-
-  50%, 55% {
-    opacity: 1;
-    transform: scale3d(1.1, 1.1, 1.1);
-  }
-
-  to {
-    opacity: 0;
-    transform: scale3d(.3, .3, .3);
-  }
-}
-
-
-
-.master-root {
-  margin: 20px auto;
-  position: relative;
-  min-height: 250px;
-  max-height: 100px;
-  width: 300px;
-  overflow: hidden;
-  //border: 1px solid #e5e5e5;
-}
-
-
-.animate {
-  transition: transform .3s;
-  box-shadow: none;
-}
-
-.inactive {
-  box-shadow: none;
-}
-
-
-
- 

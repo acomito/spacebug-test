@@ -4,20 +4,26 @@ import { Router, Route, IndexRoute, browserHistory } from 'react-router';
 // LAYOUTS
 import PublicLayout from '../../ui/layouts/public';
 import AdminLayout from '../../ui/layouts/admin';
-
+import AppLayout from '../../ui/layouts/app';
 // PAGES
 import { 
-  //public
-  LandingPage, 
-  LoginPage, 
   SignupPage,
   //admin
   AdminHomePage
 } from '../../ui/pages';
-;
-import AdminUsersPage from '../../ui/pages/admin/admin-users';
-import AdminUsersSinglePage from '../../ui/pages/admin/admin-user-single';
-import AdminAccountPage from '../../ui/pages/admin/admin-account';
+
+// PUBLIC
+import ResetPassword from '/imports/ui/pages/public/reset-password';
+import LoginPage from '/imports/ui/pages/public/LoginPage';
+import ForgotPassword from '/imports/ui/pages/public/ForgotPassword';
+// APP
+import AppAccount from '/imports/ui/pages/app/AppAccount';
+import AppHome from '/imports/ui/pages/app/AppHome';
+
+// ADMIN
+import AdminUsersPage from '/imports/ui/pages/admin/admin-users';
+import AdminUsersSinglePage from '/imports/ui/pages/admin/admin-user-single';
+import AdminAccountPage from '/imports/ui/pages/admin/admin-account';
 
 // THEME
 import enUS from 'antd/lib/locale-provider/en_US';
@@ -36,14 +42,25 @@ const AppRoutes = () => {
 
       {/*PUBLIC AREA*/}
       <Route path="/" component={ PublicLayout }>
-        <IndexRoute name='index' component={ LandingPage } />
+        <IndexRoute name='index' component={ LoginPage } />
         <Route path="/login" component={ LoginPage } />
         <Route path="/signup" component={ SignupPage } />
+        <Route path="forgot-password"  component={ ForgotPassword } />
+        <Route path="reset-password"  component={ ResetPassword } />
       </Route>
+
+    {/*APP AREA*/}
+      <Route path="/app" component={ AppLayout }>
+        <IndexRoute name='index' breadcrumbName='Home' component={ AppHome } />
+         <Route path="account" breadcrumbName='Account' component={ AppAccount } />
+      </Route>
+      
 
       {/*ADMIN AREA*/}
       <Route path="/admin" component={ AdminLayout }>
         <IndexRoute name="index" component={ AdminHomePage } />
+
+        
         <Route path="users" breadcrumbName='Users' component={ AdminUsersPage }>
           <Route path=":_id" breadcrumbName='User Detail' component={ AdminUsersSinglePage }  />
         </Route>
