@@ -75,6 +75,18 @@ export const GET_USER = gql`
   }
 `;
 
+export const GET_DOCUMENTS = gql`
+  query GetDocuments {
+    documents {
+      _id
+      title
+      content
+      image
+      category
+    }
+  }
+`;
+
 
 export const GET_USER_DATA = gql`
   query getCurrentUser {

@@ -1,6 +1,13 @@
 import gql from 'graphql-tag';
 
 
+export const CREATE_DOCUMENT = gql`
+	mutation CreateDocument ( $params: DocumentParams ){
+		createDocument (params: $params){
+			_id
+		}
+	}
+`;
 
 export const SAVE_USER_ACCOUNT = gql`
 	mutation SaveUserAccount ( $_id: ID, $params: UserParams ){

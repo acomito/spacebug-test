@@ -30,6 +30,14 @@ Documents.schema = new SimpleSchema({
     type: String,
     optional: true,
   },
+  image: {
+    type: String,
+    optional: true,
+  },
+  category: {
+    type: String,
+    optional: true,
+  },
   schemaVersion: {
     type: Number,
     autoValue: function() {
