@@ -15,15 +15,15 @@ import Icon from 'antd/lib/icon';
 import Input from 'antd/lib/input';
 import Form from 'antd/lib/form';
 import Dropdown from 'antd/lib/dropdown';
-import { handleLogout } from '/imports/modules/helpers';
-//modules
+// MODULES
 import { logout } from 'meteor-apollo-accounts'
 import ApolloClient from '/imports/ui/apollo/ApolloClient'
-import { selectFilterByLabel } from '/imports/modules/helpers'
+import { selectFilterByLabel, handleLogout } from '/imports/modules/helpers'
+import { STATUS_OPTIONS, CATEGORY_OPTIONS } from '/imports/modules/config'
 // APOLLO
 import { graphql } from 'react-apollo';
-import { CREATE_DOCUMENT } from '/imports/ui/apollo/mutations';
-import { GET_DOCUMENTS } from '/imports/ui/apollo/queries';
+import { CREATE_POST } from '/imports/ui/apollo/mutations';
+import { GET_POSTS } from '/imports/ui/apollo/queries';
 import { SingleImageUpload } from './SingleImageUpload'
 
 // CONSTANTS & DESTRUCTURING
@@ -34,12 +34,6 @@ const FormItem = Form.Item;
 const Option = Select.Option
 
 
-const CATEGORIES = [
-  'Hamburgers',
-  'Motorcycle',
-  'Old T-shirt',
-  'Other'
-];
 
 // EXPORTED COMPONENT
 // ===================================
@@ -64,10 +58,10 @@ class AddDocumentForm extends React.Component {
         } 
       }
       let refetchQueries = [ 
-        { query: GET_DOCUMENTS }
+        { query: GET_POSTS }
       ]
       this.props.mutate({ variables, refetchQueries }).then( res => {
-        this.setState({loading: false});
+        this.setState({loading: false, image: null});
         this.props.handleCancel();
         form.resetFields();
         message.success('your junk was posted!')
@@ -85,18 +79,7 @@ class AddDocumentForm extends React.Component {
             defaultImage={this.state.image} 
             onSuccessfulUpload={(image) => this.setState({image})} 
           />
-        <FormItem label={'Category'}>
-          {getFieldDecorator('category', {
-            rules: [{ required: true, message: 'Please input a category!' }],
-          })(
-            <Select showSearch optionFilterProp="children" filterOption={selectFilterByLabel}>
-              {CATEGORIES.map(item => {
-                return <Option key={item} value={item}>{item}</Option>
-              })}
-            </Select>
-          )}
-        </FormItem>
-         <FormItem>
+          <FormItem>
           {getFieldDecorator('title', {
             rules: [{ required: false, message: 'Please input a title!' }]
           })(
@@ -104,12 +87,43 @@ class AddDocumentForm extends React.Component {
           )}
         </FormItem>
         <FormItem>
-          {getFieldDecorator('content', {
+          {getFieldDecorator('description', {
             rules: [{ required: false, message: 'Please input a content!' }]
           })(
             <Input placeholder="add a description..." type="textarea" rows={4} />
           )}
         </FormItem>
+        <FormItem label={'Category'}>
+          {getFieldDecorator('category', {
+            rules: [{ required: true, message: 'Please input a category!' }],
+          })(
+            <Select showSearch optionFilterProp="children" filterOption={selectFilterByLabel}>
+              {CATEGORY_OPTIONS.map(item => {
+                return <Option key={item} value={item}>{item}</Option>
+              })}
+            </Select>
+          )}
+        </FormItem>
+        <FormItem label={'status'}>
+          {getFieldDecorator('status', {
+            rules: [{ required: true, message: 'Please input a status!' }],
+          })(
+            <Select showSearch optionFilterProp="children" filterOption={selectFilterByLabel}>
+              {STATUS_OPTIONS.map(item => {
+                return <Option key={item} value={item}>{item}</Option>
+              })}
+            </Select>
+          )}
+        </FormItem>
+
+        <FormItem>
+          {getFieldDecorator('price', {
+            rules: [{ required: false, message: 'Please input a price!' }]
+          })(
+            <Input placeholder="add a price..."  />
+          )}
+        </FormItem>
+        
         <FormItem>
           <Button loading={this.state.loading} htmlType="submit" type='primary'>
             {!this.state.loading ? 'Add Junk': 'Adding...'} 
@@ -160,4 +174,4 @@ class AddDocument extends React.Component {
   }
 }
 
-export default graphql(CREATE_DOCUMENT)(AddDocument);
+export default graphql(CREATE_POST)(AddDocument);

@@ -1,25 +1,14 @@
 import React from 'react';
-import { browserHistory } from 'react-router';
+import { browserHistory, Link } from 'react-router';
 import Button from 'antd/lib/button';
 import Card from 'antd/lib/card';
 import message from 'antd/lib/message';
 import Tag from 'antd/lib/tag';
 // APOLLO
 import { graphql } from 'react-apollo';
-import { GET_DOCUMENTS } from '/imports/ui/apollo/queries';
+import { GET_POSTS } from '/imports/ui/apollo/queries';
+import PostCard from '/imports/ui/components/common/PostCard'
 
-class JunkCard extends React.Component {
-	render() {
-		const { item } = this.props;
-		return (
-			<Card style={{margin: 20}} title={item.title}>
-				<img src={item.image || 'http://www.freeiconspng.com/uploads/no-image-icon-13.png'} style={{height: 100, width: 100}} />
-				<p>{item.content}</p>
-				<Tag>{item.category}</Tag>
-			</Card>
-		);
-	}
-}
 
 
 class DocumentsList extends React.Component {
@@ -28,14 +17,21 @@ class DocumentsList extends React.Component {
 		if (this.props.data.loading) {
 			return <p>loading....</p>
 		}
-		if (!this.props.data.documents && this.props.data.documents.length < 0) {
+		if (!this.props.data.posts && this.props.data.posts.length < 0) {
 			return <p>no junk yet....</p>
 		}
 		return (
-			<div style={{padding: 20, width: 450, maxWidth: '90%'}}>
-				{this.props.data.documents.map( item => {
-					return <JunkCard key={item._id} item={item} />
-				})}
+			<div style={{height: '100%', marginTop: 15, display: 'flex', alignItems: 'flex-start', justifyContent: 'top'}}>
+				<div style={{flex: 1}}>
+					<Card style={{height: 200, width: 150}}>
+						FILTERS GO HERE
+					</Card>
+				</div>
+				<div style={{flex: 3}}>
+					{this.props.data.posts.map( item => {
+						return <PostCard key={item._id} item={item} />
+					})}
+				</div>
 			</div>
 		);
 	}
@@ -43,4 +39,4 @@ class DocumentsList extends React.Component {
 
 
 
-export default graphql(GET_DOCUMENTS)(DocumentsList)
+export default graphql(GET_POSTS)(DocumentsList)

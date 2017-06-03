@@ -16,6 +16,7 @@ type Profile {
   lastName: String
   cellPhone: String
   workPhone: String
+  description: String
   # users avatar
   image: String
   # a basic, inconsequential string describing the type of user. 
@@ -48,6 +49,7 @@ input UserParams {
   email: String!
   firstName: String
   lastName: String
+  description: String
   cellPhone: String
   workPhone: String 
   image: String

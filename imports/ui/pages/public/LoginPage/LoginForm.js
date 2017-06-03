@@ -49,7 +49,11 @@ class FormComponent extends React.Component {
 				<Form onSubmit={this.onSubmit} >
 					<FormItem hasFeedback>
 						{getFieldDecorator('email', {
-							rules: [{ required: true, message: 'Input your Email!' }],
+							rules: [
+								{ required: true, message: 'Input your Email!' },
+								{ type: 'email', message: 'The input is not valid E-mail!'}
+							],
+							
 						})(
 							<Input prefix={<Icon type="mail" />} placeholder="Email" />
 						)}

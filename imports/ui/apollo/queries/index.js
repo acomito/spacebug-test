@@ -1,5 +1,5 @@
 import gql from 'graphql-tag';
-
+import { ownerFragment, postFragment } from './fragments';
 
 
 // USER QUERIES
@@ -64,7 +64,7 @@ export const GET_USERS = gql`
   }
 `;
 
-export const GET_USER = gql`
+export const GET_USER_BY_ID = gql`
   query getUserById($_id: ID!) {
     getUserById(_id: $_id) {
       _id
@@ -75,16 +75,43 @@ export const GET_USER = gql`
   }
 `;
 
-export const GET_DOCUMENTS = gql`
-  query GetDocuments {
-    documents {
-      _id
-      title
-      content
-      image
-      category
+export const GET_POSTS = gql`
+  query GetPosts {
+    posts {
+      ...postFragment
+      owner {
+        ...ownerFragment
+      }
     }
   }
+  ${ownerFragment}
+  ${postFragment}
+`;
+
+export const GET_POST_BY_ID = gql`
+  query GetPostById ($_id: ID!) {
+    post (_id: $_id) {
+      ...postFragment
+      owner {
+        ...ownerFragment
+      }
+    }
+  }
+    ${ownerFragment}
+    ${postFragment}
+`;
+
+export const GET_MY_POSTS = gql`
+  query GetMyPosts {
+    myPosts {
+      ...postFragment
+      owner {
+        ...ownerFragment
+      }
+    }
+  }
+  ${ownerFragment}
+  ${postFragment}
 `;
 
 

@@ -21,11 +21,15 @@ import AppAccount from '/imports/ui/pages/app/App_Account';
 import AppHome from '/imports/ui/pages/app/App_Home';
 import AppMyStuff from '/imports/ui/pages/app/App_MyStuff';
 import AppMyFriends from '/imports/ui/pages/app/App_MyFriends';
+import AppJunkList from '/imports/ui/pages/app/App_JunkList';
+import AppJunkDetail from '/imports/ui/pages/app/App_JunkDetail';
+import AppUserDetail from '/imports/ui/pages/app/App_UserDetail';
+
 // ADMIN
 import AdminUsersPage from '/imports/ui/pages/admin/admin-users';
 import AdminUsersSinglePage from '/imports/ui/pages/admin/admin-user-single';
 import AdminAccountPage from '/imports/ui/pages/admin/admin-account';
-
+import AdminPostsPage from '/imports/ui/pages/admin/admin-posts';
 
 
 import { userId } from 'meteor-apollo-accounts'
@@ -50,17 +54,26 @@ const AppRoutes = () => {
     {/*APP AREA*/}
       <Route path="/app" component={ AppLayout }>
         <IndexRoute name='index' breadcrumbName='Home' component={ AppHome } />
-         <Route path="account" breadcrumbName='Account' component={ AppAccount } />
-         <Route path="my-stuff" breadcrumbName='My Stuff' component={ AppMyStuff } />
-         <Route path="friends" breadcrumbName='Friends' component={ AppMyFriends }>
-         </Route>
+        <Route path="account" breadcrumbName='Account' component={ AppAccount } />
+        <Route path="my-stuff" breadcrumbName='My Stuff' component={ AppMyStuff } />
+        <Route path="friends" breadcrumbName='Friends' component={ AppMyFriends }>
+        </Route>
+        
+        <Route path="users" breadcrumbName='Junk List' component={ AppJunkList }>
+          <Route path=":_id" breadcrumbName='User Overview' component={ AppUserDetail } />
+        </Route>
+        <Route path="junk" breadcrumbName='Junk List' component={ AppJunkList }>
+          <Route path=":_id" breadcrumbName='Junk Overview' component={ AppJunkDetail } />
+        </Route>
       </Route>
       
       {/*ADMIN AREA*/}
       <Route path="/admin" component={ AdminLayout }>
         <IndexRoute name="index" component={ AdminHomePage } />
 
-        
+        <Route path="posts" breadcrumbName='Posts' component={ AdminPostsPage }>
+          {/*<Route path=":_id" breadcrumbName='User Detail' component={ AdminUsersSinglePage }  />*/}
+        </Route>
         <Route path="users" breadcrumbName='Users' component={ AdminUsersPage }>
           <Route path=":_id" breadcrumbName='User Detail' component={ AdminUsersSinglePage }  />
         </Route>

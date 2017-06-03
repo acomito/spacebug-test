@@ -13,35 +13,41 @@ import Col from 'antd/lib/col';
 import InputNumber from 'antd/lib/input-number';
 import Select from 'antd/lib/select';
 import message from 'antd/lib/message';
+// APOLLO
+import { graphql } from 'react-apollo';
+import { GET_POST_BY_ID } from '/imports/ui/apollo/queries';
 
-const FriendList = () => {
+
+const JunkCard = ({ item }) => {
 	return (
 		<div style={{padding: 20}}>
 			<Card>
-				FRIEND
-			</Card>
-			<Card>
-				FRIEND
-			</Card>
-			<Card>
-				FRIEND
-			</Card>
-			<Card>
-				FRIEND
-			</Card>
-			<Card>
-				FRIEND
+				{ item.title }
 			</Card>
 		</div>
 	);
 }
  
-const AppMyFriends = () => {
-	return (
-		<div style={{padding: 20}}>
-			<FriendList />
-		</div>
-	);
+class AppJunkDetail extends React.Component {
+	render(){
+		if (this.props.data.loading) {
+			return null
+		}
+		console.log(this.props.data)
+		return (
+			<div style={{padding: 20}}>
+				<JunkCard item={this.props.data.post} />
+			</div>
+		);
+	}
 }
 
-export default AppMyFriends;
+let options = (props) =>  {
+	let variables = {
+		_id: props.params._id
+	};
+	return { variables }
+}
+
+export default graphql(GET_POST_BY_ID, { options })(AppJunkDetail);
+

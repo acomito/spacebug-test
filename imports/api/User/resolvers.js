@@ -72,9 +72,7 @@ const users = isAuthenticatedResolver.createResolver(
 
 const getUserById = isAuthenticatedResolver.createResolver(
   async (root, { _id }, { user }) => {
-    let query = {};
-    query._id = user.profile.groupId;
-    return Meteor.users.findOne(query);
+    return Meteor.users.findOne({ _id });
   }
 )
 

@@ -6,13 +6,12 @@ import DocumentsList from '/imports/ui/components/common/DocumentsList';
 const HomePage = () => {
 	return (
 		<div style={{padding: 20}}>
-			<AddDocument />
-			<DocumentsList />
+			AppJunkList
 		</div>
 	);
 }
 
-const AppHome = ({ children }) => {
+const AppJunkList = ({ children }) => {
 	return (
 		<div style={{padding: 20}}>
 			{ children ? children : <HomePage />}
@@ -20,4 +19,4 @@ const AppHome = ({ children }) => {
 	);
 }
 
-export default AppHome
+export default AppJunkList

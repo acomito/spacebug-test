@@ -12,4 +12,20 @@ export const appConfig = {
 export const PRODUCTION_URL = 'https://buysellloan.meteorapp.com';
 
 export const DEFAULT_AVATAR = '/avatar.png';
+export const DEFAULT_POST_IMAGE = 'http://www.dormirsinllorar.com/wp-content/plugins/wp-posts-carousel/images/placeholder.png' //http://www.freeiconspng.com/uploads/no-image-icon-13.png';
 
+export const STATUS_OPTIONS = [
+	'For Free',
+	'For Sale',
+	'For Borrow',
+	'Not Available',
+];
+
+
+
+export const CATEGORY_OPTIONS = [
+  'Hamburgers',
+  'Motorcycle',
+  'Old T-shirt',
+  'Other'
+];

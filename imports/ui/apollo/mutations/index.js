@@ -1,9 +1,9 @@
 import gql from 'graphql-tag';
 
 
-export const CREATE_DOCUMENT = gql`
-	mutation CreateDocument ( $params: DocumentParams ){
-		createDocument (params: $params){
+export const CREATE_POST = gql`
+	mutation CreatePost ( $params: PostParams ){
+		createPost (params: $params){
 			_id
 		}
 	}

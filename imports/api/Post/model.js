@@ -3,39 +3,47 @@ import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import { baseModel } from '../base-model';
 
 //declare collection name and export it
-export const Documents = new Mongo.Collection('Documents');
+export const Posts = new Mongo.Collection('Posts');
 
 //attach basics via baseModel (createdAt, title, etc.)
-Documents.baseModel = baseModel;
+Posts.baseModel = baseModel;
 
-Documents.allow({
+Posts.allow({
   insert: () => false,
   update: () => false,
   remove: () => false,
 });
 
-Documents.deny({
+Posts.deny({
   insert: () => true,
   update: () => true,
   remove: () => true,
 });
 
 
-Documents.schema = new SimpleSchema({
-  title: {
-    type: String,
-    optional: true,
-  },
-  content: {
-    type: String,
-    optional: true,
-  },
+Posts.schema = new SimpleSchema({
   image: {
+    type: String,
+    optional: true,
+  },
+  attachments: {
     type: String,
     optional: true,
   },
   category: {
     type: String,
+    optional: true,
+  },
+  subcategory: {
+    type: String,
+    optional: true,
+  },
+  price: {
+    type: String,
+    optional: true,
+  },
+  status: {
+    type: String, //Free, For Sale, For Borrow, Not Available
     optional: true,
   },
   schemaVersion: {
@@ -51,5 +59,5 @@ Documents.schema = new SimpleSchema({
 
 
 
-Documents.attachSchema(Documents.schema);
-Documents.attachSchema(Documents.baseModel);
+Posts.attachSchema(Posts.schema);
+Posts.attachSchema(Posts.baseModel);

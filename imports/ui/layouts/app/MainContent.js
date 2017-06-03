@@ -21,6 +21,8 @@ import { handleLogout } from '/imports/modules/helpers';
 // COMPONENTS
 
 import HelpModal from '/imports/ui/components/common/HelpModal'
+import InviteModal from '/imports/ui/components/common/InviteModal'
+
 import { logout } from 'meteor-apollo-accounts'
 import ApolloClient from '/imports/ui/apollo/ApolloClient'
 import { breadCrumbRender } from '/imports/modules/helpers'
@@ -71,6 +73,7 @@ const HeaderArea = ({ routes, params, children, collapsed, toggle, user }) => {
           style={{position: 'absolute', left: 0, top: 0, padding: '0px 12px', lineHeight: 40}} 
         />
       )}
+      <InviteModal />
       <HelpModal />
       <Dropdown overlay={menu}>
         <img
