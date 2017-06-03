@@ -17,17 +17,16 @@ import ResetPassword from '/imports/ui/pages/public/reset-password';
 import LoginPage from '/imports/ui/pages/public/LoginPage';
 import ForgotPassword from '/imports/ui/pages/public/ForgotPassword';
 // APP
-import AppAccount from '/imports/ui/pages/app/AppAccount';
-import AppHome from '/imports/ui/pages/app/AppHome';
-
+import AppAccount from '/imports/ui/pages/app/App_Account';
+import AppHome from '/imports/ui/pages/app/App_Home';
+import AppMyStuff from '/imports/ui/pages/app/App_MyStuff';
+import AppMyFriends from '/imports/ui/pages/app/App_MyFriends';
 // ADMIN
 import AdminUsersPage from '/imports/ui/pages/admin/admin-users';
 import AdminUsersSinglePage from '/imports/ui/pages/admin/admin-user-single';
 import AdminAccountPage from '/imports/ui/pages/admin/admin-account';
 
-// THEME
-import enUS from 'antd/lib/locale-provider/en_US';
-import LocaleProvider from 'antd/lib/locale-provider'
+
 
 import { userId } from 'meteor-apollo-accounts'
 
@@ -37,7 +36,6 @@ import { userId } from 'meteor-apollo-accounts'
 
 const AppRoutes = () => {
   return (
-  <LocaleProvider locale={enUS}>
     <Router history={browserHistory}>
 
       {/*PUBLIC AREA*/}
@@ -53,9 +51,11 @@ const AppRoutes = () => {
       <Route path="/app" component={ AppLayout }>
         <IndexRoute name='index' breadcrumbName='Home' component={ AppHome } />
          <Route path="account" breadcrumbName='Account' component={ AppAccount } />
+         <Route path="my-stuff" breadcrumbName='My Stuff' component={ AppMyStuff } />
+         <Route path="friends" breadcrumbName='Friends' component={ AppMyFriends }>
+         </Route>
       </Route>
       
-
       {/*ADMIN AREA*/}
       <Route path="/admin" component={ AdminLayout }>
         <IndexRoute name="index" component={ AdminHomePage } />
@@ -68,7 +68,6 @@ const AppRoutes = () => {
       </Route>
 
     </Router>
-  </LocaleProvider>
   );
 }
 

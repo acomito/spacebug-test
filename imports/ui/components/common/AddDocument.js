@@ -23,6 +23,7 @@ import { selectFilterByLabel } from '/imports/modules/helpers'
 // APOLLO
 import { graphql } from 'react-apollo';
 import { CREATE_DOCUMENT } from '/imports/ui/apollo/mutations';
+import { GET_DOCUMENTS } from '/imports/ui/apollo/queries';
 import { SingleImageUpload } from './SingleImageUpload'
 
 // CONSTANTS & DESTRUCTURING
@@ -62,8 +63,10 @@ class AddDocumentForm extends React.Component {
           image: this.state.image
         } 
       }
-
-      this.props.mutate({ variables }).then( res => {
+      let refetchQueries = [ 
+        { query: GET_DOCUMENTS }
+      ]
+      this.props.mutate({ variables, refetchQueries }).then( res => {
         this.setState({loading: false});
         this.props.handleCancel();
         form.resetFields();

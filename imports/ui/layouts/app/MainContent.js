@@ -121,6 +121,8 @@ class MainContent extends React.Component {
               style={{ lineHeight: '64px' }}
             >
               <Menu.Item key="/app">Home</Menu.Item>
+              <Menu.Item key="/app/my-stuff">My Stuff</Menu.Item>
+              <Menu.Item key="/app/friends">Friends</Menu.Item>
               <HeaderArea {...this.props} />
             </Menu>
         </Header>

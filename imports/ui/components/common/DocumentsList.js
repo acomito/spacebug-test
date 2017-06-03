@@ -13,6 +13,7 @@ class JunkCard extends React.Component {
 		const { item } = this.props;
 		return (
 			<Card style={{margin: 20}} title={item.title}>
+				<img src={item.image || 'http://www.freeiconspng.com/uploads/no-image-icon-13.png'} style={{height: 100, width: 100}} />
 				<p>{item.content}</p>
 				<Tag>{item.category}</Tag>
 			</Card>

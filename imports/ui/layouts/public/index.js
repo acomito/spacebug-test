@@ -47,14 +47,18 @@ class PublicLayout extends React.Component {
       });
   }
   componentWillReceiveProps({ data }){
-    
-    if (!data.loading && data.user && data.user.roles.includes('admin')) {
+
+
+    if (!data.loading && data.user && data.user.roles && data.user.roles.includes('admin')) {
       return browserHistory.push('/admin');
     }
 
+        
     if (!data.loading && data.user) {
       return browserHistory.push('/app');
     }
+
+    
   }
   componentDidMount() {
     const { loading, user } = this.props.data;
