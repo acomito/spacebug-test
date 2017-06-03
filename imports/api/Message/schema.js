@@ -23,14 +23,19 @@ type Message {
 	    parentModelType: String
 	    messages: [Comment]
 	}
+
 input MessageParams {
   	_id: ID
+  	parentModelType: String,
+	parentId: String,
+	messageValue: String,
 }
+
 type Query {
     messages(params: MessageParams): [Message],
   }
 type Mutation {
-    addMessage(params: MessageParams): Message,
+    createMessage(params: MessageParams): Message,
   }
 `];
 
@@ -56,8 +61,15 @@ export const MessageResolvers = {
 		},
 	},
 	Mutation: {
-		addMessage: (root, args, context) => {
-			
+		createMessage: (root, { params }, context) => {
+			let message = {
+				parentModelType: params.parentModelType,
+				parentId: params.parentId,
+				messageValue: params.messageValue,
+				ownerId: context.user._id,
+				modelType: 'comment'
+			}
+			Messages.insert(message);
 		}
 	}
 

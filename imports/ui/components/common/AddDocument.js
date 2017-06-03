@@ -75,25 +75,33 @@ class AddDocumentForm extends React.Component {
     const { getFieldDecorator } = form;
     return (
       <Form onSubmit={this.handleSubmit}>
-        <SingleImageUpload
+      <Row gutter={15}>
+        <Col xs={24}>
+          <SingleImageUpload
             defaultImage={this.state.image} 
             onSuccessfulUpload={(image) => this.setState({image})} 
           />
+        </Col>
+        <Col xs={24}>
           <FormItem>
-          {getFieldDecorator('title', {
-            rules: [{ required: false, message: 'Please input a title!' }]
-          })(
-            <Input placeholder="add a title..."  />
-          )}
-        </FormItem>
-        <FormItem>
+            {getFieldDecorator('title', {
+              rules: [{ required: false, message: 'Please input a title!' }]
+            })(
+              <Input placeholder="add a title..."  />
+            )}
+          </FormItem>
+        </Col>
+        <Col xs={24}>
+          <FormItem>
           {getFieldDecorator('description', {
             rules: [{ required: false, message: 'Please input a content!' }]
           })(
             <Input placeholder="add a description..." type="textarea" rows={4} />
           )}
         </FormItem>
-        <FormItem label={'Category'}>
+        </Col>
+        <Col xs={12}>
+          <FormItem label={'Category'}>
           {getFieldDecorator('category', {
             rules: [{ required: true, message: 'Please input a category!' }],
           })(
@@ -104,7 +112,9 @@ class AddDocumentForm extends React.Component {
             </Select>
           )}
         </FormItem>
-        <FormItem label={'status'}>
+        </Col>
+        <Col xs={12}>
+          <FormItem label={'status'}>
           {getFieldDecorator('status', {
             rules: [{ required: true, message: 'Please input a status!' }],
           })(
@@ -115,20 +125,25 @@ class AddDocumentForm extends React.Component {
             </Select>
           )}
         </FormItem>
+        </Col>
+        <Col xs={12}>
+          <FormItem>
+            {getFieldDecorator('price', {
+              rules: [{ required: false, message: 'Please input a price!' }]
+            })(
+              <Input placeholder="add a price..."  />
+            )}
+          </FormItem>
+        </Col>
+        <Col xs={24}>
+          <FormItem>
+            <Button loading={this.state.loading} htmlType="submit" type='primary'>
+              {!this.state.loading ? 'Add Junk': 'Adding...'} 
+            </Button>
+          </FormItem>
+        </Col>
+      </Row>
 
-        <FormItem>
-          {getFieldDecorator('price', {
-            rules: [{ required: false, message: 'Please input a price!' }]
-          })(
-            <Input placeholder="add a price..."  />
-          )}
-        </FormItem>
-        
-        <FormItem>
-          <Button loading={this.state.loading} htmlType="submit" type='primary'>
-            {!this.state.loading ? 'Add Junk': 'Adding...'} 
-          </Button>
-        </FormItem>
       </Form>
     );
   }

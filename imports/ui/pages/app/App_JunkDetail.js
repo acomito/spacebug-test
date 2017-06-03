@@ -16,27 +16,76 @@ import message from 'antd/lib/message';
 // APOLLO
 import { graphql } from 'react-apollo';
 import { GET_POST_BY_ID } from '/imports/ui/apollo/queries';
+import PostCard from '/imports/ui/components/common/PostCard'
+import DiscussionForm from '/imports/ui/components/common/DiscussionForm'
+//import DiscussionArea from '/imports/ui/components/common/DiscussionArea';
 
-
-const JunkCard = ({ item }) => {
-	return (
-		<div style={{padding: 20}}>
-			<Card>
-				{ item.title }
-			</Card>
-		</div>
-	);
-}
- 
-class AppJunkDetail extends React.Component {
+class CommentCard extends React.Component {
 	render(){
+		const { item } = this.props;
+		return (
+			<Card style={{width: 200, marginTop: 5}}>
+				{ item.messageValue }
+			</Card>
+		);
+	}
+}
+
+class CommentArea extends React.Component {
+	render(){
+		const { items } = this.props;
+		return (
+			<div style={{padding: 10}}>
+				{items.map( item => {
+					return <CommentCard key={item._id} item={ item } />
+				})}
+			</div>
+		);
+	}
+}
+
+
+class AppJunkDetail extends React.Component {
+	state = { showForm: false }
+	toggleDiscussionForm = () => {
+		let currentState = this.state.showForm;
+		this.setState({ showForm: !currentState });
+	}
+	renderDiscussionForm = () => {
+
+		if (this.state.showForm) {
+			return (
+				<DiscussionForm 
+					onCancel={this.toggleDiscussionForm} 
+					parentModelType={'post'} 
+					parentId={this.props.data.post._id} 
+				/>
+			);
+		}
+
+		if (!this.state.showForm) {
+			return (
+				<div>
+					<Button onClick={this.toggleDiscussionForm}>
+						Comment
+					</Button>
+				</div>
+			);
+		}
+	}
+	render(){
+		
 		if (this.props.data.loading) {
 			return null
 		}
-		console.log(this.props.data)
+
 		return (
-			<div style={{padding: 20}}>
-				<JunkCard item={this.props.data.post} />
+			<div>
+				<PostCard item={this.props.data.post} />
+				{this.renderDiscussionForm()}
+				<CommentArea 
+					items={this.props.data.post.comments}
+				/>
 			</div>
 		);
 	}

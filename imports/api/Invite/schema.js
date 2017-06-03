@@ -43,6 +43,7 @@ type Query {
 type Mutation {
 	# admin adds a building
     sendInviteEmail(params: InviteParams): Invite
+    createInvite(params: InviteParams): Invite
     # function for signup page
     # browserToken is the token from URL, sent to be matched with back-end token for verification
     # then users password is set as their password, on success a login function will run on the client after mutation
@@ -101,6 +102,18 @@ export const InviteResolvers = {
   		owner
   	},
   	Mutation: {
+  		createInvite: (root, { params }, context) => {
+  			let userExists = Accounts.findUserByEmail(params.email);
+  			if (userExists) {
+  				//create friend request
+  				return console.log('create friend request')
+  			}
+  			let invite = {
+  				email: params.email
+  			}
+  			return console.log('send invite');
+  			
+  		},
   		sendInviteEmail,
   		acceptInvite: (root, { params, password, browserToken }, context) => {
   			let invite = Invites.findOne({token: browserToken});

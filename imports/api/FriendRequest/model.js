@@ -3,18 +3,18 @@ import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import { baseModel } from '../base-model';
 
 //declare collection name and export it
-export const Invites = new Mongo.Collection('Invites');
+export const FriendRequests = new Mongo.Collection('FriendRequests');
 
 //attach basics via baseModel (createdAt, title, etc.)
-Invites.baseModel = baseModel;
+FriendRequests.baseModel = baseModel;
 
-Invites.allow({
+FriendRequests.allow({
   insert: () => false,
   update: () => false,
   remove: () => false,
 });
 
-Invites.deny({
+FriendRequests.deny({
   insert: () => true,
   update: () => true,
   remove: () => true,
@@ -22,39 +22,32 @@ Invites.deny({
 
 
 
-Invites.schema = new SimpleSchema({
+FriendRequests.schema = new SimpleSchema({
   email: {
     type: String,
     label: "Email address of the person requesting the invite.",
-  },
-  invited: {
-    type: Boolean,
-    label: "Has this person been invited yet?",
-  },
-  userId: {
-    type: String,
-    label: "_id of the user receiving the invite",
-  },
-  token: {
-    type: String,
-    label: "The token for this invitation.",
     optional: true
   },
-  modelType: {
+  phone: {
     type: String,
+    label: "Email address of the person requesting the invite.",
     optional: true
   },
   accepted: {
     type: Boolean,
+    label: "Has this person been invited yet?",
+  },
+  recipientId: {
+    type: String,
     label: "Has this invitation been accepted by a user?",
     optional: true
   },
-  dateInvited: {
-    type: Date,
-    label: "The date this user was invited",
+  sentById: {
+    type: String,
+    label: "Has this invitation been accepted by a user?",
     optional: true
   },
-  dateAdded: {
+  dateAccepted: {
     type: Date,
     label: "The date this user was invited",
     optional: true
@@ -71,5 +64,5 @@ Invites.schema = new SimpleSchema({
 });
 
 
-Invites.attachSchema(Invites.schema);
-Invites.attachSchema(Invites.baseModel);
+FriendRequests.attachSchema(FriendRequests.schema);
+FriendRequests.attachSchema(FriendRequests.baseModel);

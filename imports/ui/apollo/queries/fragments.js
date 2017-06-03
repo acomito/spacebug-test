@@ -14,6 +14,19 @@ export const ownerFragment = gql`
 `;
 
 
+export const messageFragment = gql`
+  fragment messageFragment on Message {
+      _id
+      messageValue
+      parentId
+      parentModelType
+      owner {
+        ...ownerFragment
+      }
+    }
+`;
+
+
 export const postFragment = gql`
   fragment postFragment on Post {
       _id
@@ -23,5 +36,14 @@ export const postFragment = gql`
       category
       subcategory
       createdAt
+      subcategory
+      status
+      price
+      numberOfComments
+      numberOfLikes
+      owner {
+        ...ownerFragment
+      }
     }
+    ${ownerFragment}
 `;

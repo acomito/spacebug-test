@@ -3,18 +3,18 @@ import { SimpleSchema } from 'meteor/aldeed:simple-schema';
 import { baseModel } from '../base-model';
 
 //declare collection name and export it
-export const Likes = new Mongo.Collection('Likes');
+export const Friends = new Mongo.Collection('Friends');
 
 //attach basics via baseModel (createdAt, title, etc.)
-Likes.baseModel = baseModel;
+Friends.baseModel = baseModel;
 
-Likes.allow({
+Friends.allow({
   insert: () => false,
   update: () => false,
   remove: () => false,
 });
 
-Likes.deny({
+Friends.deny({
   insert: () => true,
   update: () => true,
   remove: () => true,
@@ -22,17 +22,8 @@ Likes.deny({
 
 
 
-Likes.schema = new SimpleSchema({
-  parentId: {
-    type: String,
-  },
-  parentModelType: {
-    type: String,
-  },
-  modelType: {
-    type: String,
-  },
-  userId: {
+Friends.schema = new SimpleSchema({
+  friendId: {
     type: String,
   },
   schemaVersion: {
@@ -47,5 +38,5 @@ Likes.schema = new SimpleSchema({
 });
 
 
-Likes.attachSchema(Likes.schema);
-Likes.attachSchema(Likes.baseModel);
+Friends.attachSchema(Friends.schema);
+Friends.attachSchema(Friends.baseModel);

@@ -304,6 +304,13 @@ br {
 @popover-arrow-outer-color: fadeout(@border-color-base, 30%);
 
 
+.primary-background {
+  background: @primary-color;
+}
+
+.primary-color {
+  color: @primary-color;
+}
 
 // LINKs and 'a' anchor tags
 // ===================================
@@ -519,7 +526,7 @@ a {
 // OTHER 
 // ============================
 
-.public-background-gradient {
+/*.public-background-gradient {
   height: 100vh;
   justify-content: center;
   align-items: center;
@@ -532,10 +539,21 @@ a {
   background: -ms-linear-gradient(45deg, rgba(0,66,116,1) 0%, rgba(0,152,182,1) 50%, rgba(0,193,215,1) 98%, rgba(0,193,215,1) 100%);
   background: linear-gradient(45deg, rgba(0,66,116,1) 0%, rgba(0,152,182,1) 50%, rgba(0,193,215,1) 98%, rgba(0,193,215,1) 100%);
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#004274', endColorstr='#00c1d7', GradientType=1 );
+}*/
+.public-background-gradient {
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  background: rgba(156,89,182,1);
+  background: -moz-linear-gradient(45deg, rgba(156,89,182,1) 0%, rgba(176,124,196,1) 51%, rgba(222,175,240,1) 81%, rgba(222,175,240,1) 100%);
+  background: -webkit-gradient(left bottom, right top, color-stop(0%, rgba(156,89,182,1)), color-stop(51%, rgba(176,124,196,1)), color-stop(81%, rgba(222,175,240,1)), color-stop(100%, rgba(222,175,240,1)));
+  background: -webkit-linear-gradient(45deg, rgba(156,89,182,1) 0%, rgba(176,124,196,1) 51%, rgba(222,175,240,1) 81%, rgba(222,175,240,1) 100%);
+  background: -o-linear-gradient(45deg, rgba(156,89,182,1) 0%, rgba(176,124,196,1) 51%, rgba(222,175,240,1) 81%, rgba(222,175,240,1) 100%);
+  background: -ms-linear-gradient(45deg, rgba(156,89,182,1) 0%, rgba(176,124,196,1) 51%, rgba(222,175,240,1) 81%, rgba(222,175,240,1) 100%);
+  background: linear-gradient(45deg, rgba(156,89,182,1) 0%, rgba(176,124,196,1) 51%, rgba(222,175,240,1) 81%, rgba(222,175,240,1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#9c59b6', endColorstr='#deaff0', GradientType=1 );
 }
-
-
-
 .ant-btn-primary {
     color: #fff;
     background-color: @primary-color!important;

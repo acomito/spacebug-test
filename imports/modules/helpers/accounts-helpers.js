@@ -36,7 +36,9 @@ export const handlePasswordChange = (oldPassword, newPassword) => {
 
 export const handleSignup = (email, password, profile, apollo, _this) => {
   createUser({email, password, profile}, apollo)
-    .then(userId => afterLogin(userId, apollo, _this) )
+    .then(userId => 
+      afterLogin(userId, apollo, _this)
+    )
     .catch( res => alertErrors(res, _this) );
 };
 

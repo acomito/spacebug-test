@@ -1,12 +1,14 @@
+// TOP LEVEL IMPORTS
 import { Random } from 'meteor/random';
 import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
-import { Posts } from './model';
 import { createError } from 'apollo-errors';
+// COLLECTIONS
+import { Posts } from './model';
+import { Likes } from '../Like/model';
+import { Messages } from '../Message/model';
 
-const FooError = createError('FooError', {
-  message: 'A foo error has occurred'
-});
+
 
 export const PostSchema = [`
 
@@ -21,6 +23,9 @@ type Post {
 	    price: String
 	    createdAt: Date
 	    owner: User
+	    comments: [Message]
+	    numberOfComments: Int
+	    numberOfLikes: Int
 	}
 
 
@@ -37,6 +42,7 @@ input PostParams {
 type Query {
 	    post(_id: ID!): Post,
     	posts: [Post],
+    	postsFeed: [Post],
     	myPosts: [Post],
 	  }
 
@@ -63,6 +69,11 @@ export const PostResolvers = {
 	    	let options = { sort: { createdAt: -1 }}
 	    	return Posts.find(query, options).fetch()
 	    },
+	    postsFeed: () => {
+	    	let query = {  };
+	    	let options = { sort: { createdAt: -1 }}
+	    	return Posts.find(query, options).fetch()
+	    },
 	    myPosts: (root, args, context) => {
 	    	let query = {  };
 	    	let options = { sort: { createdAt: -1 }}
@@ -74,7 +85,27 @@ export const PostResolvers = {
   			let user = Meteor.users.findOne({_id: ownerId});
   			if (!user) { return null }
   			return user
-  		}
+  		},
+  		comments: ({ _id }, args, context) => {
+  			let query = { parentId: _id, parentModelType: 'post' }
+  			let options = { sort: { createdAt: 1} }
+  			let comments = Messages.find(query, options).fetch();
+  			if (!comments) { return [] }
+  			return comments
+  		},
+  		numberOfComments: ({ _id }, args, context) => {
+  			let query = { parentId: _id, parentModelType: 'post' }
+  			let numberOfComments = Messages.find(query).count();
+  			if (!numberOfComments) { return 0 }
+  			return numberOfComments
+  		},
+  		numberOfLikes: ({ _id }, args, context) => {
+  			let query = { parentId: _id, parentModelType: 'post' }
+  			let numberOfLikes = Likes.find(query).count();
+  			if (!numberOfLikes) { return 0 }
+  			return numberOfLikes
+  		},
+  		
   	},
 	Mutation: {
 		createPost(root, { params }, context) {

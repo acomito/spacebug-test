@@ -1,5 +1,61 @@
 import gql from 'graphql-tag';
-import { ownerFragment, postFragment } from './fragments';
+import { ownerFragment, postFragment, messageFragment } from './fragments';
+
+
+
+
+// USER QUERIES
+// ====================================
+export const GET_MY_FRIENDS = gql`
+  query GetMyFriends {
+    myFriends {
+      _id
+      friend {
+        profile {
+          firstName
+          lastName
+          image
+        }
+      }
+    }
+  }
+`;
+
+
+// USER QUERIES
+// ====================================
+export const GET_FRIEND_REQUEST_BY_ID = gql`
+  query getFriendRequestById ($targetUserId: ID!) {
+    getFriendRequestById (targetUserId: $targetUserId) {
+      _id
+      accepted
+      sentById
+      recipientId
+    }
+  }
+`;
+
+
+// GET_INCOMING_FRIEND_REQUESTS QUERIES
+// ====================================
+export const GET_INCOMING_FRIEND_REQUESTS = gql`
+  query getIncomingReqests {
+    getIncomingReqests {
+      _id
+      accepted
+      sentById
+      recipientId
+      sentByUser {
+        _id
+        profile {
+          firstName
+          lastName
+          image
+        }
+      }
+    }
+  }
+`;
 
 
 // USER QUERIES
@@ -70,21 +126,21 @@ export const GET_USER_BY_ID = gql`
       _id
       emails { address, verified }
       roles
+      posts {
+        ...postFragment
+      }
       profile { firstName, lastName }
     }
   }
+  ${postFragment}
 `;
 
 export const GET_POSTS = gql`
   query GetPosts {
     posts {
       ...postFragment
-      owner {
-        ...ownerFragment
-      }
     }
   }
-  ${ownerFragment}
   ${postFragment}
 `;
 
@@ -92,25 +148,21 @@ export const GET_POST_BY_ID = gql`
   query GetPostById ($_id: ID!) {
     post (_id: $_id) {
       ...postFragment
-      owner {
-        ...ownerFragment
+      comments {
+        ...messageFragment
       }
     }
   }
-    ${ownerFragment}
     ${postFragment}
+    ${messageFragment}
 `;
 
 export const GET_MY_POSTS = gql`
   query GetMyPosts {
     myPosts {
       ...postFragment
-      owner {
-        ...ownerFragment
-      }
     }
   }
-  ${ownerFragment}
   ${postFragment}
 `;
 

@@ -29,11 +29,14 @@ class FormComponent extends React.Component {
 	}
 	handleSubmit = (e) => {
 	    e.preventDefault();
-	    let _this = this;
-      _this.setState({ loading: true, errors: [] });
-	    _this.props.form.validateFields((err, { email, password }) => {
-        if (err) { return _this.setState({ loading: false }) }
-        handleSignup(email, password, {}, ApolloClient, _this)
+      this.setState({ loading: true, errors: [] });
+	    this.props.form.validateFields((err, { email, password, firstName, lastName  }) => {
+        if (err) { return this.setState({ loading: false }) }
+          let profile = {
+            firstName, lastName 
+          }
+          let token = this.props && this.props.params && this.props.params.token;
+        handleSignup(email, password, profile, ApolloClient, this)
 	    });
 
 	  }
@@ -41,9 +44,23 @@ class FormComponent extends React.Component {
     const { getFieldDecorator } = this.props.form;
     return (
       <div style={{width: 500, margin: 'auto', textAlign: 'center'}} >
-      <Card style={{height: 370, width: 500, border: 0}}>
+      <Card style={{height: 400, width: 500, border: 0}}>
         <h1 style={{textAlign: 'center', marginBottom: 20, color: '#000'}}>Signup</h1>
         <Form onSubmit={this.handleSubmit}>
+            <FormItem hasFeedback>
+              {getFieldDecorator('firstName', {
+                rules: [{ required: true, message: 'Input your firstName!' }],
+              })(
+                <Input prefix={<Icon type="user" />} placeholder="firstName..." />
+              )}
+            </FormItem>
+            <FormItem hasFeedback>
+              {getFieldDecorator('lastName', {
+                rules: [{ required: true, message: 'Input your lastName!' }],
+              })(
+                <Input prefix={<Icon type="user" />} placeholder="lastName..." />
+              )}
+            </FormItem>
             <FormItem hasFeedback>
               {getFieldDecorator('email', {
                 rules: [{ required: true, message: 'Input your Email!' }],
@@ -51,6 +68,7 @@ class FormComponent extends React.Component {
                 <Input prefix={<Icon type="mail" />} placeholder="Email..." />
               )}
             </FormItem>
+            
             <FormItem hasFeedback>
               {getFieldDecorator('password', {
                 rules: [{ required: true, message: 'Please input your Password!' }],
@@ -58,8 +76,8 @@ class FormComponent extends React.Component {
                 <Input prefix={<Icon type="lock" />} type="password" placeholder="Password" />
               )}
             </FormItem>
-          <Button loading={this.state.loading} type="primary" htmlType="submit" className='onboarding-btn'>
-            Create Account
+          <Button loading={this.state.loading} type="primary" htmlType="submit" style={{position: 'absolute', right: 31}}>
+            CREATE ACCOUNT
           </Button>
         </Form>
       </Card>

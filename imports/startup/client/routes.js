@@ -24,6 +24,7 @@ import AppMyFriends from '/imports/ui/pages/app/App_MyFriends';
 import AppJunkList from '/imports/ui/pages/app/App_JunkList';
 import AppJunkDetail from '/imports/ui/pages/app/App_JunkDetail';
 import AppUserDetail from '/imports/ui/pages/app/App_UserDetail';
+import AppFollowMe from '/imports/ui/pages/app/App_FollowMe';
 
 // ADMIN
 import AdminUsersPage from '/imports/ui/pages/admin/admin-users';
@@ -46,7 +47,7 @@ const AppRoutes = () => {
       <Route path="/" component={ PublicLayout }>
         <IndexRoute name='index' component={ LoginPage } />
         <Route path="/login" component={ LoginPage } />
-        <Route path="/signup" component={ SignupPage } />
+        <Route path="/signup/:_id" component={ SignupPage } />
         <Route path="forgot-password"  component={ ForgotPassword } />
         <Route path="reset-password"  component={ ResetPassword } />
       </Route>
@@ -57,10 +58,10 @@ const AppRoutes = () => {
         <Route path="account" breadcrumbName='Account' component={ AppAccount } />
         <Route path="my-stuff" breadcrumbName='My Stuff' component={ AppMyStuff } />
         <Route path="friends" breadcrumbName='Friends' component={ AppMyFriends }>
-        </Route>
-        
+        </Route> 
         <Route path="users" breadcrumbName='Junk List' component={ AppJunkList }>
           <Route path=":_id" breadcrumbName='User Overview' component={ AppUserDetail } />
+          <Route path="follow/:_id" breadcrumbName='Follow Me ' component={ AppFollowMe } />
         </Route>
         <Route path="junk" breadcrumbName='Junk List' component={ AppJunkList }>
           <Route path=":_id" breadcrumbName='Junk Overview' component={ AppJunkDetail } />

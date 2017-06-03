@@ -13,6 +13,15 @@ import Col from 'antd/lib/col';
 import InputNumber from 'antd/lib/input-number';
 import Select from 'antd/lib/select';
 import message from 'antd/lib/message';
+// APOLLO
+import { graphql } from 'react-apollo';
+import { GET_INCOMING_FRIEND_REQUESTS, GET_MY_FRIENDS } from '/imports/ui/apollo/queries';
+import { ACCEPT_FRIEND_REQUEST } from '/imports/ui/apollo/mutations';
+import PostCard from '/imports/ui/components/common/PostCard'
+import DiscussionForm from '/imports/ui/components/common/DiscussionForm';
+import { DEFAULT_AVATAR } from '/imports/modules/config';
+
+
 
 const FriendList = () => {
 	return (
@@ -36,12 +45,85 @@ const FriendList = () => {
 	);
 }
  
-const AppMyFriends = () => {
-	return (
-		<div style={{padding: 20}}>
-			<FriendList />
-		</div>
-	);
+class AppMyFriends extends React.Component {
+	
+	onAcceptFriendRequest = (requestId) => {
+		console.log(requestId)
+		let variables = { requestId }
+		let refretchQueries = [
+			{ query: GET_INCOMING_FRIEND_REQUESTS },
+			{ query: GET_MY_FRIENDS }
+		]
+		this.props.acceptFriendRequest({ variables, refretchQueries }).then( res => {
+			message.success('request accpeted!')
+		});
+	}
+	renderFriendsList = () => {
+		const { myFriendsData } = this.props;
+		if (!myFriendsData || myFriendsData.loading || myFriendsData.myFriends.length < 0) {
+			return null
+		}
+		return (
+			<div>
+				{myFriendsData.myFriends.map( item => {
+					let { friend } = item;
+					return (
+						<Card key={item._id} title={friend.profile.firstName}>
+							
+						</Card>
+					)
+				})}
+			</div>
+		);
+	}
+	renderIncomingRequests = () => {
+		const { getIncomingReqests }= this.props.data;
+		if (!getIncomingReqests || getIncomingReqests.length < 0) {
+			return null
+		}
+		return (
+			<div>
+				{getIncomingReqests.map(item => (
+					<Card key={item._id}>
+						<div style={{display: 'flex'}}>
+							<div style={{flex: 1}}>
+								<img 
+									src={item.sentByUser.profile.image || DEFAULT_AVATAR} 
+									style={{height: 40, width: 40, borderRadius: '50%'}}
+								/>
+							</div>
+							<div style={{flex: 1}}>
+								{item.sentByUser.profile.firstName}
+								{item.sentByUser.profile.lastName}
+							</div>
+							<div style={{flex: 3}}>
+								<Button onClick={()=>this.onAcceptFriendRequest(item._id)}>ACCEPT REQUEST</Button>
+							</div>
+						</div>
+					</Card>
+				))}
+			</div>
+		)
+	}
+	render(){
+
+		if (this.props.data.loading) {
+			return null
+		}
+		console.log(this.props)
+		return (
+			<div style={{padding: 20}}>
+				<h2>REQUESTS</h2>
+				{this.renderIncomingRequests()}
+				<h2>FRIENDS</h2>
+				{this.renderFriendsList()}
+			</div>
+		);
+	}
 }
 
-export default AppMyFriends;
+export default graphql(GET_INCOMING_FRIEND_REQUESTS)(
+	graphql(ACCEPT_FRIEND_REQUEST, { name: 'acceptFriendRequest' })(
+		graphql(GET_MY_FRIENDS, { name: 'myFriendsData' })(AppMyFriends)
+	)
+);

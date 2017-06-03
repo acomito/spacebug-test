@@ -5,8 +5,7 @@ import { check } from 'meteor/check';
 import { createError, isInstance } from 'apollo-errors';
 import { isAuthenticatedResolver, isAdminResolver } from '../base-resolvers';
 import { addInvitation } from '../api-helpers';
-
-
+import { Posts } from '../Post'
 
 const buildUser = (params) => {
   let userToInsert = {
@@ -112,7 +111,6 @@ export const UserResolvers = {
         'profile.cellPhone': params.cellPhone,
         'profile.workPhone': params.workPhone, 
       }
-
       Meteor.users.update({ _id }, { $set: dataToUpdate });
       return Meteor.users.findOne({ _id });
     },
@@ -127,5 +125,8 @@ export const UserResolvers = {
     _id: ({ _id }) => _id,
     emails: ({ emails }) => emails,
     roles: ({ roles }) => roles,
+    posts({ _id }, args, context) {
+      return Posts.find({ ownerId: _id }).fetch();
+    },
   },
 };

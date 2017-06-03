@@ -24,8 +24,53 @@ export const STATUS_OPTIONS = [
 
 
 export const CATEGORY_OPTIONS = [
-  'Hamburgers',
-  'Motorcycle',
-  'Old T-shirt',
-  'Other'
+	// A
+	'Antiques',
+	'Appliances',
+	'Arts & Crafts',
+	'Audio Equipment',
+	'Auto Parts',
+	// B
+	'Baby & Kids',
+	'Bicycles',
+	'Boats & Marine',
+	'Books & Magazines',
+	'Business Equipment',
+	// C
+	'Campers & RVs',
+	'Cars & Trucks',
+	'CDs & DVDs',
+	'Cell Phones',
+	'Clothing & Shoes',
+	'Collectibles',
+	'Computer Equipment',
+	'Computer Software',
+	// E
+	'Electronics',
+	// F
+	'Farming',
+	'Furniture',
+	// G
+	'Games & Toys',
+	'General',
+	// H
+	'Home & Garden',
+	'Household',
+	// J
+	'Jewelry & Accessories',
+	// M
+	'Motorcycles',
+	'Musical Instruments',
+	// P
+	'Pet Supplies',
+	'Photography',
+	// S
+	'Sports & Outdoors',
+	// T
+	'Tickets',
+	'Tools & Machinery',
+	'TVs',
+	// V
+	'Video Equipment',
+	'Video Games',
 ];

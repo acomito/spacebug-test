@@ -130,7 +130,7 @@ class MainContent extends React.Component {
             </Menu>
         </Header>
         <Content style={{ margin: 0 }}>
-          <div style={{ padding: 0,  minHeight: '65vh', maxWidth: '97%' }}>
+          <div style={{ padding: 20,  minHeight: '65vh', maxWidth: '97%' }}>
             {React.cloneElement(children, {...this.props})}
           </div>
         </Content>

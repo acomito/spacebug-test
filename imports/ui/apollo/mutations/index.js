@@ -9,6 +9,30 @@ export const CREATE_POST = gql`
 	}
 `;
 
+export const CREATE_FRIEND_REQUEST = gql`
+	mutation CreateFriendRequest ( $targetUserId: ID! ){
+		createFriendRequest (targetUserId: $targetUserId){
+			_id
+		}
+	}
+`;
+
+export const ACCEPT_FRIEND_REQUEST = gql`
+	mutation AcceptFriendRequest ( $requestId: ID! ){
+		acceptFriendRequest (requestId: $requestId){
+			_id
+		}
+	}
+`;
+
+export const CREATE_MESSAGE = gql`
+	mutation CreateMessage ( $params: MessageParams ){
+		createMessage (params: $params){
+			_id
+		}
+	}
+`;
+
 export const SAVE_USER_ACCOUNT = gql`
 	mutation SaveUserAccount ( $_id: ID, $params: UserParams ){
 		saveUserAccount (_id: $_id, params: $params){

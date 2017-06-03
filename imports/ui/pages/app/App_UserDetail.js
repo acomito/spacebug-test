@@ -16,15 +16,26 @@ import message from 'antd/lib/message';
 // APOLLO
 import { graphql } from 'react-apollo';
 import { GET_USER_BY_ID } from '/imports/ui/apollo/queries';
-
+import PostCard from '/imports/ui/components/common/PostCard'
 
 const UserCard = ({ item }) => {
-	console.log(item)
 	return (
 		<div style={{padding: 20}}>
 			<Card>
 				{ item.profile.firstName }
 			</Card>
+		</div>
+	);
+}
+
+const UserPostList = ({ posts }) => {
+	return (
+		<div style={{padding: 20}}>
+				{posts.map(item => {
+					return (
+						<PostCard key={item._id} item={item} />
+					);
+				}) }
 		</div>
 	);
 }
@@ -34,9 +45,12 @@ class AppUserDetail extends React.Component {
 		if (this.props.data.loading) {
 			return null
 		}
+		console.log(this.props.data)
 		return (
 			<div style={{padding: 20}}>
 				<UserCard item={this.props.data.getUserById} />
+				<h2>{ this.props.data.getUserById.profile.firstName }'s Posts</h2>
+				<UserPostList posts={this.props.data.getUserById.posts} />
 			</div>
 		);
 	}

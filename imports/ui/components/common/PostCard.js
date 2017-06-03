@@ -10,26 +10,26 @@ import { DEFAULT_AVATAR, DEFAULT_POST_IMAGE } from '/imports/modules/config';
 import { timeAgo } from '/imports/modules/helpers';
 
 const PostOwner = ({ item }) => {
+	let { owner } = item;
 	return (
 		<div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
 			<div style={{flex: 1}}>
-				<Link to={`/app/users/${item.owner._id}`}>
+				<Link to={`/app/users/${owner._id}`}>
 					<img 
 						alt="post-avatar" 
 						style={{height: 40, width: 40, borderRadius: '50%'}} 
-						src={item.owner && item.owner.profile.image || DEFAULT_AVATAR} 
+						src={owner && owner.profile.image || DEFAULT_AVATAR} 
 					/>
 				</Link>
 			</div>
 			<div style={{flex: 3}}>
 				<span>posted by
 					<Link style={{fontSize: 14, marginLeft: 3}} to={`/app/users/${item.owner._id}`}>
-						{item.owner.profile.firstName}
-						 {item.owner.profile.lastName}
+							{`${owner.profile.firstName} ${owner.profile.lastName}`}
 					</Link>
 				</span>
 			</div>
-			<div style={{flex: 3}} />
+			<div style={{flex: 2}} />
 		</div>
 	);
 }
@@ -44,12 +44,13 @@ const PostTitle = ({ item }) => {
 
 const PostInfo = ({ item }) => {
 	return (
-		<div style={{display: 'flex', flexDirection: 'column'}}>
+		<div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
 			<div style={{flex: 1, minHeight: 30}}>
 				<p>{item.description}</p>
 			</div>
 			<div style={{flex: 1, minHeight: 30}}>
 				<Tag>{item.category}</Tag>
+				<Tag>{item.status}</Tag>
 			</div>
 		</div>
 	);
@@ -60,10 +61,15 @@ const PostBottom = ({ item }) => {
 	return (
 		<div style={{display: 'flex', height: 30, justifyContent: 'center', alignItems: 'center', flex: 1}}>
 			<div style={{flex: 1}}>
-				<Icon type="heart" style={{color: '#e74c3c'}} /> 187 likes
+				<span style={{color: '#e74c3c'}} >
+					<Icon type="heart" style={{color: '#e74c3c'}} /> {item.numberOfLikes} likes
+				</span>
 			</div>
 			<div style={{flex: 1}}>
-				<Icon type="message" style={{color: '#888'}} /> 7 comments
+				<Icon type="message" style={{color: '#888', cursor: 'pointer'}} /> 
+					<Link to={`/app/junk/${item._id}`}>
+						{item.numberOfComments} comments
+					</Link>
 			</div>
 			<div style={{flex: 2}} />
 			<div style={{flex: 1}}>

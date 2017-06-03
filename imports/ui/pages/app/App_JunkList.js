@@ -11,12 +11,16 @@ const HomePage = () => {
 	);
 }
 
-const AppJunkList = ({ children }) => {
-	return (
-		<div style={{padding: 20}}>
-			{ children ? children : <HomePage />}
-		</div>
-	);
+class AppJunkList extends React.Component {
+	render(){
+		const props = Object.assign({}, this.props);
+		delete props.children;
+		return (
+			<div>
+				{this.props.children ? React.cloneElement(this.props.children, {...props}) : <HomePage {...this.props} />}
+			</div>
+		);
+	}
 }
 
 export default AppJunkList

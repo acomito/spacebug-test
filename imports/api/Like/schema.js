@@ -7,11 +7,11 @@ import { isAuthenticatedResolver, isAdminResolver, units, group, tickets, owner,
 export const LikeSchema = [`
 
 type Like {
-	    _id: ID!
-	    postId: ID!
-	    owner: User
-	    post: Post
-	}
+    _id: ID!
+    postId: ID!
+    owner: User
+    post: Post
+}
 
 input LikeParams {
   	postId: ID!

@@ -14,7 +14,7 @@ const HomePage = () => {
 
 const AppHome = ({ children }) => {
 	return (
-		<div style={{padding: 20}}>
+		<div>
 			{ children ? children : <HomePage />}
 		</div>
 	);
