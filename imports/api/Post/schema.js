@@ -32,8 +32,11 @@ type Post {
 input PostParams {
     description: String
     title: String
+    searchText: String
     image: String
     category: String
+    categories: [String]
+    statuses: [String]
     subcategory: String
     status: String
     price: String
@@ -41,7 +44,7 @@ input PostParams {
 
 type Query {
 	    post(_id: ID!): Post,
-    	posts: [Post],
+    	posts(params: PostParams): [Post],
     	postsFeed: [Post],
     	myPosts: [Post],
 	  }
@@ -57,6 +60,95 @@ type Mutation {
 
 `];
 
+
+
+
+const buildPostsSearchQuery = async (root, args, context) => {
+  
+  return new Promise(
+      (resolve, reject) => {
+        let query = {};
+
+        // declare the andQueryArray which will be used as the array of queries for an $and mongoDB query
+        // we push new queries in the array as needed (e.g. when specific unitIds are passed in args.params.unitIds, we build a query and it into the array)
+        let andQueryArray = [query]; 
+
+        let options = { sort: { createdAt: -1}, limit: 10  } // at some point, when pagination is added, you'll want to add a limit here, e.g. limit: 10,
+
+        // If an offset arguement is passed, add it as an option. 
+        // offset is (one potential strategy) used for pagination/infinite loading if it ever gets added.
+        // see: https://dev-blog.apollodata.com/pagination-and-infinite-scrolling-in-apollo-client-59ff064aac61
+        // see: http://dev.apollodata.com/react/pagination.html
+        if (args && args.params && args.params.offset) { options.skip = args.params.offset }
+      // IF NO ARGS EXIST, JUST RETURN BASIC QUERY
+      // ====================================
+      // if no arguments were passed, just return all messages using the above query and options variables
+      if (!args) {
+        let count = Posts.find(query).count()
+        let tickets = Posts.find(query, options).fetch();
+        posts.count = count
+        return resolve(posts)
+      }
+      
+      // declare a unitIds variable. tickets do not have a buildingId, so we have to query the units in a building
+      // make an array of unitIds, then concat that with any other _ids coming from the client (which is 'args.params.unitIds' )
+
+
+
+
+
+      // DATE RANGE QUERY
+      // ====================================
+      if (args.params && args.params.dateRange && args.params.dateRange.length > 0) {
+
+        let startDate = new Date(args.params.dateRange[0])
+        let endDate = new Date(args.params.dateRange[1])
+
+        let dateQuery = { 
+          createdAt: { $gte: startDate, $lte: endDate } 
+        }
+
+        andQueryArray.push(dateQuery)
+
+      }
+
+      // STATUS QUERY
+      // ====================================
+      if (args.params && args.params.statuses && args.params.statuses.length > 0) {
+        let statusesQuery = { status: { $in: args.params.statuses } }
+        andQueryArray.push(statusesQuery)
+      }
+
+
+      // CATEGORY QUERY
+      // ====================================
+      if (args.params && args.params.categories && args.params.categories.length > 0) {
+        let categoriesQuery = { category: { $in: args.params.categories } }
+        andQueryArray.push(categoriesQuery)
+      }
+
+      // TEXT SEARCH QUERY
+      // ====================================
+      // If a search string was passed, then add search terms to the andQueryArray
+      if (args && args.params && args.params.searchText) {
+        let regex = new RegExp( args.params.searchText, 'i' );
+        let orSearchQuery = { $or: [ 
+          { title: regex }, 
+          { description: regex },
+        ]};
+        andQueryArray.push(orSearchQuery)
+      }
+
+      query = { $and: andQueryArray }
+      let count = Posts.find(query).count();
+      //let tickets = Posts.find(query, options).fetch();
+      resolve({ query, options, count });
+
+      }
+  )
+};
+
+
 export const PostResolvers = {
 	Query: {
 	    post: (root, args, context) => {
@@ -64,13 +156,17 @@ export const PostResolvers = {
 	    	let options = { sort: { createdAt: -1 }}
 	    	return Posts.findOne(query, options)
 	    },
-	    posts: () => {
-	    	let query = {  };
-	    	let options = { sort: { createdAt: -1 }}
-	    	return Posts.find(query, options).fetch()
+	    posts: async (root, args, context) => {
+	    	let { query, options, count } = await buildPostsSearchQuery(root, args, context)
+    		let posts = Posts.find(query, options).fetch();
+    		return posts;
 	    },
-	    postsFeed: () => {
-	    	let query = {  };
+	    postsFeed: (root, args, context) => {
+	    	// find all of my friends
+	    	let friends = Friends.find({ownerId: context.user._id}).fetch();
+	    	let friendIds = friends.map((item) => item.friendId);
+	    	let query = { ownerIds: { $in: friendIds } }; //serach for posts by these userIds
+	    	let posts = Posts.find().fetch()
 	    	let options = { sort: { createdAt: -1 }}
 	    	return Posts.find(query, options).fetch()
 	    },

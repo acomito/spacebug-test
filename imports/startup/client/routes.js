@@ -47,7 +47,7 @@ const AppRoutes = () => {
       <Route path="/" component={ PublicLayout }>
         <IndexRoute name='index' component={ LoginPage } />
         <Route path="/login" component={ LoginPage } />
-        <Route path="/signup/:_id" component={ SignupPage } />
+        <Route path="/signup" component={ SignupPage } />
         <Route path="forgot-password"  component={ ForgotPassword } />
         <Route path="reset-password"  component={ ResetPassword } />
       </Route>

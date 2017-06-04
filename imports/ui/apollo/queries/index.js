@@ -136,8 +136,8 @@ export const GET_USER_BY_ID = gql`
 `;
 
 export const GET_POSTS = gql`
-  query GetPosts {
-    posts {
+  query GetPosts($params: PostParams) {
+    posts (params: $params){
       ...postFragment
     }
   }

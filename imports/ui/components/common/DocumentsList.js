@@ -1,5 +1,6 @@
 import React from 'react';
 import { browserHistory, Link } from 'react-router';
+// ANTD
 import Button from 'antd/lib/button';
 import Card from 'antd/lib/card';
 import message from 'antd/lib/message';
@@ -8,26 +9,26 @@ import Tag from 'antd/lib/tag';
 import { graphql } from 'react-apollo';
 import { GET_POSTS } from '/imports/ui/apollo/queries';
 import PostCard from '/imports/ui/components/common/PostCard'
-
+import PostFilters from '/imports/ui/components/common/PostFilters'
+// REDUX
+import { connect } from 'react-redux'
+import * as actions from '/imports/ui/redux/actions'
 
 
 class DocumentsList extends React.Component {
 	render() {
-		console.log(this.props)
+
 		if (this.props.data.loading) {
 			return <p>loading....</p>
 		}
+
 		if (!this.props.data.posts && this.props.data.posts.length < 0) {
 			return <p>no junk yet....</p>
 		}
+
 		return (
 			<div style={{height: '100%', marginTop: 15, display: 'flex', alignItems: 'flex-start', justifyContent: 'top'}}>
-				<div style={{flex: 1}}>
-					<Card style={{height: 200, width: 150}}>
-						FILTERS GO HERE
-					</Card>
-				</div>
-				<div style={{flex: 3}}>
+				<div>
 					{this.props.data.posts.map( item => {
 						return <PostCard key={item._id} item={item} />
 					})}
@@ -37,6 +38,28 @@ class DocumentsList extends React.Component {
 	}
 }
 
+let options = (props) => {
+	let params = {
+		statuses: props.statuses,
+		categories: props.categories,
+		searchText: props.searchText
+	}
+
+	return { 
+		variables: { params } 
+	} 
+}
+
+let ComponentWithData = graphql(GET_POSTS, { options })(DocumentsList);
 
 
-export default graphql(GET_POSTS)(DocumentsList)
+let mapStateToProps = ({ search }) => {
+	return {
+		statuses: search.statuses,
+		categories: search.categories,
+		searchText: search.searchText
+	}
+}
+
+
+export default connect(mapStateToProps, actions)(ComponentWithData)

@@ -66,12 +66,11 @@ const PostBottom = ({ item }) => {
 				</span>
 			</div>
 			<div style={{flex: 1}}>
-				<Icon type="message" style={{color: '#888', cursor: 'pointer'}} /> 
+				<Icon type="message" style={{color: '#888', cursor: 'pointer', marginRight: 4}} /> 
 					<Link to={`/app/junk/${item._id}`}>
 						{item.numberOfComments} comments
 					</Link>
 			</div>
-			<div style={{flex: 2}} />
 			<div style={{flex: 1}}>
 				<Link to={`/app/junk/${item._id}`}>VIEW</Link>
 			</div>
@@ -118,7 +117,7 @@ class PostCard extends React.Component {
 		const { item } = this.props;
 		return (
 			<Card 
-				style={{margin: 20, maxWidth: '90%', width: 500, margin: 'auto'}} 
+				style={{margin: '20px auto', maxWidth: '90%', width: 500}} 
 				bodyStyle={{paddingBottom: 5}}
 			>
 				<PostTop item={item} />
