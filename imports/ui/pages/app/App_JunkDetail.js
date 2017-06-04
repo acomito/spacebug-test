@@ -80,8 +80,8 @@ class AppJunkDetail extends React.Component {
 		}
 
 		return (
-			<div>
-				<PostCard item={this.props.data.post} />
+			<div style={{width: 600, maxWidth: '98%', margin: 'auto'}}>
+				<PostCard item={this.props.data.post} user={this.props.user.user}/>
 				{this.renderDiscussionForm()}
 				<CommentArea 
 					items={this.props.data.post.comments}

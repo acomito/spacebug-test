@@ -40,6 +40,7 @@ type User {
   # an array of strings of "roles". e.g. admin, pm, rm, maintenance. A user could have several roles, but at the time of writing this, users tend to have one role.
   roles: [String]
   posts: [Post]
+  isFriend: Boolean
 }
 
 type Query {

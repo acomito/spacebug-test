@@ -9,14 +9,12 @@ import Card from 'antd/lib/card';
 import message from 'antd/lib/message';
 import Tag from 'antd/lib/tag';
 
-const HomePage = () => {
+const HomePage = ({ user }) => {
+	console.log(user)
 	return (
 		<div style={{padding: 20}}>
 			<div style={{height: '100%', marginTop: 15, display: 'flex', alignItems: 'flex-start', justifyContent: 'top'}}>
 				<div style={{flex: 1}}>
-					<div>
-						<AddDocument />
-					</div>
 					<div>
 						<SearchBox />
 					</div>
@@ -24,20 +22,13 @@ const HomePage = () => {
 						<PostFilters />
 					</Card>
 				</div>
-				<div style={{flex: 3}}>
-					<DocumentsList />
+				<div style={{flex: 2}}>
+					<DocumentsList user={user.user} />
 				</div>
+				<div style={{flex: 2}} />
 			</div>
 		</div>
 	);
 }
 
-const AppHome = ({ children }) => {
-	return (
-		<div>
-			{ children ? children : <HomePage />}
-		</div>
-	);
-}
-
-export default AppHome
+export default HomePage;

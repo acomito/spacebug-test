@@ -5,6 +5,7 @@ import Button from 'antd/lib/button';
 import Card from 'antd/lib/card';
 import message from 'antd/lib/message';
 import Tag from 'antd/lib/tag';
+import Spin from 'antd/lib/spin';
 // APOLLO
 import { graphql } from 'react-apollo';
 import { GET_POSTS } from '/imports/ui/apollo/queries';
@@ -19,7 +20,11 @@ class DocumentsList extends React.Component {
 	render() {
 
 		if (this.props.data.loading) {
-			return <p>loading....</p>
+			return (
+				<div style={{minHeight: '40vh', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+					<Spin tip='Loading Junk...' />
+				</div>
+			)
 		}
 
 		if (!this.props.data.posts && this.props.data.posts.length < 0) {
@@ -30,7 +35,7 @@ class DocumentsList extends React.Component {
 			<div style={{height: '100%', marginTop: 15, display: 'flex', alignItems: 'flex-start', justifyContent: 'top'}}>
 				<div>
 					{this.props.data.posts.map( item => {
-						return <PostCard key={item._id} item={item} />
+						return <PostCard key={item._id} item={item} user={this.props.user} />
 					})}
 				</div>
 			</div>

@@ -5,9 +5,9 @@ import { check } from 'meteor/check';
 import { createError } from 'apollo-errors';
 // COLLECTIONS
 import { Posts } from './model';
-import { Likes } from '../Like/model';
-import { Messages } from '../Message/model';
-
+import { Likes } from '../Like';
+import { Messages } from '../Message';
+import { Friends } from '../Friend';
 
 
 export const PostSchema = [`
@@ -67,12 +67,11 @@ const buildPostsSearchQuery = async (root, args, context) => {
   
   return new Promise(
       (resolve, reject) => {
-        let query = {};
-
+        let query = { ownerId: { $in: args.friendIds } }; //query to make sure you only bring back a friends posts
         // declare the andQueryArray which will be used as the array of queries for an $and mongoDB query
         // we push new queries in the array as needed (e.g. when specific unitIds are passed in args.params.unitIds, we build a query and it into the array)
         let andQueryArray = [query]; 
-
+        console.log(args.friendIds)
         let options = { sort: { createdAt: -1}, limit: 10  } // at some point, when pagination is added, you'll want to add a limit here, e.g. limit: 10,
 
         // If an offset arguement is passed, add it as an option. 
@@ -90,11 +89,18 @@ const buildPostsSearchQuery = async (root, args, context) => {
         return resolve(posts)
       }
       
+     
+
       // declare a unitIds variable. tickets do not have a buildingId, so we have to query the units in a building
       // make an array of unitIds, then concat that with any other _ids coming from the client (which is 'args.params.unitIds' )
 
 
-
+      // friendIds
+      // ====================================
+/*      if (args.friendIds && args.friendIds && args.friendIds.length > 0) {
+        let friendsQuery = { ownerIds: { $in: args.friendIds } };
+        andQueryArray.push(friendsQuery)
+      }*/
 
 
       // DATE RANGE QUERY
@@ -157,8 +163,12 @@ export const PostResolvers = {
 	    	return Posts.findOne(query, options)
 	    },
 	    posts: async (root, args, context) => {
+        let friends = Friends.find({ownerId: context.user._id}).fetch();
+        let friendIds = friends.map((item) => item.friendId);
+        args.friendIds = friendIds
 	    	let { query, options, count } = await buildPostsSearchQuery(root, args, context)
     		let posts = Posts.find(query, options).fetch();
+        console.log(query)
     		return posts;
 	    },
 	    postsFeed: (root, args, context) => {

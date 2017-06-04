@@ -172,7 +172,7 @@ class AddDocument extends React.Component {
   render() {
     return (
       <div style={{display: 'inline'}}>
-        <Button onClick={this.showModal} type='primary'>
+        <Button onClick={this.showModal} type='primary' icon="plus-circle-o">
           Add Junk
         </Button>
         <Modal

@@ -15,25 +15,22 @@ import { timeAgo } from '/imports/modules/helpers';
 
 
 
-const PostOwner = ({ item }) => {
-	let { owner } = item;
+const PostOwner = ({ user }) => {
 	return (
 		<div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
 			<div style={{flex: 1}}>
-				<Link to={`/app/users/${owner._id}`}>
+				<Link to={`/app/users/${user._id}`}>
 					<img 
 						alt="post-avatar" 
 						style={{height: 40, width: 40, borderRadius: '50%'}} 
-						src={owner && owner.profile.image || DEFAULT_AVATAR} 
+						src={user && user.profile.image || DEFAULT_AVATAR} 
 					/>
 				</Link>
 			</div>
 			<div style={{flex: 3}}>
-				<span>posted by
-					<Link style={{fontSize: 14, marginLeft: 3}} to={`/app/users/${item.owner._id}`}>
-							{`${owner.profile.firstName} ${owner.profile.lastName}`}
-					</Link>
-				</span>
+				<Link style={{fontSize: 17, marginLeft: 3}} to={`/app/users/${user._id}`}>
+						{`${user.profile.firstName} ${user.profile.lastName}`}
+				</Link>
 			</div>
 			<div style={{flex: 2}} />
 		</div>
@@ -85,84 +82,62 @@ class PostBottom extends React.Component {
 					<div style={{flex: 1}}>
 						<Link to={`/app/junk/${item._id}`}>VIEW</Link>
 					</div>
-					{item.owner._id === user._id && (
-						<div style={{flex: 1}}>
-							<Link to={`/app/junk/${item._id}`}>EDIT</Link>
-						</div>
-					)}
-					{item.owner._id === user._id && (
-						<div style={{flex: 1}}>
-							<Popconfirm title="Are you sure delete this post?" onConfirm={this.onDeletePost} okText="Yes" cancelText="No">
-							   <a href="#">DELETE</a>
-							</Popconfirm>
-						</div>
-					)}
 				</div>
 			);
 	}
 }
 
 
-const PostBody = ({ item, user }) => {
+const UserCardBody = ({ item, user }) => {
 	return (
 		<div style={{padding: '10px 16px'}}>
 			<PostTitle item={item} />
 	      	<PostInfo item={item}  />
-			<PostBottom item={item} user={user} />
 	    </div>
 	);
 }
 
-const PostTop = ({ item }) => {
+const UserCardTop = ({ user }) => {
 	return (
 		<div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'flex-start'}}>
 			<div style={{flex: 1, height: 60, width: '100%'}}>
 		      	<div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
 			      	<div style={{flex: 3}}>
-				      <PostOwner item={item} />
+				      <PostOwner user={user} />
 				    </div>
 				    <div style={{flex: 1}}>
-				      <span style={{color: '#888'}}>
-				      	<Icon color={'#888'} style={{marginRight: 3}} type="clock-circle-o" /> 
-				      	{timeAgo(item.createdAt)}
-				      </span>
 				    </div>
 			    </div>
-		    </div>
-	      	<div style={{flex: 1}}>
-		      <img alt="post-image" style={{display: 'block', width: '100%'}} src={item.image || DEFAULT_POST_IMAGE} />
 		    </div>
 	    </div>
 	);
 }
 
 
-class PostCard extends React.Component {
+class UserCard extends React.Component {
 	render() {
-		const { item, user } = this.props;
+		const { user } = this.props;
 		return (
 			<Card 
 				style={{marginTop: '20px', maxWidth: '99%', width: 500}} 
 				bodyStyle={{paddingBottom: 5}}
 			>
-				<PostTop item={item} />
-				<PostBody item={item} user={user} />
+				<UserCardTop user={user} />
+				{/*<UserCardBody item={user} />*/}
 			</Card>
 		);
 	}
 }
 
-PostCard.propTypes = {
-  item: PropTypes.object,
+UserCard.propTypes = {
   user: PropTypes.object,
 };
 
 // Specifies the default values for props:
-PostCard.defaultProps = {
-  item: null,
+UserCard.defaultProps = {
   user: null,
 };
 
 
 
-export default PostCard
+export default UserCard

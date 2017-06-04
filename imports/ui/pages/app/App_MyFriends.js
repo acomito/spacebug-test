@@ -1,6 +1,6 @@
 import React from 'react';
 import AddDocument from '/imports/ui/components/common/AddDocument'
-import DocumentsList from '/imports/ui/components/common/DocumentsList';
+import UserCard from '/imports/ui/components/common/UserCard';
 //antd
 import Form from 'antd/lib/form';
 import Input from 'antd/lib/input';
@@ -68,9 +68,7 @@ class AppMyFriends extends React.Component {
 				{myFriendsData.myFriends.map( item => {
 					let { friend } = item;
 					return (
-						<Card key={item._id} title={friend.profile.firstName}>
-							
-						</Card>
+						<UserCard key={item._id} user={friend} />
 					)
 				})}
 			</div>
@@ -97,7 +95,7 @@ class AppMyFriends extends React.Component {
 								{item.sentByUser.profile.lastName}
 							</div>
 							<div style={{flex: 3}}>
-								<Button onClick={()=>this.onAcceptFriendRequest(item._id)}>ACCEPT REQUEST</Button>
+								<FriendRequestButton user={this.props.user.user} targetUserId={item.sentByUser._id} />
 							</div>
 						</div>
 					</Card>
@@ -110,13 +108,17 @@ class AppMyFriends extends React.Component {
 		if (this.props.data.loading) {
 			return null
 		}
-		console.log(this.props)
+
 		return (
-			<div style={{padding: 20}}>
-				<h2>REQUESTS</h2>
-				{this.renderIncomingRequests()}
-				<h2>FRIENDS</h2>
-				{this.renderFriendsList()}
+			<div style={{width: 600, maxWidth: '98%', margin: 'auto'}}>
+				<div style={{marginTop: 20}}>
+					<h2>REQUESTS</h2>
+					{this.renderIncomingRequests()}
+				</div>
+				<div style={{marginTop: 20}}>
+					<h2>FRIENDS</h2>
+					{this.renderFriendsList()}
+				</div>
 			</div>
 		);
 	}

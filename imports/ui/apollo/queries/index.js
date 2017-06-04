@@ -11,6 +11,7 @@ export const GET_MY_FRIENDS = gql`
     myFriends {
       _id
       friend {
+        _id
         profile {
           firstName
           lastName
@@ -126,10 +127,15 @@ export const GET_USER_BY_ID = gql`
       _id
       emails { address, verified }
       roles
+      isFriend
       posts {
         ...postFragment
       }
-      profile { firstName, lastName }
+      profile { 
+        firstName, 
+        lastName, 
+        image 
+      }
     }
   }
   ${postFragment}

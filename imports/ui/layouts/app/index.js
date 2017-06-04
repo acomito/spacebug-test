@@ -39,12 +39,12 @@ class AppLayout extends React.Component {
   constructor(props) {
     super(props);
     const { documentElement, body } = document;
-    this.updateDimensions = this.updateDimensions.bind(this);
     let screenWidth = window.innerWidth || documentElement.clientWidth || body.clientWidth;
     this.state = {
       width: screenWidth,
       collapsed:  screenWidth < 741
     };
+    this.updateDimensions = this.updateDimensions.bind(this);
   }
   updateDimensions() {
       const { documentElement, body } = document;
@@ -53,7 +53,7 @@ class AppLayout extends React.Component {
       });
   }
   componentWillReceiveProps({ user }){
-    console.log(user)
+
     if (!user.loading && !user.user) {
       return browserHistory.push('/');
     }
@@ -65,7 +65,7 @@ class AppLayout extends React.Component {
     const { loading, user } = this.props.user;
 
     window.addEventListener("resize", this.updateDimensions);
-    console.log(!loading && !user)
+
     if (!loading && !user) {
       return browserHistory.push('/');
     }
@@ -101,7 +101,6 @@ class AppLayout extends React.Component {
   render(){
     const { routes, params, location, user } = this.props;
 
-        console.log(this.props)
     if (user.loading) {
       return <LoadingScreen />
     }

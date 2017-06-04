@@ -5,7 +5,9 @@ import { check } from 'meteor/check';
 import { createError, isInstance } from 'apollo-errors';
 import { isAuthenticatedResolver, isAdminResolver } from '../base-resolvers';
 import { addInvitation } from '../api-helpers';
+// COLLECTIONS
 import { Posts } from '../Post'
+import { Friends } from '../Friend'
 
 const buildUser = (params) => {
   let userToInsert = {
@@ -128,5 +130,21 @@ export const UserResolvers = {
     posts({ _id }, args, context) {
       return Posts.find({ ownerId: _id }).fetch();
     },
+    isFriend({ _id }, args, context) {
+      let currentUserId = context.user._id;
+      let otherUserId = _id;
+       if (currentUserId === otherUserId) {
+        return false
+       }
+
+      let friendExists = Friends.findOne({ ownerId: currentUserId, friendId: otherUserId })
+      if (friendExists) {
+        return true
+      } else {
+        return false
+      }
+      //otherwise return false by default for safety
+      return false
+    }, 
   },
 };

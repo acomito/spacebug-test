@@ -17,40 +17,69 @@ import message from 'antd/lib/message';
 import { graphql } from 'react-apollo';
 import { GET_USER_BY_ID } from '/imports/ui/apollo/queries';
 import PostCard from '/imports/ui/components/common/PostCard'
+import FriendRequestButton from '/imports/ui/components/common/FriendRequestButton'
 
-const UserCard = ({ item }) => {
+// MODULES
+import { DEFAULT_AVATAR } from '/imports/modules/config'
+
+const UserCard = ({ item, user, targetUserId }) => {
 	return (
-		<div style={{padding: 20}}>
-			<Card>
-				{ item.profile.firstName }
-			</Card>
+		<Card style={{width: 500, maxWidth: '99%', margin: 'auto'}}>
+			<div style={{textAlign: 'center'}}>
+				<img src={ item.profile.image || DEFAULT_AVATAR } style={{width: 75, height: 75, borderRadius: '50%'}} />
+				<h2>{ item.profile.firstName } { item.profile.lastName }</h2>
+				{targetUserId !== user._id ? <FriendRequestButton targetUserId={targetUserId} user={user} /> : null}
+			</div>
+		</Card>
+	);
+}
+
+const EmptyState = ({ header, subheader, image }) => {
+	return (
+		<div style={{width: 500, margin: 'auto', maxWidth: '99%', minHeight: 250, display:'flex', alignItems: 'center', justifyContent: 'center'}}>
+			<div style={{textAlign: 'center'}}>
+				{image && image}
+				<h3>{ header }</h3>
+				<h4 style={{color: '#888', margin: 0}}>{ subheader }</h4>
+			</div>
 		</div>
 	);
 }
 
-const UserPostList = ({ posts }) => {
+const UserPostList = ({ posts, user, getUserById }) => {
+	if (!getUserById.isFriend) {
+		return (
+			<EmptyState 
+				header={'You Are not Friends Yet!'}
+				subheader={`Send a friend request to see ${ getUserById.profile.firstName }'s Posts`}
+				image={<Icon style={{fontSize: 35}} type="user" />}
+			/>
+		); 
+	}
+	console.log(getUserById.isFriend)
 	return (
-		<div style={{padding: 20}}>
-				{posts.map(item => {
-					return (
-						<PostCard key={item._id} item={item} />
-					);
-				}) }
+		<div>
+			{posts.map(item => {
+				return (
+					<PostCard key={item._id} item={item} user={user} />
+				);
+			})}
 		</div>
 	);
 }
  
 class AppUserDetail extends React.Component {
 	render(){
+
 		if (this.props.data.loading) {
 			return null
 		}
-		console.log(this.props.data)
+
 		return (
-			<div style={{padding: 20}}>
-				<UserCard item={this.props.data.getUserById} />
-				<h2>{ this.props.data.getUserById.profile.firstName }'s Posts</h2>
-				<UserPostList posts={this.props.data.getUserById.posts} />
+			<div style={{width: 600, maxWidth: '98%', margin: 'auto'}}>
+				<UserCard item={this.props.data.getUserById} user={this.props.user.user} targetUserId={this.props.params._id} />
+				<h2 style={{textAlign: 'center'}}>{ this.props.data.getUserById.profile.firstName }'s Posts</h2>
+				<UserPostList getUserById={this.props.data.getUserById} posts={this.props.data.getUserById.posts} user={this.props.user} />
 			</div>
 		);
 	}

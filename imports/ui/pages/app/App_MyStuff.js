@@ -16,7 +16,7 @@ import message from 'antd/lib/message';
 // APOLLO
 import { graphql } from 'react-apollo';
 import { GET_MY_POSTS } from '/imports/ui/apollo/queries';
-
+import PostCard from '/imports/ui/components/common/PostCard';
 
 
 const StuffCard = ({ item }) => {
@@ -27,25 +27,29 @@ const StuffCard = ({ item }) => {
 	);
 }
 
-const StuffList = ({ items }) => {
+const StuffList = ({ items, user }) => {
 	if (!items || !items.length < 0) {
 		return null
 	}
+
 	return (
 		<div>
-			{items.map( item => <StuffCard key={item._id} item={item} />)}
+			{items.map( item => <PostCard key={item._id} item={item} user={user} />)}
 		</div>
 	);
 }
  
 class AppMyStuff extends React.Component {
 	render(){
-		if (this.props.data.loading) {
+
+		if (this.props.data.loading || this.props.user.loading) {
 			return null
 		}
+
 		return (
-			<div style={{padding: 20}}>
-				<StuffList items={this.props.data.myPosts} />
+			<div style={{width: 600, maxWidth: '98%', margin: 'auto'}}>
+				<AddDocument />
+				<StuffList items={this.props.data.myPosts} user={this.props.user.user} />
 			</div>
 		);
 	}

@@ -7,6 +7,7 @@ import Layout from 'antd/lib/layout';
 import Button from 'antd/lib/button';
 import Row from 'antd/lib/row';
 import Col from 'antd/lib/col';
+import Card from 'antd/lib/card';
 import Menu from 'antd/lib/menu';
 import Select from 'antd/lib/select';
 import Modal from 'antd/lib/modal';
@@ -106,6 +107,20 @@ class HelpForm extends React.Component {
 HelpForm = Form.create()(HelpForm)
 
 
+
+const ModalContent = () => {
+  return (
+    <div>
+      <Card>
+        SEND A FRIEND REQUEST TO SOMEBODY ON JUNKBOOK
+      </Card>
+      <Card>
+        INVITE SOMEBODY NEW TO JUNKBOOK
+      </Card>
+    </div>
+  );
+}
+
 class InviteModal extends React.Component {
   state = { visible: false }
   showModal = () => {
@@ -136,8 +151,9 @@ class InviteModal extends React.Component {
           onOk={this.handleOk}
           onCancel={this.handleCancel}
           footer={null}
-        >
-          <HelpForm handleCancel={this.handleCancel} />
+        > 
+          <ModalContent />
+          {/*<HelpForm handleCancel={this.handleCancel} />*/}
         </Modal>
       </div>
     );

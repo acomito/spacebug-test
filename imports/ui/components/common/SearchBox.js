@@ -21,7 +21,7 @@ class SearchBox extends React.Component {
 		return (
 			<Search
 			    placeholder="search junk..."
-			    style={{ width: 200 }}
+			    style={{ width: 225, marginBottom: 5 }}
 			    onChange={e => this.props.onSearchTextChange(e.target.value)}
 			  />
 		);
