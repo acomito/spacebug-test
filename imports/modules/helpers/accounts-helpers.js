@@ -17,6 +17,17 @@ const afterLogin = (userId, apollo, _this) => {
   }*/
 }
 
+const afterInviteLogin = (userId, apollo, _this, addFriendsOnInviteSignup, inviterId) => {
+  console.log('afterInviteLogin ran')
+  let variables = { inviterId }
+  addFriendsOnInviteSignup({ variables }).then(res => {
+    message.success('welcome!'); 
+    apollo.resetStore();
+   _this.setState({ loading: false });
+    return browserHistory.push(`/app`);
+  }).catch( e => alertErrors(e, _this) );
+}
+
 const alertErrors = (res, _this) => {
   const errors = res.graphQLErrors.map( err => err.message );
   errors.forEach(messageText => {
@@ -39,6 +50,15 @@ export const handleSignup = (email, password, profile, apollo, _this) => {
     .then(userId => 
       afterLogin(userId, apollo, _this)
     )
+    .catch( res => alertErrors(res, _this) );
+};
+
+export const handleInviteSignup = (email, password, profile, apollo, _this, addFriendsOnInviteSignup, inviterId) => {
+  createUser({email, password, profile}, apollo)
+    .then(userId =>{
+      console.log(userId)
+      return afterInviteLogin(userId, apollo, _this, addFriendsOnInviteSignup, inviterId)
+    })
     .catch( res => alertErrors(res, _this) );
 };
 

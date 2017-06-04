@@ -73,7 +73,7 @@ const HeaderArea = ({ routes, params, children, collapsed, toggle, user }) => {
           style={{position: 'absolute', left: 0, top: 0, padding: '0px 12px', lineHeight: 40}} 
         />
       )}
-      <InviteModal />
+      <InviteModal user={user.user} />
       <HelpModal />
       <Dropdown overlay={menu}>
         <img
@@ -119,7 +119,7 @@ class MainContent extends React.Component {
         <Header style={{ background: '#fff', padding: 0 }}>
             <Menu
               defaultSelectedKeys={[this.props.location.pathname]} 
-              onClick={this.handleClick} 
+              onClick={this.handleClick}
               mode="horizontal" 
               style={{ lineHeight: '64px' }}
             >

@@ -1,4 +1,4 @@
-/*import React from 'react';
+import React from 'react';
 import { withApollo } from 'react-apollo';
 //antd
 import Form from 'antd/lib/form';
@@ -16,11 +16,24 @@ import message from 'antd/lib/message';
 //
 import ApolloClient from '/imports/ui/apollo/ApolloClient'
 //
-import { handleSignup } from '../../../../modules/helpers'
-import { FormErrorArea } from '../../../components/common'
+import { handleSignup, handleInviteSignup } from '/imports/modules/helpers'
+import { FormErrorArea } from '/imports/ui/components/common'
 
 const FormItem = Form.Item;
 
+
+
+
+const alertErrors = (res, _this) => {
+  const errors = res.graphQLErrors.map( err => err.message );
+  errors.forEach(messageText => {
+    message.error(messageText, 4);
+    let errors = _this.state.errors;
+    errors.push(messageText);
+    _this.setState({ errors });
+  });
+  _this.setState({ loading: false });
+}
 
 class FormComponent extends React.Component {
 	constructor(props){
@@ -29,6 +42,7 @@ class FormComponent extends React.Component {
 	}
 	handleSubmit = (e) => {
 	    e.preventDefault();
+
       this.setState({ loading: true, errors: [] });
 	    this.props.form.validateFields((err, { email, password, firstName, lastName  }) => {
         if (err) { return this.setState({ loading: false }) }
@@ -36,7 +50,14 @@ class FormComponent extends React.Component {
             firstName, lastName 
           }
           let token = this.props && this.props.params && this.props.params.token;
-        handleSignup(email, password, profile, ApolloClient, this)
+          if (!this.props.inviteForm) {
+            return handleSignup(email, password, profile, ApolloClient, this)
+          }
+          if (this.props.inviteForm) {
+            return handleInviteSignup(email, password, profile, ApolloClient, this, this.props.addFriendsOnInviteSignup, this.props.inviterId)
+           
+          }
+          
 	    });
 
 	  }
@@ -88,4 +109,4 @@ class FormComponent extends React.Component {
 }
 
 
-export default Form.create()(FormComponent);*/
+export default Form.create()(FormComponent);

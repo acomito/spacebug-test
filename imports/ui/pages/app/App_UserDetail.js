@@ -13,6 +13,8 @@ import Col from 'antd/lib/col';
 import InputNumber from 'antd/lib/input-number';
 import Select from 'antd/lib/select';
 import message from 'antd/lib/message';
+import Tag from 'antd/lib/tag';
+
 // APOLLO
 import { graphql } from 'react-apollo';
 import { GET_USER_BY_ID } from '/imports/ui/apollo/queries';
@@ -22,13 +24,14 @@ import FriendRequestButton from '/imports/ui/components/common/FriendRequestButt
 // MODULES
 import { DEFAULT_AVATAR } from '/imports/modules/config'
 
-const UserCard = ({ item, user, targetUserId }) => {
+const UserCard = ({ item, user, targetUserId, getUserById }) => {
 	return (
 		<Card style={{width: 500, maxWidth: '99%', margin: 'auto'}}>
 			<div style={{textAlign: 'center'}}>
 				<img src={ item.profile.image || DEFAULT_AVATAR } style={{width: 75, height: 75, borderRadius: '50%'}} />
 				<h2>{ item.profile.firstName } { item.profile.lastName }</h2>
-				{targetUserId !== user._id ? <FriendRequestButton targetUserId={targetUserId} user={user} /> : null}
+				{!getUserById.isFriend && targetUserId !== user._id ? <FriendRequestButton targetUserId={targetUserId} user={user} /> : null}
+				{getUserById.isFriend && <Tag color='green'>in your network</Tag>}
 			</div>
 		</Card>
 	);
@@ -56,7 +59,7 @@ const UserPostList = ({ posts, user, getUserById }) => {
 			/>
 		); 
 	}
-	console.log(getUserById.isFriend)
+	
 	return (
 		<div>
 			{posts.map(item => {
@@ -77,7 +80,12 @@ class AppUserDetail extends React.Component {
 
 		return (
 			<div style={{width: 600, maxWidth: '98%', margin: 'auto'}}>
-				<UserCard item={this.props.data.getUserById} user={this.props.user.user} targetUserId={this.props.params._id} />
+				<UserCard 
+					getUserById={this.props.data.getUserById}
+					item={this.props.data.getUserById} 
+					user={this.props.user.user} 
+					targetUserId={this.props.params._id} 
+				/>
 				<h2 style={{textAlign: 'center'}}>{ this.props.data.getUserById.profile.firstName }'s Posts</h2>
 				<UserPostList getUserById={this.props.data.getUserById} posts={this.props.data.getUserById.posts} user={this.props.user} />
 			</div>

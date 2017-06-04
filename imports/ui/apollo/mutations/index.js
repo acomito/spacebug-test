@@ -17,6 +17,15 @@ export const CREATE_FRIEND_REQUEST = gql`
 	}
 `;
 
+export const ADD_FRIEND_ON_INVITE_SIGNUP = gql`
+	mutation AddFriendsOnInviteSignup ( $inviterId: ID! ){
+		addFriendsOnInviteSignup (inviterId: $inviterId){
+			_id
+		}
+	}
+`;
+
+
 export const ACCEPT_FRIEND_REQUEST = gql`
 	mutation AcceptFriendRequest ( $requestId: ID! ){
 		acceptFriendRequest (requestId: $requestId){

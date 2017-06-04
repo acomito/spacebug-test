@@ -21,6 +21,7 @@ import { handleLogout } from '/imports/modules/helpers';
 import { logout } from 'meteor-apollo-accounts'
 import ApolloClient from '/imports/ui/apollo/ApolloClient'
 import { selectFilterByLabel } from '/imports/modules/helpers'
+import { PRODUCTION_URL } from '/imports/modules/config'
 
 // CONSTANTS & DESTRUCTURING
 // ====================================
@@ -108,15 +109,17 @@ HelpForm = Form.create()(HelpForm)
 
 
 
-const ModalContent = () => {
+
+const ModalContent = ({ user }) => {
   return (
     <div>
       <Card>
-        SEND A FRIEND REQUEST TO SOMEBODY ON JUNKBOOK
+        <p>INVITE SOMEBODY NEW TO JUNKBOOK:</p>
+        <p>{`${PRODUCTION_URL}/invite/${user._id}`}</p>
       </Card>
-      <Card>
+{/*      <Card>
         INVITE SOMEBODY NEW TO JUNKBOOK
-      </Card>
+      </Card>*/}
     </div>
   );
 }
@@ -139,6 +142,7 @@ class InviteModal extends React.Component {
     });
   }
   render() {
+
     return (
       <div style={{display: 'inline'}}>
         <Link onClick={this.showModal} style={{color: '#888', right: 145, position: 'absolute'}}>
@@ -152,7 +156,7 @@ class InviteModal extends React.Component {
           onCancel={this.handleCancel}
           footer={null}
         > 
-          <ModalContent />
+          <ModalContent user={this.props.user}/>
           {/*<HelpForm handleCancel={this.handleCancel} />*/}
         </Modal>
       </div>

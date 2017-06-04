@@ -13,16 +13,18 @@ import Select from 'antd/lib/select';
 import message from 'antd/lib/message';
 //
 import SignupForm from '/imports/ui/components/common/SignupForm';
+// APOLLO
+import { graphql } from 'react-apollo';
+import { ADD_FRIEND_ON_INVITE_SIGNUP, ACCEPT_FRIEND_REQUEST } from '/imports/ui/apollo/mutations';
 //common
 import { AlreadyLoggedIn } from '/imports/ui/components/common/AlreadyLoggedIn'
 
 
-class SignupPage extends React.Component {
+class InviteSignup extends React.Component {
 	getContent = () => {
-		const { data } = this.props;
-		
+		const { data, params, addFriendsOnInviteSignup } = this.props;
 		if (!data || !data.user || data.user === null) {
-			return <SignupForm /> 
+			return <SignupForm inviteForm inviterId={params._id} addFriendsOnInviteSignup={addFriendsOnInviteSignup} /> 
 		} else {
 			return <AlreadyLoggedIn user={data.user} />
 		}
@@ -38,4 +40,4 @@ class SignupPage extends React.Component {
 	}
 }
 
-export { SignupPage };
+export default graphql(ADD_FRIEND_ON_INVITE_SIGNUP, { name: 'addFriendsOnInviteSignup'})(InviteSignup);

@@ -16,6 +16,7 @@ import {
 import ResetPassword from '/imports/ui/pages/public/reset-password';
 import LoginPage from '/imports/ui/pages/public/LoginPage';
 import ForgotPassword from '/imports/ui/pages/public/ForgotPassword';
+import InviteSignup from '/imports/ui/pages/public/InviteSignup';
 // APP
 import AppAccount from '/imports/ui/pages/app/App_Account';
 import AppHome from '/imports/ui/pages/app/App_Home';
@@ -48,6 +49,7 @@ const AppRoutes = () => {
         <IndexRoute name='index' component={ LoginPage } />
         <Route path="/login" component={ LoginPage } />
         <Route path="/signup" component={ SignupPage } />
+        <Route path="/invite/:_id" component={ InviteSignup } />
         <Route path="forgot-password"  component={ ForgotPassword } />
         <Route path="reset-password"  component={ ResetPassword } />
       </Route>
