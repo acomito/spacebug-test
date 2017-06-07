@@ -35,14 +35,14 @@ const PostOwner = ({ item }) => {
 					/>
 				</Link>
 			</div>
-			<div style={{flex: 3}}>
+			<div style={{flex: 4}}>
 				<span>posted by
 					<Link style={{fontSize: 14, marginLeft: 3}} to={`/app/users/${item.owner._id}`}>
-							{`${owner.profile.firstName} ${owner.profile.lastName}`}
+						{`${owner.profile.firstName} ${owner.profile.lastName}`}
 					</Link>
 				</span>
 			</div>
-			<div style={{flex: 2}} />
+			{/*<div style={{flex: 2}} />*/}
 		</div>
 	);
 }

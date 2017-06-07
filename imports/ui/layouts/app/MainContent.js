@@ -65,14 +65,14 @@ export const getBreadcumbName = (route, routes) => {
 const HeaderArea = ({ routes, params, children, collapsed, toggle, user }) => {
   return (
      <div>
-      {collapsed && (
+      {/*collapsed && (
         <Icon 
           className="trigger" 
           type='menu-unfold' 
           onClick={()=>toggle()}
           style={{position: 'absolute', left: 0, top: 0, padding: '0px 12px', lineHeight: 40}} 
         />
-      )}
+      )*/}
 
       <InviteModal user={user.user} />
       <HelpModal />
@@ -114,22 +114,28 @@ class MainContent extends React.Component {
   }
 
   render(){
-    const { routes, params, route, children, collapsed, toggle } = this.props
+    const { routes, params, route, children, collapsed, toggle, width } = this.props
     return (
       <Layout>
         <Header style={{ background: '#fff', padding: 0 }}>
+            {width < 741 &&  <Icon className="trigger" type={collapsed ? 'menu-unfold' : 'menu-fold'} onClick={()=>toggle()} />}
             <Menu
               defaultSelectedKeys={[this.props.location.pathname]} 
               onClick={this.handleClick}
               mode="horizontal" 
               style={{ lineHeight: '64px' }}
             >
-                <Menu.Item key="/app">Home</Menu.Item>
-                <Menu.Item key="/app/my-stuff">My Stuff</Menu.Item>
-                <Menu.Item key="/app/friends">Friends</Menu.Item>
+                
+                {width > 741 && <Menu.Item key="/app">Home</Menu.Item>}
+                {width > 741 && <Menu.Item key="/app/my-stuff">My Stuff</Menu.Item>}
+                {width > 741 && <Menu.Item key="/app/friends">Friends</Menu.Item>}
             <HeaderArea {...this.props} />
             </Menu>
         </Header>
+        {/*width < 741 && <Header style={{ background: '#fff', padding: 0 }}>
+          <Icon className="trigger" type={collapsed ? 'menu-unfold' : 'menu-fold'} onClick={()=>toggle()} />
+          <HeaderArea {...this.props} />
+        </Header>*/}
         <Content style={{ margin: 0 }}>
           <div style={{ padding: 10, paddingTop: 20,  minHeight: '65vh', maxWidth: '99%' }}>
             {React.cloneElement(children, {...this.props})}

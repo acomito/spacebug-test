@@ -96,9 +96,9 @@ class FriendRequestButton extends React.Component {
 
 		if (data.getFriendRequestById && !data.getFriendRequestById.accepted && user._id === data.getFriendRequestById.sentById) {
 			return (
-				<Button type='default' disabled>
+				<Tag color='yellow'>
 					YOUR REQUEST IS PENDING...
-				</Button>
+				</Tag>
 			);
 		}
 	}

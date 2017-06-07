@@ -16,22 +16,69 @@ import Layout from 'antd/lib/layout';
 import Button from 'antd/lib/button';
 import Row from 'antd/lib/row';
 import Col from 'antd/lib/col';
-import Menu from 'antd/lib/menu';
+
 import Select from 'antd/lib/select';
 import message from 'antd/lib/message';
 import Icon from 'antd/lib/icon';
 // COMPONENTS
 import { AppMenu } from './AppMenu'
 import MainContent from './MainContent';
-
-
+import Sidebar from  'react-sidebar';
 // CONSTANTS & DESTRUCTURING
 // ====================================
-const SubMenu = Menu.SubMenu;
-const MenuItemGroup = Menu.ItemGroup;
+
+
 const { Header, Content, Footer, Sider } = Layout;
 
-
+let navStyles = {
+  root: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    overflow: 'hidden',
+  },
+  sidebar: {
+    zIndex: 2,
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    transition: 'transform .3s ease-out',
+    WebkitTransition: '-webkit-transform .3s ease-out',
+    willChange: 'transform',
+    overflowY: 'auto',
+  },
+  content: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    background: '#fff',
+    overflowY: 'scroll',
+    WebkitOverflowScrolling: 'touch',
+    transition: 'left .3s ease-out, right .3s ease-out',
+  },
+  overlay: {
+    zIndex: 1,
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    opacity: 0,
+    visibility: 'hidden',
+    transition: 'opacity .3s ease-out, visibility .3s ease-out',
+    backgroundColor: 'rgba(0,0,0,.3)',
+  },
+  dragHandle: {
+    zIndex: 1,
+    position: 'fixed',
+    top: 0,
+    bottom: 0,
+  },
+};
 
 // EXPORTED COMPONENT
 // ====================================
@@ -42,7 +89,7 @@ class AppLayout extends React.Component {
     let screenWidth = window.innerWidth || documentElement.clientWidth || body.clientWidth;
     this.state = {
       width: screenWidth,
-      collapsed:  screenWidth < 741
+      collapsed:  screenWidth < 741,
     };
     this.updateDimensions = this.updateDimensions.bind(this);
   }
@@ -89,14 +136,14 @@ class AppLayout extends React.Component {
   }
   toggle = () => {
     this.setState({
-      collapsed: !this.state.collapsed,
+      open: !this.state.open,
     });
   }
   handleClick = (e) => {
+    this.setState({open: false})
     if (e.key === 'logout') { return handleLogout(this.props.client, this); }
     browserHistory.push(e.key);
-    this.setState({ current: e.key });
-    return;  
+    return this.setState({ current: e.key }); 
   }
   render(){
     const { routes, params, location, user } = this.props;
@@ -106,9 +153,16 @@ class AppLayout extends React.Component {
     }
     //width: '100vw',
     return (
-      <Layout style={{minHeight: '100vh',  overflowX: 'hidden'}}>
-        <MainContent {...this.props} toggle={this.toggle} collapsed={this.state.collapsed} />
+      <Sidebar 
+          styles={navStyles} 
+          sidebar={<AppMenu toggle={()=>this.setState({open: false})} handleClick={this.handleClick} location={location}  />}
+          open={this.state.open}
+        >
+      
+      <Layout style={{minHeight: '100vh',  overflowX: 'hidden'}}>   
+          <MainContent {...this.props} width={this.state.width} toggle={this.toggle} collapsed={this.state.collapsed} />
       </Layout>
+      </Sidebar>
     );
   }
 }
