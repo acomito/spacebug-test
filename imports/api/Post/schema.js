@@ -56,6 +56,7 @@ type Mutation {
 	  # content is the Post content
 	  createPost(params: PostParams): Post
 	  savePost(_id: ID!, params: PostParams): Post
+    deletePost(_id: ID!): Post
 	}
 
 `];
@@ -215,9 +216,6 @@ export const PostResolvers = {
   	},
 	Mutation: {
 		createPost(root, { params }, context) {
-			if (!context.user) {
-				throw new FooError({ data: { authentication: 'you must sign in first' } });
-			}
 			let docToInsert = {
 				...params,
 				ownerId: context.user._id
@@ -227,6 +225,25 @@ export const PostResolvers = {
 				return Posts.findOne({_id: docId});
 			}
 		},
+    savePost(root, { _id, params }, context) {
+      let dataToUpdate = {
+        ...params
+      }
+      let query = { _id }
+      Posts.update(query, { $set: dataToUpdate });
+      return Posts.findOne(query);
+    },
+    deletePost(root, { _id, params }, context) {
+      let dataToUpdate = {
+        ...params
+      }
+      let query = { _id }
+      let docToUpdate = Posts.findOne(query);
+      if (docToUpdate.ownerId === context.user._id) {
+        Posts.remove(query);
+      }
+      return docToUpdate;
+    },
 	}
 };
 

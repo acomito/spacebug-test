@@ -1,5 +1,6 @@
 import React from 'react';
 import { withApollo } from 'react-apollo';
+import { Link } from 'react-router';
 //antd
 import Form from 'antd/lib/form';
 import Input from 'antd/lib/input';
@@ -64,8 +65,8 @@ class FormComponent extends React.Component {
 	render() {
     const { getFieldDecorator } = this.props.form;
     return (
-      <div style={{width: 500, margin: 'auto', textAlign: 'center'}} >
-      <Card style={{height: 400, width: 500, border: 0}}>
+      <div style={{width: 400, maxWidth: '95%', margin: 'auto', textAlign: 'center'}} >
+      <Card style={{height: 400, width: '100%', border: 0}}>
         <h1 style={{textAlign: 'center', marginBottom: 20, color: '#000'}}>Signup</h1>
         <Form onSubmit={this.handleSubmit}>
             <FormItem hasFeedback>
@@ -97,11 +98,13 @@ class FormComponent extends React.Component {
                 <Input prefix={<Icon type="lock" />} type="password" placeholder="Password" />
               )}
             </FormItem>
-          <Button loading={this.state.loading} type="primary" htmlType="submit" style={{position: 'absolute', right: 31}}>
+          <Button loading={this.state.loading} type="primary" htmlType="submit" size={'large'} style={{position: 'absolute', right: 31}}>
             CREATE ACCOUNT
           </Button>
         </Form>
+        <Link style={{marginTop: 10, textAlign: 'left', display: 'inherit'}} to='/login'>Or login</Link>
       </Card>
+
       <FormErrorArea errors={this.state.errors} />
       </div>
     );

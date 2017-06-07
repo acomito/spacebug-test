@@ -14,7 +14,7 @@ class AppAccount extends React.Component {
 
 		
 		return (
-			<div style={{padding: 20}}>
+			<div>
 				<EditAccountForm 
 					{...this.props} 
 					user={this.props.user.user} 

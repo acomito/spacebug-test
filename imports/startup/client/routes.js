@@ -26,6 +26,7 @@ import AppJunkList from '/imports/ui/pages/app/App_JunkList';
 import AppJunkDetail from '/imports/ui/pages/app/App_JunkDetail';
 import AppUserDetail from '/imports/ui/pages/app/App_UserDetail';
 import AppFollowMe from '/imports/ui/pages/app/App_FollowMe';
+import AppEmailInvite from '/imports/ui/pages/app/App_EmailInvite';
 
 // ADMIN
 import AdminUsersPage from '/imports/ui/pages/admin/admin-users';
@@ -51,7 +52,7 @@ const AppRoutes = () => {
         <Route path="/signup" component={ SignupPage } />
         <Route path="/invite/:_id" component={ InviteSignup } />
         <Route path="forgot-password"  component={ ForgotPassword } />
-        <Route path="reset-password"  component={ ResetPassword } />
+        <Route path="/recover-password/:token"  component={ ResetPassword } />
       </Route>
 
     {/*APP AREA*/}
@@ -60,7 +61,8 @@ const AppRoutes = () => {
         <Route path="account" breadcrumbName='Account' component={ AppAccount } />
         <Route path="my-stuff" breadcrumbName='My Stuff' component={ AppMyStuff } />
         <Route path="friends" breadcrumbName='Friends' component={ AppMyFriends }>
-        </Route> 
+        </Route>
+        <Route path="invite" breadcrumbName='Invite' component={ AppEmailInvite } />
         <Route path="users" breadcrumbName='Junk List' component={ AppJunkList }>
           <Route path=":_id" breadcrumbName='User Overview' component={ AppUserDetail } />
           <Route path="follow/:_id" breadcrumbName='Follow Me ' component={ AppFollowMe } />

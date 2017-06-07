@@ -17,15 +17,16 @@ import Form from 'antd/lib/form';
 import Dropdown from 'antd/lib/dropdown';
 // MODULES
 import { logout } from 'meteor-apollo-accounts'
-import ApolloClient from '/imports/ui/apollo/ApolloClient'
 import { selectFilterByLabel, handleLogout } from '/imports/modules/helpers'
 import { STATUS_OPTIONS, CATEGORY_OPTIONS } from '/imports/modules/config'
 // APOLLO
-import { graphql } from 'react-apollo';
-import { CREATE_POST } from '/imports/ui/apollo/mutations';
-import { GET_POSTS } from '/imports/ui/apollo/queries';
+import ApolloClient from '/imports/ui/apollo/ApolloClient'
+import { graphql, compose } from 'react-apollo';
+import { CREATE_POST, SAVE_POST } from '/imports/ui/apollo/mutations';
+import { GET_POSTS, GET_POST_BY_ID } from '/imports/ui/apollo/queries';
+// COMPONENTS
 import { SingleImageUpload } from './SingleImageUpload'
-import PostForm from './PostForm'
+
 // CONSTANTS & DESTRUCTURING
 // ====================================
 const { Header, Content } = Layout;
@@ -37,16 +38,34 @@ const Option = Select.Option
 
 // EXPORTED COMPONENT
 // ===================================
-/*class AddDocumentForm extends React.Component {
+class PostForm extends React.Component {
 
   state = { 
     loading: false,
-    image: null
+    image: this.props && this.props.post && this.props.post.image || null,
   };
-
+  onCreate = (variables, refetchQueries) => {
+    const { data, form, updateForm } = this.props;
+    this.props.createPost({ variables }).then( res => {
+      this.setState({loading: false, image: null});
+      this.props.handleCancel();
+      form.resetFields();
+      ApolloClient.resetStore();
+      message.success('successfully posted!')
+    })
+  }
+  onSave = (variables, refetchQueries) => {
+    const { form, updateForm } = this.props;
+    this.props.savePost({ variables }).then( res => {
+      this.setState({loading: false, image: null});
+      this.props.handleCancel();
+      form.resetFields();
+      message.success('successfully saved!')
+    })
+  }
   handleSubmit = (e) => {
     e.preventDefault();
-    const { data, mutate, form } = this.props;
+    const { data, form, updateForm } = this.props;
     this.setState({loading: true});
 
     form.validateFields((err, params) => {
@@ -60,18 +79,23 @@ const Option = Select.Option
       let refetchQueries = [ 
         { query: GET_POSTS }
       ]
-      this.props.mutate({ variables, refetchQueries }).then( res => {
-        this.setState({loading: false, image: null});
-        this.props.handleCancel();
-        form.resetFields();
-        message.success('your junk was posted!')
-      })
+
+      if (!updateForm) {
+        return this.onCreate(variables, refetchQueries)
+      }
+      if (updateForm) {
+        let newQueryToAdd = { query: GET_POST_BY_ID , variables: { _id: this.props.post._id } }
+        refetchQueries.push(newQueryToAdd);
+        variables._id = this.props.post._id;
+        return this.onSave(variables, refetchQueries)
+      }
+      
       
     });
 
   }
   render(){
-    const { user, form } = this.props;
+    const { user, form, updateForm, post } = this.props;
     const { getFieldDecorator } = form;
     return (
       <Form onSubmit={this.handleSubmit}>
@@ -85,7 +109,8 @@ const Option = Select.Option
         <Col xs={24}>
           <FormItem>
             {getFieldDecorator('title', {
-              rules: [{ required: false, message: 'Please input a title!' }]
+              rules: [{ required: false, message: 'Please input a title!' }],
+              initialValue: updateForm && post && post.title ? post.title : null
             })(
               <Input placeholder="add a title..."  />
             )}
@@ -94,7 +119,8 @@ const Option = Select.Option
         <Col xs={24}>
           <FormItem>
           {getFieldDecorator('description', {
-            rules: [{ required: false, message: 'Please input a content!' }]
+            rules: [{ required: false, message: 'Please input a description!' }],
+            initialValue: updateForm && post && post.description ? post.description : null
           })(
             <Input placeholder="add a description..." type="textarea" rows={4} />
           )}
@@ -104,6 +130,7 @@ const Option = Select.Option
           <FormItem label={'Category'}>
           {getFieldDecorator('category', {
             rules: [{ required: true, message: 'Please input a category!' }],
+            initialValue: updateForm && post && post.category ? post.category : null
           })(
             <Select showSearch optionFilterProp="children" filterOption={selectFilterByLabel}>
               {CATEGORY_OPTIONS.map(item => {
@@ -117,6 +144,7 @@ const Option = Select.Option
           <FormItem label={'status'}>
           {getFieldDecorator('status', {
             rules: [{ required: true, message: 'Please input a status!' }],
+            initialValue: updateForm && post && post.status ? post.status : null
           })(
             <Select showSearch optionFilterProp="children" filterOption={selectFilterByLabel}>
               {STATUS_OPTIONS.map(item => {
@@ -129,16 +157,27 @@ const Option = Select.Option
         <Col xs={12}>
           <FormItem>
             {getFieldDecorator('price', {
-              rules: [{ required: false, message: 'Please input a price!' }]
+              rules: [{ required: false, message: 'Please input a price!' }],
+            initialValue: updateForm && post && post.price ? post.price : null
             })(
               <Input placeholder="add a price..."  />
             )}
           </FormItem>
         </Col>
-        <Col xs={24}>
+        <Col xs={4} offset={16}>
           <FormItem>
             <Button size="large" loading={this.state.loading} htmlType="submit" type='primary'>
-              {!this.state.loading ? 'Add Junk': 'Adding...'} 
+              {!updateForm && !this.state.loading && 'Add'} 
+              {!updateForm && this.state.loading && 'Adding...'} 
+              {updateForm && !this.state.loading && 'Save'} 
+              {updateForm && this.state.loading && 'Saving...'} 
+            </Button>
+          </FormItem>
+        </Col>
+        <Col xs={4}>
+          <FormItem>
+            <Button size="large" onClick={()=>this.props.handleCancel()} type='default'>
+              Cancel
             </Button>
           </FormItem>
         </Col>
@@ -149,44 +188,10 @@ const Option = Select.Option
   }
 }
 
-AddDocumentForm = Form.create()(AddDocumentForm)
-*/
 
-class AddDocument extends React.Component {
-  state = { visible: false }
-  showModal = () => {
-    this.setState({
-      visible: true,
-    });
-  }
-  handleOk = (e) => {
-    this.setState({
-      visible: false,
-    });
-  }
-  handleCancel = (e) => {
-    this.setState({
-      visible: false,
-    });
-  }
-  render() {
-    return (
-      <div style={{display: 'inline'}}>
-        <Button size="large" onClick={this.showModal} type='primary' icon="plus-circle-o">
-          Add Junk
-        </Button>
-        <Modal
-          title="Add Junk"
-          visible={this.state.visible}
-          onOk={this.handleOk}
-          onCancel={this.handleCancel}
-          footer={null}
-        >
-          <PostForm handleCancel={this.handleCancel} {...this.props} />
-        </Modal>
-      </div>
-    );
-  }
-}
-
-export default graphql(CREATE_POST)(AddDocument);
+export default compose(
+  graphql(CREATE_POST, { name: 'createPost'}),
+  graphql(SAVE_POST, { name: 'savePost'})
+)(
+  Form.create()(PostForm)
+);

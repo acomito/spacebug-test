@@ -18,6 +18,7 @@ import Input from 'antd/lib/input';
 import message from 'antd/lib/message';
 // COMPONENTS
 import DiscussionCard from './DiscussionCard'
+import { FormErrorArea } from '/imports/ui/components/common/FormErrorArea'
 // APOLLO
 import { CREATE_MESSAGE } from '/imports/ui/apollo/mutations'
 import { GET_POST_BY_ID } from '/imports/ui/apollo/queries'
@@ -35,7 +36,7 @@ const styles = {
 		cursor: 'pointer'
 	},
 	cardStyles: {
-		minHeight: 150, marginTop: 10, maxWidth: '90%', width: 450
+		minHeight: 150, marginTop: 10, maxWidth: '95%', width: 500
 	}
 }
 
@@ -44,14 +45,21 @@ class DiscussionForm extends React.Component {
 		super(props)
 		this.state = {
 			loading: false,
-			messageValue:''
+			messageValue:'',
+			errors: []
 		}
 	}
 	onTextAreaChange = (e) => {
 		this.setState({messageValue: e.target.value})
 	}
 	onSubmit = () => {
-		this.setState({loading: true});
+		let errors = []
+		this.setState({ loading: true, errors });
+		if (this.state.messageValue.length < 2) {
+			let newError = 'Please type more than two characters...'
+			errors.push(newError)
+			return this.setState({ loading: false, errors });
+		}
 		let variables = {
 			params: {
 				parentId: this.props.parentId,
@@ -119,6 +127,7 @@ class DiscussionForm extends React.Component {
 						</div>
 					</div>
 				</div>
+				<FormErrorArea errors={this.state.errors} />
 			</Card>
 		);
 	}
@@ -133,7 +142,7 @@ DiscussionForm.propTypes = {
 
 // Specifies the default values for props:
 DiscussionForm.defaultProps = {
-  onCancel: () => {},
+  onCancel: () => console.log('on cancel default'),
   parentId: '',
   parentModelType: '',
   user: {}

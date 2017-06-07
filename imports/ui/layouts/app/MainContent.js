@@ -73,6 +73,7 @@ const HeaderArea = ({ routes, params, children, collapsed, toggle, user }) => {
           style={{position: 'absolute', left: 0, top: 0, padding: '0px 12px', lineHeight: 40}} 
         />
       )}
+
       <InviteModal user={user.user} />
       <HelpModal />
       <Dropdown overlay={menu}>
@@ -123,10 +124,10 @@ class MainContent extends React.Component {
               mode="horizontal" 
               style={{ lineHeight: '64px' }}
             >
-              <Menu.Item key="/app">Home</Menu.Item>
-              <Menu.Item key="/app/my-stuff">My Stuff</Menu.Item>
-              <Menu.Item key="/app/friends">Friends</Menu.Item>
-              <HeaderArea {...this.props} />
+                <Menu.Item key="/app">Home</Menu.Item>
+                <Menu.Item key="/app/my-stuff">My Stuff</Menu.Item>
+                <Menu.Item key="/app/friends">Friends</Menu.Item>
+            <HeaderArea {...this.props} />
             </Menu>
         </Header>
         <Content style={{ margin: 0 }}>

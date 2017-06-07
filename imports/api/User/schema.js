@@ -43,17 +43,7 @@ type User {
   isFriend: Boolean
 }
 
-type Query {
-    # returns the current user. Typically used at the top component (such as a layout component)
-    user: User,
-    # returns an array of users. Typically used to fill a dropdown where options are other users. Or in a table of users, such as in the admin area
-    users: [User],
-    # given an _id, will return a specific user
-    getUserById(_id: ID!): User,
-    # may be deprecated if can devise a secure pattern for an admin vs normie querying
-    usersAdmin: [User],
-    getUserByIdAdmin(_id: ID!): User,
-}
+
 input UserParams {
   email: String!
   firstName: String
@@ -66,6 +56,24 @@ input UserParams {
   userModelType: String
   expoPushId: String
 }
+
+input UserSearchParams {
+  searchText: String
+}
+
+type Query {
+    # returns the current user. Typically used at the top component (such as a layout component)
+    user: User,
+    # returns an array of users. Typically used to fill a dropdown where options are other users. Or in a table of users, such as in the admin area
+    users: [User],
+    # given an _id, will return a specific user
+    getUserById(_id: ID!): User,
+    # may be deprecated if can devise a secure pattern for an admin vs normie querying
+    usersAdmin: [User],
+    getUserByIdAdmin(_id: ID!): User,
+    usersFriendSearch (params: UserSearchParams): [User]
+}
+
 type Mutation {
     saveUserImage(image: String!): User
     saveUserExpoPushId(expoPushId: String!): User
@@ -75,5 +83,6 @@ type Mutation {
     saveUserAccount (_id: ID, params: UserParams ): User
     # admin can delete a user
     adminDeleteUser(_id: ID!): User
+    sendUserInvites(emails: [String]): User
   }
 `];

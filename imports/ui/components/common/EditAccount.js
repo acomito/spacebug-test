@@ -57,7 +57,7 @@ class EditAccountForm extends React.Component {
     const { user, form } = this.props;
     const { getFieldDecorator } = form;
     return (
-      <Card title='My Account' style={{width: 450, margin: 'auto'}}>
+      <Card title='My Account' style={{width: 450, margin: 'auto', maxWidth: '98%', marginTop: 10, marginBottom: 10}}>
         <Form onSubmit={this.handleSubmit}>
           <SingleImageUpload
             defaultImage={this.state.image} 

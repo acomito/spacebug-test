@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link, browserHistory } from 'react-router';
 //antd
 import Form from 'antd/lib/form';
 import Input from 'antd/lib/input';
@@ -10,7 +10,8 @@ import Button from 'antd/lib/button';
 //apollo
 import { resetPassword } from 'meteor-apollo-accounts'
 import apollo from '/imports/ui/apollo/ApolloClient'
-
+// COMPONENTS
+import { FormErrorArea } from '/imports/ui/components/common'
 
 // CONSTANTS & DESTRUCTURING
 // ====================================
@@ -33,13 +34,26 @@ const FormItem = Form.Item;
   };
 
 
+const alertErrors = (e, _this) => {
+  const errors = e.graphQLErrors.map( err => err.message );
+  errors.forEach(messageText => {
+    message.error(messageText, 4);
+    let errors = _this.state.errors;
+    errors.push(messageText);
+    _this.setState({ errors });
+  });
+  _this.setState({ loading: false });
+}
+
+
 // INTERNAL COMPONENTS
 // ====================================
 const ResetPasswordForm = Form.create()(React.createClass({
   getInitialState () {
     return {
       loading: false,
-      submitted: false
+      submitted: false,
+      errors: []
     };
   },
   handleSubmit(e) {
@@ -49,8 +63,11 @@ const ResetPasswordForm = Form.create()(React.createClass({
       if (err) { return; }
       resetPassword({newPassword: password, token: this.props.token}, apollo)
       .then( res => {
+        apollo.resetStore();
+        browserHistory.push('/app')
+        message.success('your password was reset!', 5)
         return this.setState({loading: false, submitted: true});
-      }).catch(err => console.log(err))
+      }).catch(err => alertErrors(err, this))
     });
 
   },
@@ -81,11 +98,11 @@ const ResetPasswordForm = Form.create()(React.createClass({
     }
 
     return (
-      <Form onSubmit={this.handleSubmit} className="cant-find-form">
+      <Form onSubmit={this.handleSubmit}>
         <FormItem>
           {getFieldDecorator('password', { rules: newPasswordRules })(
             <Input 
-              addonBefore={<Icon type="lock" />} 
+              prefix={<Icon type="lock" />}   
               type="password" 
               placeholder="New password" 
             />
@@ -94,7 +111,7 @@ const ResetPasswordForm = Form.create()(React.createClass({
         <FormItem hasFeedback>
           {getFieldDecorator('confirm', { rules: repeatNewPassword })(
             <Input 
-              addonBefore={<Icon type="lock" />} 
+              prefix={<Icon type="lock" />}   
               type="password" 
               placeholder="Repeat new password" 
             />
@@ -105,6 +122,7 @@ const ResetPasswordForm = Form.create()(React.createClass({
             Reset & Login
           </Button>
         </FormItem>
+        <FormErrorArea errors={this.state.errors} />
       </Form>
     );
   }
@@ -124,14 +142,10 @@ class ResetPassword extends React.Component {
 
   render() {
     return (
-      <div className='public-background-gradient'>
-        <div style={{width: 500, margin: 'auto', textAlign: 'center'}} >
-          <img src={'/login_logo.png'} style={{height: 55, margin: 'auto', marginBottom: 20}} />
-          <Card style={{height: 450, width: 500, border: 0}}>
+      <div style={{width: 400, maxWidth: '95%', margin: 'auto', textAlign: 'center'}} >
+          <Card style={{height: 300, width: '100%', border: 0}}>
             <ResetPasswordForm token={this.state.token} />
-            <img src={'/login_img.png'} style={{height: 200, left: 0, bottom: 0, position: 'absolute'}} />
           </Card>
-        </div>
       </div>
     );
   }

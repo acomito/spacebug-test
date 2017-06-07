@@ -104,9 +104,9 @@ class AppLayout extends React.Component {
     if (user.loading) {
       return <LoadingScreen />
     }
-
+    //width: '100vw',
     return (
-      <Layout style={{minHeight: '100vh', width: '100vw', overflowX: 'hidden'}}>
+      <Layout style={{minHeight: '100vh',  overflowX: 'hidden'}}>
         <MainContent {...this.props} toggle={this.toggle} collapsed={this.state.collapsed} />
       </Layout>
     );

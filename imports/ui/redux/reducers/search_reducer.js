@@ -2,7 +2,8 @@ import {
 	ON_SEARCH_TEXT_CHANGE,
 	ON_CATEGORIES_CHANGE,
 	ON_SEARCH_CLEAR,
-	ON_STATUSES_CHANGE
+	ON_STATUSES_CHANGE,
+	ON_FRIEND_SEARCH_TEXT_CHANGE
 } from '../actions/types';
 
 
@@ -39,7 +40,7 @@ const INITIAL_STATE = {
 // =======================================================
 
 
-
+ON_FRIEND_SEARCH_TEXT_CHANGE
 // EXPORTED REDUCER
 // =======================================================
 export default function(state=INITIAL_STATE, action){
@@ -47,6 +48,8 @@ export default function(state=INITIAL_STATE, action){
 	switch(action.type){
 		case ON_SEARCH_TEXT_CHANGE:
 	      	return {...state, searchText: action.payload };
+	    case ON_FRIEND_SEARCH_TEXT_CHANGE:
+	      	return {...state, searchText_friends: action.payload };
 	    case ON_CATEGORIES_CHANGE:
 	    	newArray = getNewArray(state, action, 'categories')
 	      	return {...state, categories: newArray };

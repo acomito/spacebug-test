@@ -92,15 +92,11 @@ class PublicLayout extends React.Component {
     if (!this.props || !this.props.data || this.props.data.loading) {
       return <LoadingScreen />
     }
-
+    //
     return (
-      <Layout>
-        <Content style={{ padding: 0, height: '100vh' }}>
-            {React.cloneElement(this.props.children, {...this.props})}
-        </Content>
-        <Footer>
-        </Footer>
-      </Layout>
+      <div className='public-background-gradient'>
+          {React.cloneElement(this.props.children, {...this.props})}
+      </div>
     );
   }
 }

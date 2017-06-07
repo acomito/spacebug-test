@@ -12,6 +12,13 @@ import Popconfirm from 'antd/lib/popconfirm';
 // MODULES
 import { DEFAULT_AVATAR, DEFAULT_POST_IMAGE } from '/imports/modules/config';
 import { timeAgo } from '/imports/modules/helpers';
+// APOLLO
+import ApolloClient from '/imports/ui/apollo/ApolloClient'
+import { DELETE_POST } from '/imports/ui/apollo/mutations';
+import { GET_POSTS, GET_POST_BY_ID } from '/imports/ui/apollo/queries';
+import { graphql } from 'react-apollo';
+// COMPONENTS
+import PostForm from '/imports/ui/components/common/PostForm'
 
 
 
@@ -65,35 +72,49 @@ const PostInfo = ({ item }) => {
 
 class PostBottom extends React.Component {
 	onDeletePost = () => {
-		message.warning('post was deleted!');
+		let variables = { _id: this.props.item._id };
+
+		let refetchQueries = [ 
+	        { query: GET_POSTS },
+	        { query: GET_POST_BY_ID, variables }
+	    ];
+	    console.log(variables)
+		this.props.deletePost({ 
+			variables: { _id: this.props.item._id }
+		}).then(res => {
+			ApolloClient.resetStore();
+			//browserHistory.push('/app/my-stuff');
+			return message.warning('post was deleted!');
+		});
+		
 	}
 	render(){
-		const { item, user } = this.props;
+		const { item, user, toggleEditForm } = this.props;
 			return (
 				<div style={{display: 'flex', height: 30, justifyContent: 'center', alignItems: 'center', flex: 1}}>
-					<div style={{flex: 1}}>
+					<div style={{flex: 3}}>
 						<span style={{color: '#e74c3c'}} >
 							<Icon type="heart" style={{color: '#e74c3c'}} /> {item.numberOfLikes} likes
 						</span>
 					</div>
-					<div style={{flex: 1}}>
+					<div style={{flex: 3}}>
 						<Icon type="message" style={{color: '#888', cursor: 'pointer', marginRight: 4}} /> 
-							<Link to={`/app/junk/${item._id}`}>
+							<Link  to={`/app/junk/${item._id}`}>
 								{item.numberOfComments} comments
 							</Link>
 					</div>
 					<div style={{flex: 1}}>
-						<Link to={`/app/junk/${item._id}`}>VIEW</Link>
+						<Link className='fpm-action-link-med' to={`/app/junk/${item._id}`}>VIEW</Link>
 					</div>
 					{item.owner._id === user._id && (
 						<div style={{flex: 1}}>
-							<Link to={`/app/junk/${item._id}`}>EDIT</Link>
+							<p className='fpm-action-link-med' onClick={()=>toggleEditForm()}>EDIT</p>
 						</div>
 					)}
 					{item.owner._id === user._id && (
 						<div style={{flex: 1}}>
 							<Popconfirm title="Are you sure delete this post?" onConfirm={this.onDeletePost} okText="Yes" cancelText="No">
-							   <a href="#">DELETE</a>
+							   <p className='fpm-action-link-med'>DELETE</p>
 							</Popconfirm>
 						</div>
 					)}
@@ -103,12 +124,17 @@ class PostBottom extends React.Component {
 }
 
 
-const PostBody = ({ item, user }) => {
+const PostBody = ({ item, user, toggleEditForm, deletePost }) => {
 	return (
 		<div style={{padding: '10px 16px'}}>
 			<PostTitle item={item} />
 	      	<PostInfo item={item}  />
-			<PostBottom item={item} user={user} />
+			<PostBottom 
+				item={item} 
+				user={user} 
+				toggleEditForm={()=>toggleEditForm()}
+				deletePost={deletePost}
+			/>
 	    </div>
 	);
 }
@@ -138,16 +164,53 @@ const PostTop = ({ item }) => {
 
 
 class PostCard extends React.Component {
+	state = { 
+		showEditForm: false
+	}
+	toggleEditForm = () => {
+		let currentState = this.state.showEditForm;
+		this.setState({ showEditForm: !currentState });
+	}
+	renderContent(){
+
+		const { item, user, toggleEditForm, deletePost } = this.props;
+
+		if (!this.state.showEditForm) {
+			return (
+				<Card
+					style={{marginTop: '20px', maxWidth: '99%', width: 500}} 
+					bodyStyle={{paddingBottom: 5}}
+				>
+					<PostTop item={item} />
+					<PostBody item={item} user={user} toggleEditForm={this.toggleEditForm} deletePost={deletePost} />
+				</Card>
+			);
+		}
+		if (this.state.showEditForm) {
+			return (
+				<Card 
+					style={{marginTop: '20px', maxWidth: '99%', width: 500}} 
+					bodyStyle={{paddingBottom: 5}}
+				>
+				<PostForm 
+					post={item}
+					user={user} 
+					handleCancel={this.toggleEditForm}
+					updateForm
+				/>
+				</Card>
+			);
+		}
+	}
 	render() {
-		const { item, user } = this.props;
+		const { item, user, toggleEditForm, deletePost } = this.props;
+		if (!item) {
+			return <p>can't find this item</p>
+		}
 		return (
-			<Card 
-				style={{marginTop: '20px', maxWidth: '99%', width: 500}} 
-				bodyStyle={{paddingBottom: 5}}
-			>
-				<PostTop item={item} />
-				<PostBody item={item} user={user} />
-			</Card>
+			<div>
+				{this.renderContent()}
+			</div>
 		);
 	}
 }
@@ -155,14 +218,16 @@ class PostCard extends React.Component {
 PostCard.propTypes = {
   item: PropTypes.object,
   user: PropTypes.object,
+  toggleEditForm: PropTypes.func,
 };
 
 // Specifies the default values for props:
 PostCard.defaultProps = {
   item: null,
   user: null,
+  toggleEditForm: ()=>console.log('default toggleEditForm'),
 };
 
 
 
-export default PostCard
+export default graphql(DELETE_POST, { name: 'deletePost'})(PostCard)

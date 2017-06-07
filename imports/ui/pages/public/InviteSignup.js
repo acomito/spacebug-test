@@ -33,7 +33,7 @@ class InviteSignup extends React.Component {
 	render(){
 		const { data } = this.props.data
 		return (
-			<div className='public-background-gradient'>
+			<div>
 				{this.getContent()}
 			</div>
 		);

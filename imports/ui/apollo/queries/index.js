@@ -3,6 +3,20 @@ import { ownerFragment, postFragment, messageFragment } from './fragments';
 
 
 
+// USER QUERIES
+// ====================================
+export const USERS_FRIEND_SEARCH = gql`
+  query UsersFriendSearch($params: UserSearchParams) {
+    usersFriendSearch (params: $params) {
+      _id
+      profile {
+        firstName
+        lastName
+        image
+      }
+    }
+  }
+`;
 
 // USER QUERIES
 // ====================================

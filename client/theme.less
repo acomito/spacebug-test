@@ -541,7 +541,7 @@ a {
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#004274', endColorstr='#00c1d7', GradientType=1 );
 }*/
 .public-background-gradient {
-  height: 100vh;
+  min-height: 100vh;
   justify-content: center;
   align-items: center;
   display: flex;
@@ -554,6 +554,38 @@ a {
   background: linear-gradient(45deg, rgba(156,89,182,1) 0%, rgba(176,124,196,1) 51%, rgba(222,175,240,1) 81%, rgba(222,175,240,1) 100%);
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#9c59b6', endColorstr='#deaff0', GradientType=1 );
 }
+
+
+input {
+  @media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (orientation : portrait) { 
+    height: 70px;
+  }
+}
+
+/*input {
+  @media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (orientation : portrait) { 
+    height: 100px !important;
+  }
+}
+
+.public-form-header {
+  text-align: center; 
+  margin-bottom: 20px; 
+  color: #000;
+  @media (max-width: 375px) {
+    font-size: 40px !important;
+  }
+}
+
+.public-form {
+  border: 0px;
+  @media (max-width: 1180px) {
+    height: 65vh !important;
+    width: 90vw !important;
+    margin: auto !important;
+  }
+}
+*/
 .ant-btn-primary {
     color: #fff;
     background-color: @primary-color!important;

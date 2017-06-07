@@ -3,7 +3,7 @@ import AddDocument from '/imports/ui/components/common/AddDocument'
 import DocumentsList from '/imports/ui/components/common/DocumentsList';
 // APOLLO
 import { graphql } from 'react-apollo';
-import { GET_FRIEND_REQUEST_BY_ID, GET_INCOMING_FRIEND_REQUESTS, GET_MY_FRIENDS  } from '/imports/ui/apollo/queries';
+import { GET_FRIEND_REQUEST_BY_ID, GET_INCOMING_FRIEND_REQUESTS, GET_MY_FRIENDS, USERS_FRIEND_SEARCH  } from '/imports/ui/apollo/queries';
 import { CREATE_FRIEND_REQUEST, ACCEPT_FRIEND_REQUEST } from '/imports/ui/apollo/mutations';
 //antd
 import Form from 'antd/lib/form';
@@ -49,7 +49,8 @@ class FriendRequestButton extends React.Component {
 		this.setState({ loading: true });
 		let variables = { targetUserId }
 		let refetchQueries = [
-			{ query: GET_FRIEND_REQUEST_BY_ID, variables }
+			{ query: GET_FRIEND_REQUEST_BY_ID, variables },
+			{ query: USERS_FRIEND_SEARCH }
 		]
 		this.props.createFriendRequest({ variables, refetchQueries })
 		.then(res => {

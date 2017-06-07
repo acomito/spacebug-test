@@ -32,11 +32,8 @@ class LoginPage extends React.Component {
 	render(){
 		//#3dbed4
 		//004274
-		return (
-			<div className='public-background-gradient'>
-				{this.getContent()}
-			</div>
-		);
+		//className='public-background-gradient'
+		return this.getContent();
 	}
 }
 

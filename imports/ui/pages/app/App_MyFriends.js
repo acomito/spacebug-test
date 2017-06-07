@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 import AddDocument from '/imports/ui/components/common/AddDocument'
 import UserCard from '/imports/ui/components/common/UserCard';
 //antd
@@ -17,10 +18,23 @@ import message from 'antd/lib/message';
 import { graphql } from 'react-apollo';
 import { GET_INCOMING_FRIEND_REQUESTS, GET_MY_FRIENDS } from '/imports/ui/apollo/queries';
 import { ACCEPT_FRIEND_REQUEST } from '/imports/ui/apollo/mutations';
+// MODULES
+import { DEFAULT_AVATAR } from '/imports/modules/config';
+// COMPONETS
 import PostCard from '/imports/ui/components/common/PostCard'
 import DiscussionForm from '/imports/ui/components/common/DiscussionForm';
-import { DEFAULT_AVATAR } from '/imports/modules/config';
+import UsersSearch from '/imports/ui/components/common/UsersSearch'
+import InviteModal from '/imports/ui/components/common/InviteModal'
 
+
+const EmptyState = ({ title, subtitle }) => {
+	return (
+		<div>
+			<h2>{ title }</h2>
+			<h4>{ subtitle }</h4>
+		</div>
+	);
+}
 
 
 const FriendList = () => {
@@ -61,7 +75,12 @@ class AppMyFriends extends React.Component {
 	renderFriendsList = () => {
 		const { myFriendsData } = this.props;
 		if (!myFriendsData || myFriendsData.loading || myFriendsData.myFriends.length < 0) {
-			return null
+			return (
+				<EmptyState 
+					title='No Friends Yet!'
+					subtitle={''}
+				/>
+			);
 		}
 		return (
 			<div>
@@ -76,8 +95,14 @@ class AppMyFriends extends React.Component {
 	}
 	renderIncomingRequests = () => {
 		const { getIncomingReqests }= this.props.data;
-		if (!getIncomingReqests || getIncomingReqests.length < 0) {
-			return null
+
+		if (getIncomingReqests && getIncomingReqests.length < 0) {
+			return (
+				<EmptyState 
+					title='No Requests Right Now...'
+					subtitle={''}
+				/>
+			);
 		}
 		return (
 			<div>
@@ -111,12 +136,21 @@ class AppMyFriends extends React.Component {
 
 		return (
 			<div style={{width: 600, maxWidth: '98%', margin: 'auto'}}>
-				<div style={{marginTop: 20}}>
-					<h2>REQUESTS</h2>
+				<div style={{marginTop: 20, minHeight: 200}}>
+					<h2>CONNECT</h2>
+					<UsersSearch currentUser={this.props.user.user} />
+				</div>
+					<InviteModal 
+						user={this.props.user.user} 
+						buttonText={'or, Invite new people'}
+						linkStyles={{}} 
+					/>
+				<div style={{marginTop: 20, minHeight: 200}}>
+					<h2>PENDING REQUESTS</h2>
 					{this.renderIncomingRequests()}
 				</div>
-				<div style={{marginTop: 20}}>
-					<h2>FRIENDS</h2>
+				<div style={{marginTop: 20, minHeight: 200}}>
+					<h2>MY FRIENDS</h2>
 					{this.renderFriendsList()}
 				</div>
 			</div>

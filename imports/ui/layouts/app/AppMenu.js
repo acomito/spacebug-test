@@ -25,15 +25,19 @@ const MenuItemGroup = Menu.ItemGroup;
 // ====================================
 export const AppMenu = ({handleClick, location}) => {
   return (
-    <Menu onClick={(key)=>handleClick(key)}  theme="dark" mode="inline" defaultSelectedKeys={[location.pathname]}>
-            <Menu.Item key="/app/requests">
-              <Icon type="tags-o" />
-              <span className="nav-text">Requests</span>
-            </Menu.Item>
-            <Menu.Item key="/app/reports">
-              <Icon type="dot-chart" />
-              <span className="nav-text">Reports</span>
-            </Menu.Item>
-          </Menu>
+  <Menu onClick={(key)=>handleClick(key)}  theme="dark" mode="inline" defaultSelectedKeys={[location.pathname]}>
+    <Menu.Item key="/app">
+      <Icon type="tags-o" />
+      <span className="nav-text">Home</span>
+    </Menu.Item>
+    <Menu.Item key="/app/my-stuff">
+      <Icon type="dot-chart" />
+      <span className="nav-text">My Stuff</span>
+    </Menu.Item>
+    <Menu.Item key="/app/friends">
+      <Icon type="dot-chart" />
+      <span className="nav-text">Friends</span>
+    </Menu.Item>
+  </Menu>
   );
 }
