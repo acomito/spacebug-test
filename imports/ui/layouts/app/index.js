@@ -151,7 +151,7 @@ class AppLayout extends React.Component {
     if (user.loading) {
       return <LoadingScreen />
     }
-    //width: '100vw',
+
     return (
       <Sidebar 
           styles={navStyles} 

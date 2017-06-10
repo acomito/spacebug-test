@@ -16,18 +16,13 @@ import {
 import ResetPassword from '/imports/ui/pages/public/reset-password';
 import LoginPage from '/imports/ui/pages/public/LoginPage';
 import ForgotPassword from '/imports/ui/pages/public/ForgotPassword';
-import InviteSignup from '/imports/ui/pages/public/InviteSignup';
 // APP
 import AppAccount from '/imports/ui/pages/app/App_Account';
 import AppHome from '/imports/ui/pages/app/App_Home';
 import AppMyStuff from '/imports/ui/pages/app/App_MyStuff';
-import AppMyFriends from '/imports/ui/pages/app/App_MyFriends';
 import AppJunkList from '/imports/ui/pages/app/App_JunkList';
 import AppJunkDetail from '/imports/ui/pages/app/App_JunkDetail';
 import AppUserDetail from '/imports/ui/pages/app/App_UserDetail';
-import AppFollowMe from '/imports/ui/pages/app/App_FollowMe';
-import AppEmailInvite from '/imports/ui/pages/app/App_EmailInvite';
-
 // ADMIN
 import AdminUsersPage from '/imports/ui/pages/admin/admin-users';
 import AdminUsersSinglePage from '/imports/ui/pages/admin/admin-user-single';
@@ -51,7 +46,6 @@ const AppRoutes = () => {
         <IndexRoute name='index' component={ LoginPage } />
         <Route path="/login" component={ LoginPage } />
         <Route path="/signup" component={ SignupPage } />
-        <Route path="/invite/:_id" component={ InviteSignup } />
         <Route path="forgot-password"  component={ ForgotPassword } />
         <Route path="/recover-password/:token"  component={ ResetPassword } />
       </Route>
@@ -61,12 +55,8 @@ const AppRoutes = () => {
         <IndexRoute name='index' breadcrumbName='Home' component={ AppHome } />
         <Route path="account" breadcrumbName='Account' component={ AppAccount } />
         <Route path="my-stuff" breadcrumbName='My Stuff' component={ AppMyStuff } />
-        <Route path="friends" breadcrumbName='Friends' component={ AppMyFriends }>
-        </Route>
-        <Route path="invite" breadcrumbName='Invite' component={ AppEmailInvite } />
         <Route path="users" breadcrumbName='Junk List' component={ AppJunkList }>
           <Route path=":_id" breadcrumbName='User Overview' component={ AppUserDetail } />
-          <Route path="follow/:_id" breadcrumbName='Follow Me ' component={ AppFollowMe } />
         </Route>
         <Route path="junk" breadcrumbName='Junk List' component={ AppJunkList }>
           <Route path=":_id" breadcrumbName='Junk Overview' component={ AppJunkDetail } />

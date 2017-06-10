@@ -5,9 +5,7 @@ import { check } from 'meteor/check';
 import { createError } from 'apollo-errors';
 // COLLECTIONS
 import { Posts } from './model';
-import { Likes } from '../Like';
 import { Messages } from '../Message';
-import { Friends } from '../Friend';
 
 
 export const PostSchema = [`
@@ -25,7 +23,6 @@ type Post {
 	    owner: User
 	    comments: [Message]
 	    numberOfComments: Int
-	    numberOfLikes: Int
 	}
 
 
@@ -168,9 +165,6 @@ export const PostResolvers = {
         return Posts.find().fetch()
       },
 	    posts: async (root, args, context) => {
-        let friends = Friends.find({ownerId: context.user._id}).fetch();
-        let friendIds = friends.map((item) => item.friendId);
-        args.friendIds = friendIds
 	    	let { query, options, count } = await buildPostsSearchQuery(root, args, context)
     		let posts = Posts.find(query, options).fetch();
         console.log(query)
@@ -178,9 +172,7 @@ export const PostResolvers = {
 	    },
 	    postsFeed: (root, args, context) => {
 	    	// find all of my friends
-	    	let friends = Friends.find({ownerId: context.user._id}).fetch();
-	    	let friendIds = friends.map((item) => item.friendId);
-	    	let query = { ownerIds: { $in: friendIds } }; //serach for posts by these userIds
+	    	let query = {  }; //serach for posts by these userIds
 	    	let posts = Posts.find().fetch()
 	    	let options = { sort: { createdAt: -1 }}
 	    	return Posts.find(query, options).fetch()
@@ -209,12 +201,6 @@ export const PostResolvers = {
   			let numberOfComments = Messages.find(query).count();
   			if (!numberOfComments) { return 0 }
   			return numberOfComments
-  		},
-  		numberOfLikes: ({ _id }, args, context) => {
-  			let query = { parentId: _id, parentModelType: 'post' }
-  			let numberOfLikes = Likes.find(query).count();
-  			if (!numberOfLikes) { return 0 }
-  			return numberOfLikes
   		},
   		
   	},

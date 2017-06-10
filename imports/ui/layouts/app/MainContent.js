@@ -21,7 +21,6 @@ import { handleLogout } from '/imports/modules/helpers';
 // COMPONENTS
 
 import HelpModal from '/imports/ui/components/common/HelpModal'
-import InviteModal from '/imports/ui/components/common/InviteModal'
 
 import { logout } from 'meteor-apollo-accounts'
 import ApolloClient from '/imports/ui/apollo/ApolloClient'
@@ -65,16 +64,6 @@ export const getBreadcumbName = (route, routes) => {
 const HeaderArea = ({ width, routes, params, children, collapsed, toggle, user }) => {
   return (
      <div>
-      {/*collapsed && (
-        <Icon 
-          className="trigger" 
-          type='menu-unfold' 
-          onClick={()=>toggle()}
-          style={{position: 'absolute', left: 0, top: 0, padding: '0px 12px', lineHeight: 40}} 
-        />
-      )*/}
-
-      {width > 741 && <InviteModal user={user.user} />}
       {width > 741 && <HelpModal />}
       <Dropdown overlay={menu}>
         <img
@@ -129,7 +118,6 @@ class MainContent extends React.Component {
                 
                 {width > 741 && <Menu.Item key="/app">Home</Menu.Item>}
                 {width > 741 && <Menu.Item key="/app/my-stuff">My Stuff</Menu.Item>}
-                {width > 741 && <Menu.Item key="/app/friends">Friends</Menu.Item>}
             <HeaderArea {...this.props} />
             </Menu>
         </Header>}
@@ -155,9 +143,6 @@ class MainContent extends React.Component {
                 </Menu.Item>
                 <Menu.Item key="/app/my-stuff">
                   <Icon type="tags-o" style={{fontSize: 30}}/>
-                </Menu.Item>
-                <Menu.Item key="/app/friends"> 
-                  <Icon type="team" style={{fontSize: 30}}/>
                 </Menu.Item>
                 <Menu.Item key="/app/account"> 
                   <Icon type="user" style={{fontSize: 30}}/>

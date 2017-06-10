@@ -40,7 +40,6 @@ export const postFragment = gql`
       status
       price
       numberOfComments
-      numberOfLikes
       owner {
         ...ownerFragment
       }

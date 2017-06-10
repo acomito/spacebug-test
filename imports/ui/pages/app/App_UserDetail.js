@@ -1,6 +1,4 @@
 import React from 'react';
-import AddDocument from '/imports/ui/components/common/AddDocument'
-import DocumentsList from '/imports/ui/components/common/DocumentsList';
 //antd
 import Form from 'antd/lib/form';
 import Input from 'antd/lib/input';
@@ -19,7 +17,6 @@ import Tag from 'antd/lib/tag';
 import { graphql } from 'react-apollo';
 import { GET_USER_BY_ID } from '/imports/ui/apollo/queries';
 import PostCard from '/imports/ui/components/common/PostCard'
-import FriendRequestButton from '/imports/ui/components/common/FriendRequestButton'
 import EmptyState from '/imports/ui/components/common/EmptyState'
 
 // MODULES

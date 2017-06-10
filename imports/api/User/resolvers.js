@@ -10,8 +10,6 @@ import { SchemaMutations, SchemaTypes, userId } from 'meteor-apollo-accounts';
 import { isAuthenticatedResolver, isAdminResolver } from '../base-resolvers';
 // COLLECTIONS
 import { Posts } from '../Post'
-import { Friends } from '../Friend'
-import { FriendRequests } from '../FriendRequest'
 import { appConfig } from '/imports/modules/config'
 // OTHER
 import { addInvitation } from '../api-helpers';
@@ -45,82 +43,7 @@ const adminCreateUser = isAdminResolver.createResolver(
   }
 );
 
-const getUsersNotToReturn = (root, args, context) => {
-  let currentUsersFriends = Friends.find({ownerId: context.user._id}).fetch();
-  let usersNotToReturn = currentUsersFriends.map( item => item.friendId); // do not return existing friends
-  console.log(usersNotToReturn)
-  let query1 = { accepted: false, recipientId: context.user._id }
-  let query2 = { accepted: false, sentById: context.user._id }
-  let currentPendingFriendRequests = FriendRequests.find({ $or: [query1, query2]}).fetch();
-  let pendingRequestUserIds = []
-  currentPendingFriendRequests.forEach( item => {
-    pendingRequestUserIds.push(item.sentById)
-    pendingRequestUserIds.push(item.recipientId)
-  });
-  usersNotToReturn.push(context.user._id) // add current users _id to this list, so we dont return the current user
-  usersNotToReturn = [...usersNotToReturn, ...pendingRequestUserIds];
-  return usersNotToReturn
-/*  return new Promise(
-      (resolve, reject) => {
-        resolve(usersNotToReturn);
-      }
-  );*/
-}
 
-const buildUsersFriendSearchQuery = async (root, args, context) => {
-
-  return new Promise(
-      (resolve, reject) => {
-        let usersNotToReturn = getUsersNotToReturn(root, args, context);
-        console.log(usersNotToReturn)
-        let query = { 
-          _id: { $nin: usersNotToReturn },
-          roles: { $nin: ['admin'] }
-        };
-        let andQueryArray = [query];
-
-        let options = { sort: { createdAt: -1}, limit: 5  } // at some point, when pagination is added, you'll want to add a limit here, e.g. limit: 10,
-
-        // If an offset arguement is passed, add it as an option. 
-        // offset is (one potential strategy) used for pagination/infinite loading if it ever gets added.
-        // see: https://dev-blog.apollodata.com/pagination-and-infinite-scrolling-in-apollo-client-59ff064aac61
-        // see: http://dev.apollodata.com/react/pagination.html
-        //if (args && args.params && args.params.offset) { options.skip = args.params.offset }
-      // IF NO ARGS EXIST, JUST RETURN BASIC QUERY
-      // ====================================
-      // if no arguments were passed, just return all messages using the above query and options variables
-      if (!args || !args.params) {
-        let count = Meteor.users.find(query).count()
-        return resolve({ query, options, count })
-      }
-      
-      // declare a unitIds variable. users do not have a buildingId, so we have to query the units in a building
-      // make an array of unitIds, then concat that with any other _ids coming from the client (which is 'args.params.unitIds' )
-
-
-      // TEXT SEARCH QUERY
-      // ====================================
-      // If a search string was passed, then add search terms to the andQueryArray
-      if (args && args.params && args.params.searchText) {
-        let regex = new RegExp( args.params.searchText, 'i' );
-        let orSearchQuery = { $or: [ 
-          { 'profile.firstName': regex }, 
-          { 'profile.lastName': regex }, 
-          { 'emails.0.address': regex }, 
-        ]};
-        andQueryArray.push(orSearchQuery)
-      }
-
-      if (andQueryArray && andQueryArray.length > 0) {
-        query = { $and: andQueryArray }
-      }
-      
-      let count = Meteor.users.find(query).count();
-      resolve({ query, options, count });
-
-      }
-  )
-};
 
 const adminDeleteUser = isAdminResolver.createResolver(
   async (root, { _id }, context) => {
@@ -239,21 +162,5 @@ export const UserResolvers = {
     posts({ _id }, args, context) {
       return Posts.find({ ownerId: _id }).fetch();
     },
-    isFriend({ _id }, args, context) {
-      let currentUserId = context.user._id;
-      let otherUserId = _id;
-       if (currentUserId === otherUserId) {
-        return false
-       }
-
-      let friendExists = Friends.findOne({ ownerId: currentUserId, friendId: otherUserId })
-      if (friendExists) {
-        return true
-      } else {
-        return false
-      }
-      //otherwise return false by default for safety
-      return false
-    }, 
   },
 };

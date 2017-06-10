@@ -18,37 +18,6 @@ export const USERS_FRIEND_SEARCH = gql`
   }
 `;
 
-// USER QUERIES
-// ====================================
-export const GET_MY_FRIENDS = gql`
-  query GetMyFriends {
-    myFriends {
-      _id
-      friend {
-        _id
-        profile {
-          firstName
-          lastName
-          image
-        }
-      }
-    }
-  }
-`;
-
-
-// USER QUERIES
-// ====================================
-export const GET_FRIEND_REQUEST_BY_ID = gql`
-  query getFriendRequestById ($targetUserId: ID!) {
-    getFriendRequestById (targetUserId: $targetUserId) {
-      _id
-      accepted
-      sentById
-      recipientId
-    }
-  }
-`;
 
 
 // GET_INCOMING_FRIEND_REQUESTS QUERIES
@@ -141,7 +110,6 @@ export const GET_USER_BY_ID = gql`
       _id
       emails { address, verified }
       roles
-      isFriend
       posts {
         ...postFragment
       }
