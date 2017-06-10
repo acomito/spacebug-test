@@ -26,7 +26,13 @@ const MenuItemGroup = Menu.ItemGroup;
 // ====================================
 export const AdminMenu = ({handleClick, location}) => {
   return (
-    <Menu onClick={(key)=>handleClick(key)}  theme="dark" mode="inline" defaultSelectedKeys={[location.pathname]}>
+    <Menu 
+      onClick={(key)=>handleClick(key)}  
+      theme="light" 
+      mode="inline" 
+      selectedKeys={[location.pathname]} 
+      defaultSelectedKeys={[location.pathname]}
+    >
             <Menu.Item key="/admin">
               <Icon type="home" />
               <span className="nav-text">Home</span>

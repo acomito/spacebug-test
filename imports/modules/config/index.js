@@ -22,6 +22,11 @@ export const STATUS_OPTIONS = [
 ];
 
 
+export const ROLE_OPTIONS = [
+	'admin',
+];
+
+
 
 export const CATEGORY_OPTIONS = [
 	// A

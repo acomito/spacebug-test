@@ -7,7 +7,7 @@ import Table from 'antd/lib/table';
 import Button from 'antd/lib/button';
 import gql from 'graphql-tag';
 // APOLLO
-import { GET_POSTS } from '/imports/ui/apollo/queries';
+import { GET_ALL_POSTS } from '/imports/ui/apollo/queries';
 import { graphql } from 'react-apollo';
 
 
@@ -18,28 +18,33 @@ const columns = [
 	  title: '_id',
 	  dataIndex: '_id',
 	  key: '_id',
-	  render: _id => <Link to={`/admin/users/${_id}`}>{_id}</Link>,
+	  render: _id => <Link to={`/admin/posts/${_id}`}>{_id}</Link>,
 	},
 	{
-	  title: 'email',
-	  dataIndex: 'emails.0.address',
-	  key: 'emails.0.address'
+	  title: 'title',
+	  dataIndex: 'title',
+	  key: 'title',
 	},
 	{
-	  title: 'role',
-	  dataIndex: 'roles',
-	  key: 'roles'
+	  title: 'description',
+	  dataIndex: 'description',
+	  key: 'description',
+	},
+	{
+	  title: 'category',
+	  dataIndex: 'category',
+	  key: 'category',
 	},
 ];
 
 
-class AdminUsersTable extends React.Component {
+class AdminPostsTable extends React.Component {
 	render(){
 		return (
 			<Table
 				rowKey={record => record._id} 
 				columns={columns} 
-				dataSource={this.props.users}  
+				dataSource={this.props.data.allPosts}  
 			/>
 		);
 	}
@@ -54,7 +59,7 @@ class AdminPostsPage extends React.Component {
 
 		return (
 			<div>
-				{/*children ? children : <AdminUsersTable users={users} />*/}
+				{children ? children : <AdminPostsTable {...this.props} />}
 			</div>
 		);
 	}
@@ -62,4 +67,4 @@ class AdminPostsPage extends React.Component {
 
 
 
-export default graphql(GET_POSTS)(AdminPostsPage);
+export default graphql(GET_ALL_POSTS)(AdminPostsPage);

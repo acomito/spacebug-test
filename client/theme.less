@@ -46,9 +46,11 @@ body {
 
 #react-root {
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
-@media screen and (-webkit-min-device-pixel-ratio:0) { 
+/*@media screen and (-webkit-min-device-pixel-ratio:0) { */
+@media (max-width: 769px) {
   select,
   textarea,
   input {
@@ -232,11 +234,11 @@ br {
 
 // Layout
 @layout-body-background    : #ececec;
-@layout-header-background  : @heading-color;
+@layout-header-background  : #fff;
 @layout-header-height      : 64px;
 @layout-header-padding     : 0 50px;
 @layout-footer-padding     : 0px !important;
-@layout-sider-background   : @heading-color;
+@layout-sider-background   : #fff;
 @layout-content-margin     : 24px;
 @layout-trigger-height     : 48px;
 
@@ -400,6 +402,7 @@ a {
 
 
 
+
 // SIDER / NAV / LAYOUT
 // ===================================
 
@@ -411,14 +414,21 @@ a {
   background: #f9f9f9 !important;
 }
 
+.ant-layout-sider-children {
+  height: 100% !important;
+}
 
-.ant-layout-sider {
+.ant-menu-inline  {
+  height: 100% !important;
+}
+
+/*.ant-layout-sider {
   background-color: @dark-color  !important;
   background: @dark-color  !important;
 }
 .ant-menu-dark {
   background: @dark-color !important;
-}
+}*/
 
 .ant-layout-sider-collapsed {
   .sidebar-logo {

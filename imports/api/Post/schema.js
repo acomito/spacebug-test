@@ -47,6 +47,7 @@ type Query {
     	posts(params: PostParams): [Post],
     	postsFeed: [Post],
     	myPosts: [Post],
+      allPosts(params: PostParams): [Post],
 	  }
 
 
@@ -163,6 +164,9 @@ export const PostResolvers = {
 	    	let options = { sort: { createdAt: -1 }}
 	    	return Posts.findOne(query, options)
 	    },
+      allPosts: async (root, args, context) => {
+        return Posts.find().fetch()
+      },
 	    posts: async (root, args, context) => {
         let friends = Friends.find({ownerId: context.user._id}).fetch();
         let friendIds = friends.map((item) => item.friendId);

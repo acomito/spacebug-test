@@ -120,7 +120,8 @@ class MainContent extends React.Component {
         {width > 741 && <Header style={{ background: '#fff', padding: 0 }}>
             {/*width < 741 &&  <Icon className="trigger" type={collapsed ? 'menu-unfold' : 'menu-fold'} onClick={()=>toggle()} />*/}
             <Menu
-              defaultSelectedKeys={[this.props.location.pathname]} 
+              defaultSelectedKeys={[this.props.location.pathname]}
+              selectedKeys={[this.props.location.pathname]}
               onClick={this.handleClick}
               mode="horizontal" 
               style={{ lineHeight: '64px' }}
@@ -137,16 +138,17 @@ class MainContent extends React.Component {
           <HeaderArea {...this.props} />
         </Header>*/}
         <Content style={{ margin: 0 }}>
-          <div style={{ padding: '20px 10px', minHeight: '65vh', maxWidth: '99%' }}>
+          <div style={{ padding: '20px 10px', paddingBottom: 40, minHeight: '65vh', maxWidth: '99%' }}>
             {React.cloneElement(children, {...this.props})}
           </div>
         </Content>
         {width < 741 && <Menu
-              defaultSelectedKeys={[this.props.location.pathname]} 
+              defaultSelectedKeys={[this.props.location.pathname]}
+              selectedKeys={[this.props.location.pathname]}
               onClick={this.handleClick}
               mode="horizontal"
               className='mobile-nav-bottom' 
-              style={{ lineHeight: '64px', position: 'fixed', bottom: 0, right: 0, left: 0 }}
+              style={{ lineHeight: '64px', position: 'fixed', bottom: 0, right: 0, left: 0, borderTop: '2px solid #efefef'}}
             >
                 <Menu.Item key="/app">
                   <Icon type="home" style={{fontSize: 30}}/>

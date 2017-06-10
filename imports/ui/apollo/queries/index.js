@@ -187,6 +187,16 @@ export const GET_MY_POSTS = gql`
 `;
 
 
+export const GET_ALL_POSTS = gql`
+  query AllPosts {
+    allPosts {
+      ...postFragment
+    }
+  }
+  ${postFragment}
+`;
+
+
 export const GET_USER_DATA = gql`
   query getCurrentUser {
     user {

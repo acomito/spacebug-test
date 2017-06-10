@@ -154,7 +154,7 @@ class PostForm extends React.Component {
           )}
         </FormItem>
         </Col>
-        <Col xs={12}>
+        <Col xs={24}>
           <FormItem>
             {getFieldDecorator('price', {
               rules: [{ required: false, message: 'Please input a price!' }],
@@ -164,22 +164,18 @@ class PostForm extends React.Component {
             )}
           </FormItem>
         </Col>
-        <Col xs={4} offset={16}>
-          <FormItem>
-            <Button size="large" loading={this.state.loading} htmlType="submit" type='primary'>
-              {!updateForm && !this.state.loading && 'Add'} 
-              {!updateForm && this.state.loading && 'Adding...'} 
-              {updateForm && !this.state.loading && 'Save'} 
-              {updateForm && this.state.loading && 'Saving...'} 
-            </Button>
-          </FormItem>
-        </Col>
-        <Col xs={4}>
-          <FormItem>
-            <Button size="large" onClick={()=>this.props.handleCancel()} type='default'>
-              Cancel
-            </Button>
-          </FormItem>
+        <Col xs={24}>
+          <div>
+            <Button style={{margin: 10}} size="large" loading={this.state.loading} htmlType="submit" type='primary'>
+                {!updateForm && !this.state.loading && 'Add'} 
+                {!updateForm && this.state.loading && 'Adding...'} 
+                {updateForm && !this.state.loading && 'Save'} 
+                {updateForm && this.state.loading && 'Saving...'} 
+              </Button>
+              <Button style={{margin: 10}}  size="large" onClick={()=>this.props.handleCancel()} type='default'>
+                Cancel
+              </Button>
+          </div>
         </Col>
       </Row>
 

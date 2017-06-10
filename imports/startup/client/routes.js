@@ -33,6 +33,7 @@ import AdminUsersPage from '/imports/ui/pages/admin/admin-users';
 import AdminUsersSinglePage from '/imports/ui/pages/admin/admin-user-single';
 import AdminAccountPage from '/imports/ui/pages/admin/admin-account';
 import AdminPostsPage from '/imports/ui/pages/admin/admin-posts';
+import AdminPostsSingle from '/imports/ui/pages/admin/admin-posts-single';
 
 
 import { userId } from 'meteor-apollo-accounts'
@@ -73,11 +74,11 @@ const AppRoutes = () => {
       </Route>
       
       {/*ADMIN AREA*/}
-      <Route path="/admin" component={ AdminLayout }>
-        <IndexRoute name="index" component={ AdminHomePage } />
+      <Route path="/admin" breadcrumbName='Admin' component={ AdminLayout }>
+        <IndexRoute name="index" breadcrumbName='Admin' component={ AdminHomePage } />
 
         <Route path="posts" breadcrumbName='Posts' component={ AdminPostsPage }>
-          {/*<Route path=":_id" breadcrumbName='User Detail' component={ AdminUsersSinglePage }  />*/}
+          <Route path=":_id" breadcrumbName='Post Detail' component={ AdminPostsSingle }  />
         </Route>
         <Route path="users" breadcrumbName='Users' component={ AdminUsersPage }>
           <Route path=":_id" breadcrumbName='User Detail' component={ AdminUsersSinglePage }  />
