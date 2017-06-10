@@ -81,7 +81,7 @@ const styles = {
   render() {
     const { getFieldDecorator } = this.props.form;
     return (
-    <Card title='Change Password' style={{width: 450, margin: 'auto', maxWidth: '90%'}}>
+    <Card title='Change Password' style={{width: 450, margin: 'auto', maxWidth: '98%', marginBottom: 10}}>
       <Form onSubmit={this.handleSubmit} >
       <Row gutter={15} type="flex" justify="center" align="middle"  >
       <Col span='24'>

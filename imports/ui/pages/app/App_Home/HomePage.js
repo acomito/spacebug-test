@@ -14,18 +14,17 @@ import Col from 'antd/lib/col';
 const HomePage = ({ user }) => {
 	return (
 		<Row style={{padding: 20}} type='flex'>
-			<Col xs={24} sm={8}>
+			{/*<Col xs={24} sm={8}>
 				<div>
 					<SearchBox />
 				</div>
 				<Card bodyStyle={{padding: 10}} style={{minHeight: 300, width: 225}}>
 					<PostFilters />
 				</Card>
-			</Col>
-			<Col xs={24} sm={8}>
+			</Col>*/}
+			<Col xs={24}>
 				<DocumentsList user={user.user} />
 			</Col>
-			<Col xs={24} sm={8} />
 		</Row>
 	);
 }

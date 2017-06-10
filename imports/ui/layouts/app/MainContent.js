@@ -117,8 +117,8 @@ class MainContent extends React.Component {
     const { routes, params, route, children, collapsed, toggle, width } = this.props
     return (
       <Layout>
-        <Header style={{ background: '#fff', padding: 0 }}>
-            {width < 741 &&  <Icon className="trigger" type={collapsed ? 'menu-unfold' : 'menu-fold'} onClick={()=>toggle()} />}
+        {width > 741 && <Header style={{ background: '#fff', padding: 0 }}>
+            {/*width < 741 &&  <Icon className="trigger" type={collapsed ? 'menu-unfold' : 'menu-fold'} onClick={()=>toggle()} />*/}
             <Menu
               defaultSelectedKeys={[this.props.location.pathname]} 
               onClick={this.handleClick}
@@ -131,16 +131,36 @@ class MainContent extends React.Component {
                 {width > 741 && <Menu.Item key="/app/friends">Friends</Menu.Item>}
             <HeaderArea {...this.props} />
             </Menu>
-        </Header>
+        </Header>}
         {/*width < 741 && <Header style={{ background: '#fff', padding: 0 }}>
           <Icon className="trigger" type={collapsed ? 'menu-unfold' : 'menu-fold'} onClick={()=>toggle()} />
           <HeaderArea {...this.props} />
         </Header>*/}
         <Content style={{ margin: 0 }}>
-          <div style={{ padding: 10, paddingTop: 20,  minHeight: '65vh', maxWidth: '99%' }}>
+          <div style={{ padding: '20px 10px', minHeight: '65vh', maxWidth: '99%' }}>
             {React.cloneElement(children, {...this.props})}
           </div>
         </Content>
+        {width < 741 && <Menu
+              defaultSelectedKeys={[this.props.location.pathname]} 
+              onClick={this.handleClick}
+              mode="horizontal"
+              className='mobile-nav-bottom' 
+              style={{ lineHeight: '64px', position: 'fixed', bottom: 0, right: 0, left: 0 }}
+            >
+                <Menu.Item key="/app">
+                  <Icon type="home" style={{fontSize: 30}}/>
+                </Menu.Item>
+                <Menu.Item key="/app/my-stuff">
+                  <Icon type="tags-o" style={{fontSize: 30}}/>
+                </Menu.Item>
+                <Menu.Item key="/app/friends"> 
+                  <Icon type="team" style={{fontSize: 30}}/>
+                </Menu.Item>
+                <Menu.Item key="/app/account"> 
+                  <Icon type="user" style={{fontSize: 30}}/>
+                </Menu.Item>
+            </Menu>}
       </Layout>
     );
   }

@@ -69,7 +69,7 @@ class FormComponent extends React.Component {
 						<Link style={{marginTop: 10, textAlign: 'left', display: 'inherit'}} to='/signup'>Or signup</Link>
 					</FormItem>
 
-					<Button loading={this.state.loading} type="primary" htmlType="submit" size={'large'} style={{position: 'absolute', right: 31}}>
+					<Button loading={this.state.loading} type="primary" htmlType="submit" size='large' style={{position: 'absolute', right: 31}}>
 						{!this.state.loading ? 'Log In' : 'Logging In...'}
 					</Button>
 					

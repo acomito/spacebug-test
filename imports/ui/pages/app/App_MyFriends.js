@@ -67,11 +67,12 @@ class AppMyFriends extends React.Component {
 	}
 	renderFriendsList = () => {
 		const { myFriendsData } = this.props;
-		if (!myFriendsData || myFriendsData.loading || myFriendsData.myFriends.length < 0) {
+		if (!myFriendsData || myFriendsData.loading || myFriendsData.myFriends.length === 0) {
 			return (
-				<EmptyState 
-					header='No Friends Yet!'
-					subheader={''}
+				<EmptyState
+					header='No friends right now...'
+					subheader="You should invite friends to the app..."
+					image={<Icon style={{fontSize: 35}} type='user' />}
 				/>
 			);
 		}
