@@ -16,3 +16,6 @@ export const AlreadyAuthenticatedError = createError('AlreadyAuthenticatedError'
 export const ForbiddenError = createError('ForbiddenError', {
 	message: 'You are not allowed to do that'
 });
+
+
+export const MongoError = createError('MongoError', { message: 'hmm... something went wrong with the database. Please try again or contact support.'});

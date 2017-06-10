@@ -10,6 +10,8 @@ import Button from 'antd/lib/button';
 //apollo
 import { resetPassword } from 'meteor-apollo-accounts'
 import apollo from '/imports/ui/apollo/ApolloClient'
+// MODULES
+import { alertErrors } from '/imports/modules/helpers'
 // COMPONENTS
 import { FormErrorArea } from '/imports/ui/components/common'
 
@@ -33,17 +35,6 @@ const FormItem = Form.Item;
     }
   };
 
-
-const alertErrors = (e, _this) => {
-  const errors = e.graphQLErrors.map( err => err.message );
-  errors.forEach(messageText => {
-    message.error(messageText, 4);
-    let errors = _this.state.errors;
-    errors.push(messageText);
-    _this.setState({ errors });
-  });
-  _this.setState({ loading: false });
-}
 
 
 // INTERNAL COMPONENTS
@@ -143,8 +134,13 @@ class ResetPassword extends React.Component {
   render() {
     return (
       <div style={{width: 400, maxWidth: '95%', margin: 'auto', textAlign: 'center'}} >
-          <Card style={{height: 300, width: '100%', border: 0}}>
-            <ResetPasswordForm token={this.state.token} />
+          <Card 
+            bodyStyle={{height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center'}} 
+          >
+            <div>
+              <h1 style={{textAlign: 'center', marginBottom: 20, color: '#000'}}>Reset Your Password</h1>
+              <ResetPasswordForm token={this.state.token} />
+            </div>
           </Card>
       </div>
     );

@@ -19,6 +19,9 @@ import message from 'antd/lib/message';
 import { states_list, selectFilterByLabel } from '/imports/modules/helpers'
 import { UserInfoInputGroup } from './FormInputs'
 import { SingleImageUpload } from './SingleImageUpload'
+import { FormErrorArea } from './FormErrorArea'
+// MODULES
+import { alertErrors } from '/imports/modules/helpers';
 
 // CONSTANTS & DESTRUCTURING
 // ===================================
@@ -35,17 +38,21 @@ class EditAccountForm extends React.Component {
   };
   onSuccessfulSubmit = (values) => {
     const { mutate, user, form } = this.props;
+    let errors = [];
     let params = { image: this.state.image, ...values }
     let variables = { _id: user._id, params }
-    mutate({ variables }).then(() => {
-      this.setState({loading: false});
+    mutate({ variables })
+    .then(() => {
+      this.setState({loading: false, errors});
       message.info('profile saved!');
-    });
+    })
+    .catch(e => alertErrors(e, this));
   }
   handleSubmit = (e) => {
     e.preventDefault();
+    let errors = [];
     const { data, mutate, user, form } = this.props;
-    this.setState({loading: true});
+    this.setState({loading: true, errors});
 
     form.validateFields((err, values) => {
       if (err) {  return this.setState({loading: false}); }
@@ -85,6 +92,7 @@ class EditAccountForm extends React.Component {
             </Button>
           </FormItem>
         </Form>
+        <FormErrorArea errors={this.state.errors} />
       </Card>
     );
   }

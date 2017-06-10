@@ -6,11 +6,15 @@ import Card from 'antd/lib/card';
 import message from 'antd/lib/message';
 import Tag from 'antd/lib/tag';
 import Spin from 'antd/lib/spin';
+import Icon from 'antd/lib/icon';
 // APOLLO
 import { graphql } from 'react-apollo';
 import { USERS_FRIEND_SEARCH } from '/imports/ui/apollo/queries';
+// COMPONENTS
 import PostCard from '/imports/ui/components/common/PostCard'
 import UserCard from '/imports/ui/components/common/UserCard'
+import EmptyState from '/imports/ui/components/common/EmptyState'
+import InviteModal from '/imports/ui/components/common/InviteModal'
 // REDUX
 import { connect } from 'react-redux'
 import * as actions from '/imports/ui/redux/actions'
@@ -32,6 +36,17 @@ class UsersSearchList extends React.Component {
 	render() {
 		if (this.props.data.loading) {
 			return <p>searching...</p>
+		}
+
+		if (this.props.data.usersFriendSearch && this.props.data.usersFriendSearch.length === 0) {
+			return (
+				<EmptyState
+					header='No Results...'
+					subheader="We couldn't find anyone matching your search..." 
+					image={<Icon style={{fontSize: 45}} type="team" />}
+					actionLink={<InviteModal user={this.props.currentUser} buttonText={'Invite new people'} linkStyles={{marginTop: 10}} />}
+				/>
+			);
 		}
 
 		return (

@@ -16,7 +16,7 @@ class UsersSearch extends React.Component {
 		return (
 			<div>
 				<Search
-				    placeholder="search users..."
+				    placeholder="search users by name or email..."
 				    style={{ width: 225, marginBottom: 5 }}
 				    onChange={e => this.props.onFriendSearchTextChange(e.target.value)}
 				  />

@@ -48,6 +48,7 @@ const adminCreateUser = isAdminResolver.createResolver(
 const getUsersNotToReturn = (root, args, context) => {
   let currentUsersFriends = Friends.find({ownerId: context.user._id}).fetch();
   let usersNotToReturn = currentUsersFriends.map( item => item.friendId); // do not return existing friends
+  console.log(usersNotToReturn)
   let query1 = { accepted: false, recipientId: context.user._id }
   let query2 = { accepted: false, sentById: context.user._id }
   let currentPendingFriendRequests = FriendRequests.find({ $or: [query1, query2]}).fetch();
@@ -59,21 +60,26 @@ const getUsersNotToReturn = (root, args, context) => {
   usersNotToReturn.push(context.user._id) // add current users _id to this list, so we dont return the current user
   usersNotToReturn = [...usersNotToReturn, ...pendingRequestUserIds];
   return usersNotToReturn
+/*  return new Promise(
+      (resolve, reject) => {
+        resolve(usersNotToReturn);
+      }
+  );*/
 }
 
 const buildUsersFriendSearchQuery = async (root, args, context) => {
 
-  let usersNotToReturn = getUsersNotToReturn(root, args, context);
-  
   return new Promise(
       (resolve, reject) => {
+        let usersNotToReturn = getUsersNotToReturn(root, args, context);
+        console.log(usersNotToReturn)
         let query = { 
           _id: { $nin: usersNotToReturn },
           roles: { $nin: ['admin'] }
         };
-        let andQueryArray = [];
+        let andQueryArray = [query];
 
-        let options = { sort: { createdAt: -1}, limit: 10  } // at some point, when pagination is added, you'll want to add a limit here, e.g. limit: 10,
+        let options = { sort: { createdAt: -1}, limit: 5  } // at some point, when pagination is added, you'll want to add a limit here, e.g. limit: 10,
 
         // If an offset arguement is passed, add it as an option. 
         // offset is (one potential strategy) used for pagination/infinite loading if it ever gets added.
@@ -100,9 +106,11 @@ const buildUsersFriendSearchQuery = async (root, args, context) => {
         let orSearchQuery = { $or: [ 
           { 'profile.firstName': regex }, 
           { 'profile.lastName': regex }, 
+          { 'emails.0.address': regex }, 
         ]};
         andQueryArray.push(orSearchQuery)
       }
+
       if (andQueryArray && andQueryArray.length > 0) {
         query = { $and: andQueryArray }
       }
@@ -152,6 +160,19 @@ const getUserById = isAuthenticatedResolver.createResolver(
   }
 )
 
+const saveUserAccount = isAuthenticatedResolver.createResolver(
+  async (root, { _id, params }, { user }) => {
+    let dataToUpdate = { 
+        'emails.0.address': params.email,
+        'profile.firstName': params.firstName,
+        'profile.lastName': params.lastName,
+        'profile.cellPhone': params.cellPhone,
+        'profile.workPhone': params.workPhone, 
+      }
+      Meteor.users.update({ _id }, { $set: dataToUpdate });
+      return Meteor.users.findOne({ _id });
+  }
+)
 
 
 const saveUserExpoPushId = async (root, { expoPushId }, { user }) => {
@@ -176,8 +197,7 @@ export const UserResolvers = {
     },
     usersFriendSearch: async (root, args, context) => {
       let { query, options, count } = await buildUsersFriendSearchQuery(root, args, context);
-      console.log(query)
-      return Meteor.users.find(query).fetch();
+      return Meteor.users.find(query, options).fetch();
     },
     users,
     getUserById,
@@ -185,17 +205,7 @@ export const UserResolvers = {
   Mutation:{
     adminCreateUser,
     adminDeleteUser,
-    saveUserAccount(root, { _id, params }, context) {
-      let dataToUpdate = { 
-        'emails.0.address': params.email,
-        'profile.firstName': params.firstName,
-        'profile.lastName': params.lastName,
-        'profile.cellPhone': params.cellPhone,
-        'profile.workPhone': params.workPhone, 
-      }
-      Meteor.users.update({ _id }, { $set: dataToUpdate });
-      return Meteor.users.findOne({ _id });
-    },
+    saveUserAccount,
     saveUserExpoPushId,
     saveUserImage(root, { image }, { user }) {
       let dataToUpdate = { 'profile.image': image };

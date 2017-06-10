@@ -8,8 +8,29 @@ import Button from 'antd/lib/button';
 import Card from 'antd/lib/card';
 import message from 'antd/lib/message';
 import Tag from 'antd/lib/tag';
+import Row from 'antd/lib/row';
+import Col from 'antd/lib/col';
 
 const HomePage = ({ user }) => {
+	return (
+		<Row style={{padding: 20}} type='flex'>
+			<Col xs={24} sm={8}>
+				<div>
+					<SearchBox />
+				</div>
+				<Card bodyStyle={{padding: 10}} style={{minHeight: 300, width: 225}}>
+					<PostFilters />
+				</Card>
+			</Col>
+			<Col xs={24} sm={8}>
+				<DocumentsList user={user.user} />
+			</Col>
+			<Col xs={24} sm={8} />
+		</Row>
+	);
+}
+
+/*const HomePage = ({ user }) => {
 	console.log(user)
 	return (
 		<div style={{padding: 20}}>
@@ -29,6 +50,6 @@ const HomePage = ({ user }) => {
 			</div>
 		</div>
 	);
-}
+}*/
 
 export default HomePage;

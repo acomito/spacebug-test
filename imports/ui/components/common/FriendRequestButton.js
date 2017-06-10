@@ -3,6 +3,7 @@ import AddDocument from '/imports/ui/components/common/AddDocument'
 import DocumentsList from '/imports/ui/components/common/DocumentsList';
 // APOLLO
 import { graphql } from 'react-apollo';
+import ApolloClient from '/imports/ui/apollo/ApolloClient'
 import { GET_FRIEND_REQUEST_BY_ID, GET_INCOMING_FRIEND_REQUESTS, GET_MY_FRIENDS, USERS_FRIEND_SEARCH  } from '/imports/ui/apollo/queries';
 import { CREATE_FRIEND_REQUEST, ACCEPT_FRIEND_REQUEST } from '/imports/ui/apollo/mutations';
 //antd
@@ -25,7 +26,7 @@ class FriendRequestButton extends React.Component {
 		loading: false
 	}
 	onAcceptFriendRequest = () => {
-		const { data, acceptFriendRequest } = this.props;
+		const { data, acceptFriendRequest, targetUserId } = this.props;
 		this.setState({ loading: true });
 		let variables = { requestId: data.getFriendRequestById._id }
 		let refretchQueries = [
@@ -33,10 +34,11 @@ class FriendRequestButton extends React.Component {
 			{ query: GET_MY_FRIENDS },
 			{ query: GET_FRIEND_REQUEST_BY_ID, variables: { targetUserId } }
 		]
-		acceptFriendRequest({ variables, refretchQueries })
+		acceptFriendRequest({ variables })
 		.then( res => {
 			setTimeout(()=>{
 				message.success('request accpeted!')
+				ApolloClient.resetStore()
 				return this.setState({ loading: false });
 			}, 1000);
 			

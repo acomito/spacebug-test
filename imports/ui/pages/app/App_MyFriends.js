@@ -25,16 +25,9 @@ import PostCard from '/imports/ui/components/common/PostCard'
 import DiscussionForm from '/imports/ui/components/common/DiscussionForm';
 import UsersSearch from '/imports/ui/components/common/UsersSearch'
 import InviteModal from '/imports/ui/components/common/InviteModal'
+import FriendRequestButton from '/imports/ui/components/common/FriendRequestButton'
+import EmptyState from '/imports/ui/components/common/EmptyState'
 
-
-const EmptyState = ({ title, subtitle }) => {
-	return (
-		<div>
-			<h2>{ title }</h2>
-			<h4>{ subtitle }</h4>
-		</div>
-	);
-}
 
 
 const FriendList = () => {
@@ -77,8 +70,8 @@ class AppMyFriends extends React.Component {
 		if (!myFriendsData || myFriendsData.loading || myFriendsData.myFriends.length < 0) {
 			return (
 				<EmptyState 
-					title='No Friends Yet!'
-					subtitle={''}
+					header='No Friends Yet!'
+					subheader={''}
 				/>
 			);
 		}
@@ -96,35 +89,41 @@ class AppMyFriends extends React.Component {
 	renderIncomingRequests = () => {
 		const { getIncomingReqests }= this.props.data;
 
-		if (getIncomingReqests && getIncomingReqests.length < 0) {
+		if (getIncomingReqests && getIncomingReqests.length === 0) {
 			return (
-				<EmptyState 
-					title='No Requests Right Now...'
-					subtitle={''}
+				<EmptyState
+					header='No requests right now...'
+					subheader="You should invite friends to the app..."
+					image={<Icon style={{fontSize: 35}} type='user' />}
 				/>
 			);
 		}
 		return (
 			<div>
-				{getIncomingReqests.map(item => (
-					<Card key={item._id}>
-						<div style={{display: 'flex'}}>
-							<div style={{flex: 1}}>
-								<img 
-									src={item.sentByUser.profile.image || DEFAULT_AVATAR} 
-									style={{height: 40, width: 40, borderRadius: '50%'}}
-								/>
+				{getIncomingReqests.map(item => {
+					console.log(item.sentById)
+					return (
+						<Card key={item._id}>
+							<div style={{display: 'flex'}}>
+								<div style={{flex: 1}}>
+									<img 
+										src={item.sentByUser.profile.image || DEFAULT_AVATAR} 
+										style={{height: 40, width: 40, borderRadius: '50%'}}
+									/>
+								</div>
+								<div style={{flex: 1}}>
+									<p>
+										{item.sentByUser.profile.firstName}
+										{item.sentByUser.profile.lastName}
+									</p>
+								</div>
+								<div style={{flex: 3}}>
+									<FriendRequestButton user={this.props.user.user} targetUserId={item.sentById} />
+								</div>
 							</div>
-							<div style={{flex: 1}}>
-								{item.sentByUser.profile.firstName}
-								{item.sentByUser.profile.lastName}
-							</div>
-							<div style={{flex: 3}}>
-								<FriendRequestButton user={this.props.user.user} targetUserId={item.sentByUser._id} />
-							</div>
-						</div>
-					</Card>
-				))}
+						</Card>
+					)
+				})}
 			</div>
 		)
 	}
@@ -136,7 +135,7 @@ class AppMyFriends extends React.Component {
 
 		return (
 			<div style={{width: 600, maxWidth: '98%', margin: 'auto'}}>
-				<div style={{marginTop: 20, minHeight: 200}}>
+				<div style={{marginTop: 20, minHeight: 550}}>
 					<h2>CONNECT</h2>
 					<UsersSearch currentUser={this.props.user.user} />
 				</div>
@@ -145,11 +144,11 @@ class AppMyFriends extends React.Component {
 						buttonText={'or, Invite new people'}
 						linkStyles={{}} 
 					/>
-				<div style={{marginTop: 20, minHeight: 200}}>
+				<div style={{marginTop: 50, minHeight: 300}}>
 					<h2>PENDING REQUESTS</h2>
 					{this.renderIncomingRequests()}
 				</div>
-				<div style={{marginTop: 20, minHeight: 200}}>
+				<div style={{marginTop: 50, minHeight: 300}}>
 					<h2>MY FRIENDS</h2>
 					{this.renderFriendsList()}
 				</div>

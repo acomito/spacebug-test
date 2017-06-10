@@ -20,6 +20,7 @@ import { graphql } from 'react-apollo';
 import { GET_USER_BY_ID } from '/imports/ui/apollo/queries';
 import PostCard from '/imports/ui/components/common/PostCard'
 import FriendRequestButton from '/imports/ui/components/common/FriendRequestButton'
+import EmptyState from '/imports/ui/components/common/EmptyState'
 
 // MODULES
 import { DEFAULT_AVATAR } from '/imports/modules/config'
@@ -37,17 +38,6 @@ const UserCard = ({ item, user, targetUserId, getUserById }) => {
 	);
 }
 
-const EmptyState = ({ header, subheader, image }) => {
-	return (
-		<div style={{width: 500, margin: 'auto', maxWidth: '99%', minHeight: 250, display:'flex', alignItems: 'center', justifyContent: 'center'}}>
-			<div style={{textAlign: 'center'}}>
-				{image && image}
-				<h3>{ header }</h3>
-				<h4 style={{color: '#888', margin: 0}}>{ subheader }</h4>
-			</div>
-		</div>
-	);
-}
 
 const UserPostList = ({ posts, user, getUserById }) => {
 	if (!getUserById.isFriend) {
@@ -56,6 +46,7 @@ const UserPostList = ({ posts, user, getUserById }) => {
 				header={'You Are not Friends Yet!'}
 				subheader={`Send a friend request to see ${ getUserById.profile.firstName }'s Posts`}
 				image={<Icon style={{fontSize: 35}} type="user" />}
+				
 			/>
 		); 
 	}

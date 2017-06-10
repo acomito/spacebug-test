@@ -62,7 +62,7 @@ export const getBreadcumbName = (route, routes) => {
   }
 }
 
-const HeaderArea = ({ routes, params, children, collapsed, toggle, user }) => {
+const HeaderArea = ({ width, routes, params, children, collapsed, toggle, user }) => {
   return (
      <div>
       {/*collapsed && (
@@ -74,8 +74,8 @@ const HeaderArea = ({ routes, params, children, collapsed, toggle, user }) => {
         />
       )*/}
 
-      <InviteModal user={user.user} />
-      <HelpModal />
+      {width > 741 && <InviteModal user={user.user} />}
+      {width > 741 && <HelpModal />}
       <Dropdown overlay={menu}>
         <img
           src={user.user && user.user.profile && user.user.profile.image ? user.user.profile.image : DEFAULT_AVATAR }

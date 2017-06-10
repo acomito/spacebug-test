@@ -11,7 +11,7 @@ import Card from 'antd/lib/card';
 import message from 'antd/lib/message';
 import notification from 'antd/lib/notification';
 //modules
-import { handlePasswordChange } from '/imports/modules/helpers';
+import { handlePasswordChange, alertErrors } from '/imports/modules/helpers';
 import { FormErrorArea } from './FormErrorArea'
 //
 import { Accounts } from 'meteor/accounts-base'
@@ -52,29 +52,21 @@ const styles = {
   }
   handleSubmit = (e) => {
     e.preventDefault();
-    this.setState({loading: true});
+    let errors = [];
+    this.setState({loading: true, errors});
 
-    const failure = () => {
-      this.setState({loading: false});
-    }
-    const success = () => {
-      this.setState({loading: false});
-      
-    }
-
-    this.props.form.validateFields((err, values) => {
-      if (err) { return failure(); }
-
-      if (!err) {
-        let { oldPassword, newPassword } = values;
+    this.props.form.validateFields((err, { oldPassword, newPassword }) => {
+      if (err) { return this.setState({loading: false}); }
         Accounts.changePassword(oldPassword, newPassword, (err, res) => {
-          if(err) { return console.log(err); }
+          if (err) {
+            errors = [err.reason]
+            return this.setState({loading: false, errors}); 
+          }
           message.success('password changed!', 3);
-          this.setState({loading: false});
+          this.setState({loading: false, errors});
           return this.props.form.resetFields();
         });
-        //handlePasswordChange(oldPassword, newPassword, this);
-      }
+
     });
 
   }
