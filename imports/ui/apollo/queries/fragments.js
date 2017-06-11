@@ -14,6 +14,27 @@ export const ownerFragment = gql`
 `;
 
 
+export const facilityFragment = gql`
+  fragment facilityFragment on Facility {
+      _id
+      title
+      clientId
+      client {
+        _id
+        title
+      }
+      location {
+        street
+        street1
+        street2
+        postal
+        city
+        state
+        country
+      }
+    }
+`;
+
 export const messageFragment = gql`
   fragment messageFragment on Message {
       _id

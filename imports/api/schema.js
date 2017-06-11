@@ -4,6 +4,11 @@ import { PostResolvers, PostSchema } from './Post';
 import { InviteResolvers, InviteSchema } from './Invite';
 import { MessageResolvers, MessageSchema } from './Message';
 import { merge } from 'lodash';
+import { ClientResolvers, ClientSchema } from './Client';
+import { FacilityResolvers, FacilitySchema } from './Facility';
+import { ManufacturerResolvers, ManufacturerSchema } from './Manufacturer';
+import { MachineModelResolvers, MachineModelSchema } from './MachineModel';
+import { MachineResolvers, MachineSchema } from './Machine';
 
 
 export const BaseSchemas = [`
@@ -13,6 +18,12 @@ type Geometry {
 	}
 
 scalar Date
+
+
+
+type Count { 
+  count: Int
+}
 
 input LocationData {
 	street1: String
@@ -38,10 +49,12 @@ type Address {
 	    geometry: Geometry
 	    placeId: String
 	    street: String
+	    street1: String
+		street2: String
 	    city: String
 	    state: String
-	    zip: Int
-	    country: Int
+	    postal: String
+	    country: String
 	    maps_url: String
 	}
 `];
@@ -66,6 +79,11 @@ export const typeDefs = [
 	...UserSchema, 
 	...PostSchema,
 	...MessageSchema,
+	...ClientSchema,
+	...FacilitySchema,
+	...ManufacturerSchema,
+	...MachineModelSchema,
+	...MachineSchema
 ];
 
 
@@ -74,6 +92,11 @@ export const resolvers = merge(
 	UserResolvers, 
 	PostResolvers,
 	MessageResolvers,
+	ClientResolvers,
+	FacilityResolvers,
+	ManufacturerResolvers,
+	MachineModelResolvers,
+	MachineResolvers
 );
 
 

@@ -34,7 +34,7 @@ export const MainContent = ({routes, params, children, collapsed, toggle }) => {
       </Header>
       <Content style={{ margin: '5px 16px' }}>
         <Breadcrumb style={{ margin: '12px 0' }} itemRender={itemRender} routes={routes} params={params} />
-        <div style={{ padding: 24, background: '#fff', minHeight: '65vh' }}>
+        <div style={{ padding: 24, background: '#fff', minHeight: '75vh' }}>
           <div style={{margin: '20px auto', width: 1000, maxWidth: '90%'}}>
             { children }
           </div>

@@ -1,11 +1,30 @@
-//top-level
+import { Mongo } from 'meteor/mongo';
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
+import { baseModel } from '../base-model';
+
+//declare collection name and export it
+export const Facilities = new Mongo.Collection('Facilities');
+
+//attach basics via baseModel (createdAt, title, etc.)
+Facilities.baseModel = baseModel;
+
+Facilities.allow({
+  insert: () => false,
+  update: () => false,
+  remove: () => false,
+});
+
+Facilities.deny({
+  insert: () => true,
+  update: () => true,
+  remove: () => true,
+});
+
 
 
 
 // LOCATION SCHEMA
 // ---------------------------------------------
-
 
 export const addressSchema = new SimpleSchema({
     fullAddress: {
@@ -68,66 +87,32 @@ export const addressSchema = new SimpleSchema({
         optional: true
     },
 });
-// BASE MODEL
-// ---------------------------------------------
-export const baseModel = new SimpleSchema({
+
+Facilities.schema = new SimpleSchema({
   title: {
     type: String,
-    optional: true,
   },
-  description: {
+  location: {
+    type: addressSchema,
+    optional: true
+  },
+  clientId: {
     type: String,
-    optional: true,
+    optional: true
+    // an optional field to capture a topic. At this point, only used with messages of type "supportTicket" whicha are
+    // messages that comes in from the help form/modal (bug report, comment or other)
   },
-  tags: {
-    type: [String],
-    optional: true,
-  },
-  special: {
-    type: String,
-    optional: true,
-  },
-  parentModelType: {
-    type: String,
-    optional: true,
-  },
-  parentId: {
-    type: String,
-    optional: true,
-  },
-  deleted: {
-    type: Boolean,
-    autoValue: function() {
-        if (this.isInsert && (!this.isSet || this.value.length === 0)) {  // only set on insert
-            return false
-        }
-    }
-  },
-  ownerId: {
-    type: String,
-    autoValue: function() {
-        if (this.isInsert && (!this.isSet || this.value.length === 0)) {  // only set on insert
-           return Meteor.userId();   
-        }
-    }
-   },
-  createdAt: {
-    type: Date,
+  schemaVersion: {
+    type: Number,
     autoValue: function() {
       // only set on insert
         if (this.isInsert && (!this.isSet || this.value.length === 0)) {
-            return new Date()
+            return 0
         }
-    }
-  },
-  updatedAt: {
-    type: Date,
-    // returns a new date on any update-- e.g. the last updated date
-    autoValue: function() {
-            return new Date()
     }
   },
 });
 
-// EXPORT BASE MODEL
-// ---------------------------------------------
+
+Facilities.attachSchema(Facilities.schema);
+Facilities.attachSchema(Facilities.baseModel);

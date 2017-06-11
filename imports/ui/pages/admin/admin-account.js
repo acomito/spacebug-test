@@ -1,7 +1,8 @@
 import React from 'react';
-import { AdminProfileForm } from '../../components/admin/AdminProfileForm'
+import { AdminProfileForm } from '/imports/ui/components/admin/AdminProfileForm'
 import { graphql, withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
+import { ChangePassword } from '/imports/ui/components/common';
 
 class AdminAccountPage extends React.Component {
 	render(){
@@ -11,6 +12,7 @@ class AdminAccountPage extends React.Component {
 		return (
 			<div>
 				<AdminProfileForm user={this.props.data.user} data={this.props.data} />
+				<ChangePassword />
 			</div>
 		);
 

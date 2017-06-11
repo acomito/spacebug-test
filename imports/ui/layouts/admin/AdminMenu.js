@@ -41,6 +41,22 @@ export const AdminMenu = ({handleClick, location}) => {
               <Icon type="team" />
               <span className="nav-text">Users</span>
             </Menu.Item>
+            <Menu.Item key="/admin/manufacturers">
+              <Icon type="switcher" />
+              <span className="nav-text">Manufacturers</span>
+            </Menu.Item>
+            <Menu.Item key="/admin/facilities">
+              <Icon type="environment-o" />
+              <span className="nav-text">Facilities</span>
+            </Menu.Item>
+            <Menu.Item key="/admin/machine-models">
+              <Icon type="barcode" />
+              <span className="nav-text">Machine Models</span>
+            </Menu.Item>
+            <Menu.Item key="/admin/clients">
+              <Icon type="smile-o" />
+              <span className="nav-text">Clients</span>
+            </Menu.Item>
             <Menu.Item key="/admin/posts">
               <Icon type="appstore-o" />
               <span className="nav-text">Posts</span>

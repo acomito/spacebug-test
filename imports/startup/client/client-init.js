@@ -15,7 +15,7 @@ import LocaleProvider from 'antd/lib/locale-provider'
 import Raven from 'raven-js';
 
 
-Raven.config(Meteor.settings.public.sentryUrl).install();
+/*Raven.config(Meteor.settings.public.sentryUrl).install();*/
 
 
 // INJECT MAIN APP

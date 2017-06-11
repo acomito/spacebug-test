@@ -29,7 +29,14 @@ import AdminUsersSinglePage from '/imports/ui/pages/admin/admin-user-single';
 import AdminAccountPage from '/imports/ui/pages/admin/admin-account';
 import AdminPostsPage from '/imports/ui/pages/admin/admin-posts';
 import AdminPostsSingle from '/imports/ui/pages/admin/admin-posts-single';
-
+import AdminManufacturersPage from '/imports/ui/pages/admin/admin-manufacturers';
+import AdminManufacturersSingle from '/imports/ui/pages/admin/admin-manufacturers/ManufacturersSingle';
+import AdminClientsPage from '/imports/ui/pages/admin/admin-clients';
+import AdminClientsDetail from '/imports/ui/pages/admin/admin-clients/ClientsSingle';
+import AdminFacilitiesPage from '/imports/ui/pages/admin/admin-facilities';
+import AdminFacilitiesSingle from '/imports/ui/pages/admin/admin-facilities/FacilitiesSingle';
+import AdminMachineModelsPage from '/imports/ui/pages/admin/admin-machine-models';
+import AdminMachineModelSingle from '/imports/ui/pages/admin/admin-machine-models/MachineModelSingle';
 
 import { userId } from 'meteor-apollo-accounts'
 
@@ -69,6 +76,19 @@ const AppRoutes = () => {
 
         <Route path="posts" breadcrumbName='Posts' component={ AdminPostsPage }>
           <Route path=":_id" breadcrumbName='Post Detail' component={ AdminPostsSingle }  />
+        </Route>
+        <Route path="facilities" breadcrumbName='Facilities' component={ AdminFacilitiesPage }>
+          <Route path=":_id" breadcrumbName='Facility Detail' component={ AdminFacilitiesSingle }  />
+        </Route>
+        <Route path="machine-models" breadcrumbName='Machine Models' component={ AdminMachineModelsPage }>
+          <Route path=":_id" breadcrumbName='Machine Model Detail' component={ AdminMachineModelSingle }  />
+        </Route>
+
+        <Route path="manufacturers" breadcrumbName='Manufacturers' component={ AdminManufacturersPage }>
+         <Route path=":_id" breadcrumbName='Manufacturer Detail' component={ AdminManufacturersSingle }  />
+        </Route>
+        <Route path="clients" breadcrumbName='Clients' component={ AdminClientsPage }>
+          <Route path=":_id" breadcrumbName='Client Detail' component={ AdminClientsDetail }  />
         </Route>
         <Route path="users" breadcrumbName='Users' component={ AdminUsersPage }>
           <Route path=":_id" breadcrumbName='User Detail' component={ AdminUsersSinglePage }  />

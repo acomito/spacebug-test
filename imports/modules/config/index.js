@@ -26,56 +26,16 @@ export const ROLE_OPTIONS = [
 	'admin',
 ];
 
-
-
-export const CATEGORY_OPTIONS = [
-	// A
-	'Antiques',
-	'Appliances',
-	'Arts & Crafts',
-	'Audio Equipment',
-	'Auto Parts',
-	// B
-	'Baby & Kids',
-	'Bicycles',
-	'Boats & Marine',
-	'Books & Magazines',
-	'Business Equipment',
-	// C
-	'Campers & RVs',
-	'Cars & Trucks',
-	'CDs & DVDs',
-	'Cell Phones',
-	'Clothing & Shoes',
-	'Collectibles',
-	'Computer Equipment',
-	'Computer Software',
-	// E
-	'Electronics',
-	// F
-	'Farming',
-	'Furniture',
-	// G
-	'Games & Toys',
-	'General',
-	// H
-	'Home & Garden',
-	'Household',
-	// J
-	'Jewelry & Accessories',
-	// M
-	'Motorcycles',
-	'Musical Instruments',
-	// P
-	'Pet Supplies',
-	'Photography',
-	// S
-	'Sports & Outdoors',
-	// T
-	'Tickets',
-	'Tools & Machinery',
-	'TVs',
-	// V
-	'Video Equipment',
-	'Video Games',
+export const MACHINE_MODEL_CATEGORIES = [
+	'bicep/triceps',
+	'other',
 ];
+
+
+export const USER_MODEL_TYPES = [
+	'gym-goer',
+	'gym-owner',
+	'gym-manager',
+	'manufacturer'
+];
+
