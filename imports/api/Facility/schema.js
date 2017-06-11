@@ -1,7 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import { Facilities } from './model';
 import { Clients } from '../Client';
-
+import { Machines } from '../Machine';
 import { createError } from 'apollo-errors';
 import { isAuthenticatedResolver, isAdminResolver } from '../base-resolvers';
 
@@ -19,6 +19,7 @@ type Facility {
 	    createdAt: Date
 	    location: Address
 	    parentModelType: String
+	    machines: [Machine]
 	}
 
 input FacilityParams {
@@ -54,6 +55,9 @@ export const FacilityResolvers = {
 	Facility: {
 		client: ({ clientId }, args, context) => {
 			return Clients.findOne({ _id: clientId });
+		},
+		machines: ({ _id }, args, context) => {
+			return Machines.find({ facilityId: _id }).fetch();
 		}
 	},
 	Mutation: {

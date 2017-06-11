@@ -37,6 +37,8 @@ import AdminFacilitiesPage from '/imports/ui/pages/admin/admin-facilities';
 import AdminFacilitiesSingle from '/imports/ui/pages/admin/admin-facilities/FacilitiesSingle';
 import AdminMachineModelsPage from '/imports/ui/pages/admin/admin-machine-models';
 import AdminMachineModelSingle from '/imports/ui/pages/admin/admin-machine-models/MachineModelSingle';
+import AdminMachinesPage from '/imports/ui/pages/admin/admin-machines';
+import AdminMachineSingle from '/imports/ui/pages/admin/admin-machines/MachinesSingle';
 
 import { userId } from 'meteor-apollo-accounts'
 
@@ -72,7 +74,7 @@ const AppRoutes = () => {
       
       {/*ADMIN AREA*/}
       <Route path="/admin" breadcrumbName='Admin' component={ AdminLayout }>
-        <IndexRoute name="index" breadcrumbName='Admin' component={ AdminHomePage } />
+        <IndexRoute name="index" breadcrumbName='Home' component={ AdminHomePage } />
 
         <Route path="posts" breadcrumbName='Posts' component={ AdminPostsPage }>
           <Route path=":_id" breadcrumbName='Post Detail' component={ AdminPostsSingle }  />
@@ -82,6 +84,9 @@ const AppRoutes = () => {
         </Route>
         <Route path="machine-models" breadcrumbName='Machine Models' component={ AdminMachineModelsPage }>
           <Route path=":_id" breadcrumbName='Machine Model Detail' component={ AdminMachineModelSingle }  />
+        </Route>
+        <Route path="machines" breadcrumbName='Machines' component={ AdminMachinesPage }>
+          <Route path=":_id" breadcrumbName='Machine Detail' component={ AdminMachineSingle }  />
         </Route>
 
         <Route path="manufacturers" breadcrumbName='Manufacturers' component={ AdminManufacturersPage }>

@@ -23,6 +23,10 @@ export const facilityFragment = gql`
         _id
         title
       }
+      machines {
+        _id
+        title
+      }
       location {
         street
         street1

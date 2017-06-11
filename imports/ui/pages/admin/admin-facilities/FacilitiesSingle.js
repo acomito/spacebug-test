@@ -11,6 +11,21 @@ import { graphql } from 'react-apollo';
 
 
 class AdminFacilitiesSingle extends React.Component {
+	renderMachines = () => {
+		const { loading, facilityById } = this.props.data;
+		if (facilityById && facilityById.machines && facilityById.machines.length > 0) {
+			return (
+				<div>
+					<h2>Machines:</h2>
+					{facilityById.machines.map( item => (
+						<div key={item._id}>
+							<Link to={`/admin/machines/${item._id}`}>{item.title}</Link>
+						</div>
+					))}
+				</div>
+			)
+		}
+	}
 	render(){
 		
 		const { loading, facilityById } = this.props.data;
@@ -65,7 +80,7 @@ class AdminFacilitiesSingle extends React.Component {
 			          	/>
 	          		</div>
 	          	)}
-	          	
+	          	{this.renderMachines()}
 			</div>
 		);
 

@@ -10,6 +10,10 @@ export const MACHINE_BY_ID = gql`
     machineById (_id: $_id) {
       _id
       title
+      facility {
+        _id
+        title
+      }
     }
   }
 `;
