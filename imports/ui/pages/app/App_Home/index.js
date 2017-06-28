@@ -2,7 +2,6 @@ import React from 'react';
 import AddDocument from '/imports/ui/components/common/AddDocument'
 import DocumentsList from '/imports/ui/components/common/DocumentsList';
 import PostFilters from '/imports/ui/components/common/PostFilters';
-import SearchBox from '/imports/ui/components/common/SearchBox';
 // ANTD
 import Button from 'antd/lib/button';
 import Card from 'antd/lib/card';
@@ -20,7 +19,8 @@ class AppHome extends React.Component {
 		}
 		return (
 			<div>
-				{ children ? children : <HomePage {...this.props} />}
+				<AddDocument {...this.props} />
+				<DocumentsList />
 			</div>
 		);
 	}

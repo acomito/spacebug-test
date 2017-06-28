@@ -66,11 +66,11 @@ const buildPostsSearchQuery = async (root, args, context) => {
   
   return new Promise(
       (resolve, reject) => {
-        let query = { ownerId: { $in: args.friendIds } }; //query to make sure you only bring back a friends posts
+        let query = { }; //query to make sure you only bring back a friends posts
         // declare the andQueryArray which will be used as the array of queries for an $and mongoDB query
         // we push new queries in the array as needed (e.g. when specific unitIds are passed in args.params.unitIds, we build a query and it into the array)
         let andQueryArray = [query]; 
-        console.log(args.friendIds)
+
         let options = { sort: { createdAt: -1}, limit: 10  } // at some point, when pagination is added, you'll want to add a limit here, e.g. limit: 10,
 
         // If an offset arguement is passed, add it as an option. 

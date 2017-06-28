@@ -11,10 +11,8 @@ import Col from 'antd/lib/col';
 
 const HomePage = ({ user }) => {
 	return (
-		<Row style={{padding: 20}} type='flex'>
-			<Col xs={24}>
-			</Col>
-		</Row>
+		<div style={{padding: 20}}>
+		</div>
 	);
 }
 

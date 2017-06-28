@@ -60,7 +60,8 @@ class DocumentsList extends React.Component {
 			<div style={{height: '100%', marginTop: 15, display: 'flex', alignItems: 'flex-start', justifyContent: 'top'}}>
 				<div>
 					{data.posts.map( item => {
-						return <PostCard key={item._id} item={item} user={user} />
+						console.log()
+						return <div key={item._id} >?</div>
 					})}
 				</div>
 			</div>

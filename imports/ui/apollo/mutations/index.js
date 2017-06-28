@@ -1,86 +1,8 @@
 import gql from 'graphql-tag';
 
 
-export const SAVE_MACHINE = gql`
-	mutation SaveMachine ( $params: MachineParams ){
-		saveMachine (params: $params){
-			_id
-		}
-	}
-`;
-
-export const CREATE_MACHINE = gql`
-	mutation CreateMachine ( $params: MachineParams ){
-		createMachine (params: $params){
-			_id
-		}
-	}
-`;
 
 
-export const SAVE_CLIENT = gql`
-	mutation SaveClient ( $params: ClientParams ){
-		saveClient (params: $params){
-			_id
-		}
-	}
-`;
-
-export const CREATE_CLIENT = gql`
-	mutation CreateClient ( $params: ClientParams ){
-		createClient (params: $params){
-			_id
-		}
-	}
-`;
-
-export const CREATE_FACILITY = gql`
-	mutation CreateFacility ( $params: FacilityParams ){
-		createFacility (params: $params){
-			_id
-		}
-	}
-`;
-
-export const SAVE_FACILITY = gql`
-	mutation SaveFacility ( $_id: ID, $params: FacilityParams ){
-		saveFacility (_id: $_id, params: $params){
-			_id
-		}
-	}
-`;
-
-export const CREATE_MANUFACTURER = gql`
-	mutation CreateManufacturer ( $params: ManufacturerParams ){
-		createManufacturer (params: $params){
-			_id
-		}
-	}
-`;
-
-export const SAVE_MANUFACTURER = gql`
-	mutation SaveManufacturer ( $_id: ID, $params: ManufacturerParams ){
-		saveManufacturer (_id: $_id, params: $params){
-			_id
-		}
-	}
-`;
-
-export const CREATE_MACHINE_MODEL = gql`
-	mutation CreateMachineModel ( $params: MachineModelParams ){
-		createMachineModel (params: $params){
-			_id
-		}
-	}
-`;
-
-export const SAVE_MACHINE_MODEL = gql`
-	mutation SaveMachineModel ( $_id: ID, $params: MachineModelParams ){
-		saveMachineModel (_id: $_id, params: $params){
-			_id
-		}
-	}
-`;
 
 export const CREATE_POST = gql`
 	mutation CreatePost ( $params: PostParams ){

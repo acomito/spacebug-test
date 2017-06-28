@@ -46,21 +46,11 @@ class PostForm extends React.Component {
   };
   onCreate = (variables, refetchQueries) => {
     const { data, form, updateForm } = this.props;
-    this.props.createPost({ variables }).then( res => {
+    this.props.createPost({ variables, refetchQueries }).then( res => {
       this.setState({loading: false, image: null});
       this.props.handleCancel();
       form.resetFields();
-      ApolloClient.resetStore();
       message.success('successfully posted!')
-    })
-  }
-  onSave = (variables, refetchQueries) => {
-    const { form, updateForm } = this.props;
-    this.props.savePost({ variables }).then( res => {
-      this.setState({loading: false, image: null});
-      this.props.handleCancel();
-      form.resetFields();
-      message.success('successfully saved!')
     })
   }
   handleSubmit = (e) => {
@@ -80,37 +70,23 @@ class PostForm extends React.Component {
         { query: GET_POSTS }
       ]
 
-      if (!updateForm) {
-        return this.onCreate(variables, refetchQueries)
-      }
-      if (updateForm) {
-        let newQueryToAdd = { query: GET_POST_BY_ID , variables: { _id: this.props.post._id } }
-        refetchQueries.push(newQueryToAdd);
-        variables._id = this.props.post._id;
-        return this.onSave(variables, refetchQueries)
-      }
+      return this.onCreate(variables, refetchQueries)
+
       
       
     });
 
   }
   render(){
-    const { user, form, updateForm, post } = this.props;
+    const { user, form, post } = this.props;
     const { getFieldDecorator } = form;
     return (
       <Form onSubmit={this.handleSubmit}>
       <Row gutter={15}>
         <Col xs={24}>
-          <SingleImageUpload
-            defaultImage={this.state.image} 
-            onSuccessfulUpload={(image) => this.setState({image})} 
-          />
-        </Col>
-        <Col xs={24}>
           <FormItem>
             {getFieldDecorator('title', {
               rules: [{ required: false, message: 'Please input a title!' }],
-              initialValue: updateForm && post && post.title ? post.title : null
             })(
               <Input placeholder="add a title..."  />
             )}
@@ -120,7 +96,6 @@ class PostForm extends React.Component {
           <FormItem>
           {getFieldDecorator('description', {
             rules: [{ required: false, message: 'Please input a description!' }],
-            initialValue: updateForm && post && post.description ? post.description : null
           })(
             <Input placeholder="add a description..." type="textarea" rows={4} />
           )}
@@ -130,7 +105,6 @@ class PostForm extends React.Component {
           <FormItem label={'Category'}>
           {getFieldDecorator('category', {
             rules: [{ required: true, message: 'Please input a category!' }],
-            initialValue: updateForm && post && post.category ? post.category : null
           })(
             <Select showSearch optionFilterProp="children" filterOption={selectFilterByLabel}>
               {CATEGORY_OPTIONS.map(item => {
@@ -140,11 +114,10 @@ class PostForm extends React.Component {
           )}
         </FormItem>
         </Col>
-        <Col xs={12}>
+      <Col xs={12}>
           <FormItem label={'status'}>
           {getFieldDecorator('status', {
             rules: [{ required: true, message: 'Please input a status!' }],
-            initialValue: updateForm && post && post.status ? post.status : null
           })(
             <Select showSearch optionFilterProp="children" filterOption={selectFilterByLabel}>
               {STATUS_OPTIONS.map(item => {
@@ -154,26 +127,19 @@ class PostForm extends React.Component {
           )}
         </FormItem>
         </Col>
-        <Col xs={24}>
+ {/*         <Col xs={24}>
           <FormItem>
             {getFieldDecorator('price', {
               rules: [{ required: false, message: 'Please input a price!' }],
-            initialValue: updateForm && post && post.price ? post.price : null
             })(
               <Input placeholder="add a price..."  />
             )}
           </FormItem>
-        </Col>
+        </Col>*/}
         <Col xs={24}>
           <div>
             <Button style={{margin: 10}} size="large" loading={this.state.loading} htmlType="submit" type='primary'>
-                {!updateForm && !this.state.loading && 'Add'} 
-                {!updateForm && this.state.loading && 'Adding...'} 
-                {updateForm && !this.state.loading && 'Save'} 
-                {updateForm && this.state.loading && 'Saving...'} 
-              </Button>
-              <Button style={{margin: 10}}  size="large" onClick={()=>this.props.handleCancel()} type='default'>
-                Cancel
+                SUBMIT
               </Button>
           </div>
         </Col>
@@ -184,9 +150,31 @@ class PostForm extends React.Component {
   }
 }
 
+let options = (props) => {
+
+  return {
+    update: (store, { data }) => {
+       try {
+            const newData = store.readQuery({ query: GET_POSTS });
+            console.log(newData)
+        } catch (e) {
+            console.log(e);
+            console.log("Not updating store - Projects not loaded yet");
+        }
+      // Read the data from our cache for this query.
+      //const data = store.readQuery({ query: CommentAppQuery });
+      // Add our comment from the mutation to the end.
+      //data.comments.push(submitComment);
+      // Write our data back to the cache.
+      //store.writeQuery({ query: CommentAppQuery, data });
+    },
+  }
+
+}
+
 
 export default compose(
-  graphql(CREATE_POST, { name: 'createPost'}),
+  graphql(CREATE_POST, { name: 'createPost', options}),
   graphql(SAVE_POST, { name: 'savePost'})
 )(
   Form.create()(PostForm)

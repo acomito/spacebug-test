@@ -21,6 +21,7 @@ export const STATUS_OPTIONS = [
 	'Not Available',
 ];
 
+export const CATEGORY_OPTIONS = STATUS_OPTIONS
 
 export const ROLE_OPTIONS = [
 	'admin',
