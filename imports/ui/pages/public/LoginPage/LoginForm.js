@@ -45,8 +45,8 @@ class FormComponent extends React.Component {
     //style={{width: 500, margin: 'auto', textAlign: 'center'}}
     return (
     	<div style={{width: 400, maxWidth: '95%', margin: 'auto', textAlign: 'center'}} >
-      		<Card style={{height: 400, width: '100%', border: 0}}>
-				<h1>Log in</h1>
+      		<Card style={{height: 410, width: '100%', border: 0}}>
+				<h1 style={{textAlign: 'center', marginBottom: 20, color: '#000'}}>Log in</h1>
 				<Form onSubmit={this.onSubmit} >
 					<FormItem hasFeedback>
 						{getFieldDecorator('email', {
